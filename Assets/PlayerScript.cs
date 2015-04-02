@@ -30,6 +30,13 @@ public class PlayerScript : MonoBehaviour {
 	public float shipRotation = 0;
 
 	public float timer = 1;
+	public float stunTime = 0.5f;
+	public float pushForceMultiplier = 2;
+	public float pushForceConstant = 5;
+
+	public Vector3 additionalSpeed = Vector3.zero;
+
+	public float additionalSpeedDampen = 20;
 
 	// camera properties
 	public float cameraMaxAngle = 90;
@@ -52,7 +59,30 @@ public class PlayerScript : MonoBehaviour {
 
 		camera = GameObject.Find ("Main Camera");
 	}
-	
+
+
+	// When hit something:
+	void OnCollisionEnter(Collision collision)
+	{
+		Vector3 temp = transform.position - collision.gameObject.transform.position;
+
+		temp.Normalize ();
+
+		// dot2: 0 means touching with side, +value direct hit
+		// dot: 0 means direct hit, +value touching with side:
+		float dot2 = Mathf.Abs(Vector3.Dot(transform.forward, temp));
+		float dot = 1 - dot2;
+
+		// Push away from hit rock:
+		additionalSpeed = temp * (pushForceMultiplier * movementSpeed * dot2 + pushForceConstant);
+		state = StateTypes.Bounced;
+		timer = stunTime;
+
+		movementSpeed = movementSpeed * dot * 1f;
+		//movementSpeed = movementSpeed / 2f;
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 
@@ -73,79 +103,57 @@ public class PlayerScript : MonoBehaviour {
 
 		#endregion
 
+
 		#region rotation
 
 		// Variables to keep track if player is turning in horizontal and vertical plane this frame:
 		movementHPressed = false;
 		movementVPressed = false;
 	
-		/*
-		if (Input.GetKey(KeyCode.W))
-		{
-			GetComponent<Rigidbody>().AddForce (transform.forward * movementAcceleration * Time.deltaTime);
-			movementPressed = true;
-		}
-		else if (Input.GetKey(KeyCode.S))
-		{
-			GetComponent<Rigidbody>().AddForce (-transform.forward * movementAcceleration * Time.deltaTime);
-			movementPressed = true;
-		}
-		*/
-
-		/*
-		if (Input.GetKey(KeyCode.D))
-		{
-			GetComponent<Rigidbody>().AddForce (transform.right * movementAcceleration * Time.deltaTime);
-			movementPressed = true;
-		}
-		else if (Input.GetKey(KeyCode.A))
-		{
-			GetComponent<Rigidbody>().AddForce (-transform.right * movementAcceleration * Time.deltaTime);
-			movementPressed = true;
-		}
-		*/
-
 		// Get directional input:
-		if (Input.GetKey(KeyCode.D))
+		if (state == StateTypes.InControl)
 		{
-			rotationHSpeed += rotationHAcceleration * Time.deltaTime;
-			if (rotationHSpeed > rotationHMaxSpeed)
-				rotationHSpeed = rotationHMaxSpeed;
+			if (Input.GetKey(KeyCode.D))
+			{
+				rotationHSpeed += rotationHAcceleration * Time.deltaTime;
+				if (rotationHSpeed > rotationHMaxSpeed)
+					rotationHSpeed = rotationHMaxSpeed;
 
-			movementHPressed = true;
+				movementHPressed = true;
 
-			//transform.Rotate (new Vector3(0, Time.deltaTime * rotationSpeed, 0));
-		}
-		else if (Input.GetKey(KeyCode.A))
-		{
-			rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
-			if (rotationHSpeed < -rotationHMaxSpeed)
-				rotationHSpeed = -rotationHMaxSpeed;
+				//transform.Rotate (new Vector3(0, Time.deltaTime * rotationSpeed, 0));
+			}
+			else if (Input.GetKey(KeyCode.A))
+			{
+				rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
+				if (rotationHSpeed < -rotationHMaxSpeed)
+					rotationHSpeed = -rotationHMaxSpeed;
 
-			movementHPressed = true;
+				movementHPressed = true;
 
-			//transform.Rotate (new Vector3(0, -Time.deltaTime * rotationSpeed, 0));
-		}
+				//transform.Rotate (new Vector3(0, -Time.deltaTime * rotationSpeed, 0));
+			}
 
-		if (Input.GetKey(KeyCode.W))
-		{
-			rotationVSpeed += rotationVAcceleration * Time.deltaTime;
-			if (rotationVSpeed > rotationVMaxSpeed)
-				rotationVSpeed = rotationVMaxSpeed;
+			if (Input.GetKey(KeyCode.W))
+			{
+				rotationVSpeed += rotationVAcceleration * Time.deltaTime;
+				if (rotationVSpeed > rotationVMaxSpeed)
+					rotationVSpeed = rotationVMaxSpeed;
 
-			movementVPressed = true;
+				movementVPressed = true;
 
-			//transform.Rotate (new Vector3(Time.deltaTime * rotationSpeed, 0, 0));
-		}
-		else if (Input.GetKey(KeyCode.S))
-		{
-			rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
-			if (rotationVSpeed < -rotationVMaxSpeed)
-				rotationVSpeed = -rotationVMaxSpeed;
+				//transform.Rotate (new Vector3(Time.deltaTime * rotationSpeed, 0, 0));
+			}
+			else if (Input.GetKey(KeyCode.S))
+			{
+				rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
+				if (rotationVSpeed < -rotationVMaxSpeed)
+					rotationVSpeed = -rotationVMaxSpeed;
 
-			movementVPressed = true;
+				movementVPressed = true;
 
-			//transform.Rotate (new Vector3(-Time.deltaTime * rotationSpeed, 0, 0));
+				//transform.Rotate (new Vector3(-Time.deltaTime * rotationSpeed, 0, 0));
+			}
 		}
 
 
@@ -170,7 +178,7 @@ public class PlayerScript : MonoBehaviour {
 		// Apply rotations:
 		transform.Rotate (new Vector3(0, Time.deltaTime * rotationHSpeed, 0));
 		transform.Rotate (new Vector3(Time.deltaTime * rotationVSpeed, 0, 0));
-
+		
 		transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.up);
 
 		#endregion
@@ -185,33 +193,36 @@ public class PlayerScript : MonoBehaviour {
 				movementSpeed = movementMaxSpeed;
 		}
 
-		// Apply calculated speed to rigidbody:
-		GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
-
-		//GetComponent<Rigidbody>().AddForce (transform.forward * movementAcceleration * Time.deltaTime);
-
-
-
-		Vector3 speedVector = GetComponent<Rigidbody>().velocity;
-
 		// Slow down if forward is not pushed:
 		if (false)
 		{
-			if (speedVector.sqrMagnitude < 0.5f)
+			if (movementSpeed < 0.5f)
 			{
-				speedVector = Vector3.zero;
+				movementSpeed = 0;
 			}
 			else
 			{
-				speedVector -= speedVector * movementAttenuation * Time.deltaTime;
+				movementSpeed -= movementSpeed * movementAttenuation * Time.deltaTime;
 			}
 		}
 
-		//speedVector.y = GetComponent<Rigidbody>().velocity.y;
 
-		GetComponent<Rigidbody>().velocity = speedVector;
+		// Reduce additional speed vector, representing knokback from space rock:
+		if (additionalSpeed.sqrMagnitude < additionalSpeedDampen * additionalSpeedDampen * Time.deltaTime)
+		{
+			additionalSpeed = Vector3.zero;
+		}
+		else
+		{
+			additionalSpeed -= additionalSpeed.normalized * additionalSpeedDampen * Time.deltaTime;
+		}
 
-
+		// Apply calculated speed to rigidbody:
+		GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
+		
+		GetComponent<Rigidbody>().velocity += additionalSpeed;
+		
+		//GetComponent<Rigidbody>().AddForce (transform.forward * movementAcceleration * Time.deltaTime);
 
 		#endregion
 

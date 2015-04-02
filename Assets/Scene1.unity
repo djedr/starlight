@@ -1167,7 +1167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0
   movementMaxSpeed: 20
-  movementAcceleration: 5
+  movementAcceleration: 10
   movementAttenuation: 2.25
   rotationHSpeed: 0
   rotationVSpeed: 0
@@ -1179,6 +1179,11 @@ MonoBehaviour:
   rotationVMaxSpeed: 80
   shipRotation: 0
   timer: 1
+  stunTime: .300000012
+  pushForceMultiplier: .800000012
+  pushForceConstant: 5
+  additionalSpeed: {x: 0, y: 0, z: 0}
+  additionalSpeedDampen: 10
   cameraMaxAngle: 90
   cameraMinAngle: 0
   cameraXMultiplier: 100
@@ -1219,7 +1224,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1506190401}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -41}
+  m_LocalPosition: {x: 0, y: .129999995, z: -41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1286374968}
@@ -1460,6 +1465,8 @@ GameObject:
   - 33: {fileID: 1775804161}
   - 65: {fileID: 1775804160}
   - 23: {fileID: 1775804159}
+  - 114: {fileID: 1775804162}
+  - 54: {fileID: 1775804163}
   m_Layer: 0
   m_Name: Cube 12
   m_TagString: Untagged
@@ -1522,6 +1529,32 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1775804157}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1775804162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1775804157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: becd8d78a15f8a148b12d6d96317328a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &1775804163
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1775804157}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1817825975
 GameObject:
   m_ObjectHideFlags: 0
