@@ -7,7 +7,8 @@ public class PlayerScript : MonoBehaviour {
 	{
 		InControl,
 		Bounced,
-		OnStart
+		OnStart,
+		OnLaunch
 	};
 
 	// player properties
@@ -31,6 +32,7 @@ public class PlayerScript : MonoBehaviour {
 
 	public float timer = 1;
 	public float stunTime = 0.5f;
+	public float launchTime = 1;
 	public float pushForceMultiplier = 2;
 	public float pushForceConstant = 5;
 
@@ -58,6 +60,8 @@ public class PlayerScript : MonoBehaviour {
 		Screen.lockCursor = true;
 
 		camera = GameObject.Find ("Main Camera");
+
+		timer = launchTime;
 	}
 
 
@@ -97,7 +101,13 @@ public class PlayerScript : MonoBehaviour {
 			if (timer <= 0)
 			{
 				timer = 0;
-				state = StateTypes.InControl;
+				if (state == StateTypes.OnStart)
+				{
+					state = StateTypes.OnLaunch;
+					timer = launchTime;
+				}
+				else
+					state = StateTypes.InControl;
 			}
 		}
 
@@ -186,7 +196,7 @@ public class PlayerScript : MonoBehaviour {
 		#region speed
 
 		// Speed up, depending on state:
-		if (state == StateTypes.InControl)
+		if (state == StateTypes.InControl || state == StateTypes.OnLaunch)
 		{
 			movementSpeed += movementAcceleration * Time.deltaTime;
 			if (movementSpeed > movementMaxSpeed)
