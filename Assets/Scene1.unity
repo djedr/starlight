@@ -1034,7 +1034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadStartOffset: 0
-  roadLength: 300
+  roadLength: 400
   roadWidth: 15
   totalWidth: 50
   totalHeight: 20
@@ -1045,14 +1045,23 @@ MonoBehaviour:
   wideStepAngleMax: 65
   stationWidth: 10
   generationSpeed: 30
-  turnHSpeed: 10
+  turnHSpeed: 8
   turnHDampen: 5
   turnHLength: 40
+  turnVSpeed: 3
+  turnVLength: 50
   straightLength: 30
+  rocksDistMin: 50
+  rocksDistMax: 70
+  rocksAmountMin: 1
+  rocksAmountMax: 3
+  rocksAngleStepMin: 45
+  rocksAngleStepMax: 70
   turn: 0
   turnTimer: 1
   states: 0
   rockRadius: 6.5
+  rockAngle: 20
   staticRock: {fileID: 122698, guid: 27f41b5d6fa160f4cacbdf7276fb1093, type: 2}
 --- !u!54 &2075889211
 Rigidbody:
