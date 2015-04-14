@@ -1083,19 +1083,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadStartOffset: 0
-  roadLength: 200
-  roadWidth: 20
-  totalWidth: 40
-  stepDistance: 12
+  roadLength: 400
+  roadWidth: 15
+  totalWidth: 50
+  totalHeight: 20
+  stepDistance: 4
+  stepAngleMin: 25
+  stepAngleMax: 40
+  wideStepAngleMin: 45
+  wideStepAngleMax: 65
   stationWidth: 10
-  generationSpeed: 20
-  turnHSpeed: 30
+  generationSpeed: 30
+  turnHSpeed: 8
   turnHDampen: 5
-  turnHLength: 1
-  straightLength: 2
+  turnHLength: 40
+  turnVSpeed: 3
+  turnVLength: 50
+  straightLength: 30
+  rocksDistMin: 50
+  rocksDistMax: 70
+  rocksAmountMin: 1
+  rocksAmountMax: 3
+  rocksAngleStepMin: 45
+  rocksAngleStepMax: 70
   turn: 0
   turnTimer: 1
   states: 0
+  rockRadius: 6.5
+  rockAngle: 20
   staticRock: {fileID: 122698, guid: 27f41b5d6fa160f4cacbdf7276fb1093, type: 2}
 --- !u!54 &2075889211
 Rigidbody:
@@ -1120,9 +1135,9 @@ SphereCollider:
   m_GameObject: {fileID: 2075889208}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2075889213
 MeshRenderer:
