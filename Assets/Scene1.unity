@@ -836,7 +836,7 @@ MonoBehaviour:
   shipRotation: 0
   timer: 1
   stunTime: .300000012
-  launchTime: 3
+  launchTime: 2.5
   pushForceMultiplier: .600000024
   pushForceConstant: 5
   additionalSpeed: {x: 0, y: 0, z: 0}
@@ -1186,7 +1186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roadStartOffset: 0
   roadLength: 600
-  roadWidth: 15
+  roadWidthMin: 17
+  roadWidthMax: 30
   totalWidth: 50
   totalHeight: 20
   stepDistance: 4
@@ -1201,6 +1202,7 @@ MonoBehaviour:
   turnHLength: 40
   turnVSpeed: 3
   turnVLength: 50
+  widthLength: 40
   straightLength: 40
   rocksDistMin: 50
   rocksDistMax: 70
@@ -1214,6 +1216,8 @@ MonoBehaviour:
   rockRadius: 6.5
   rockAngle: 20
   staticRock: {fileID: 122698, guid: 27f41b5d6fa160f4cacbdf7276fb1093, type: 2}
+  kinematicRock: {fileID: 117186, guid: 728b5184565a76f47999dabeca801fe4, type: 2}
+  gate: {fileID: 165466, guid: 072c2e57bf5349c4c8ebcbf2c0f0dd5b, type: 2}
 --- !u!54 &2075889211
 Rigidbody:
   m_ObjectHideFlags: 0

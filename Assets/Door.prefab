@@ -87,11 +87,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dists:
   - 3
-  - 2.5
+  - 2.70000005
   speeds:
   - 2
   - 2
-  countdown: 1
+  countdown: .5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
