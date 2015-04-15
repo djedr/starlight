@@ -6,7 +6,8 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 	public float roadStartOffset = 0;
 	public float roadLength = 100;
-	public float roadWidth = 5;
+	public float roadWidthMin = 5;
+	public float roadWidthMax = 10;
 	public float totalWidth = 15;
 	public float totalHeight = 15;
 	public float stepDistance = 2;
@@ -22,6 +23,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 	public float turnHLength = 1;
 	public float turnVSpeed = 3;
 	public float turnVLength = 10;
+	public float widthLength = 40;
 	public float straightLength = 2;
 
 	public int rocksDistMin = 50;
@@ -52,11 +54,16 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 	private Vector3[] roadPoints;
 	private Vector3[] previousRocks;
+	private float[] roadSizes;
+	private Vector3[] gatePoints;
+	private int gateAmount = 0;
 	private int previousRocksAmount = 0;
 	public float rockRadius = 6;
 	public float rockAngle = 10;
 
 	public GameObject staticRock;
+	public GameObject kinematicRock;
+	public GameObject gate;
 
 	// Use this for initialization
 	void Start () {
@@ -69,6 +76,8 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 		roadPoints = new Vector3[(int)Mathf.Ceil(roadLength)];
 		previousRocks = new Vector3[(int)(360/stepAngleMin) + 2];
+		roadSizes = new float[(int)Mathf.Ceil(roadLength)];
+		gatePoints = new Vector3[(int)(roadLength / straightLength)];
 
 		float rot;
 		float startRot;
@@ -206,117 +215,71 @@ public class LevelGeneratorScript : MonoBehaviour {
 			}
 		}
 
+		counter = (int)straightLength;
+		sinMultiplier = 0;
+
+		roadSizes[0] = roadWidthMin;
+
+		for (int i = 1; i < (int)roadLength; i++)
+		{
+			counter--;
+
+			if (counter == 0)
+			{
+				roadSizes[i] = roadSizes[i - 1];
+
+				if (roadSizes[i] == roadWidthMin)
+				{
+					sinMultiplier = Random.Range(roadWidthMin, roadWidthMax);
+				}
+				else
+				{
+					sinMultiplier = roadWidthMin;
+
+					gatePoints[gateAmount] = roadPoints[i + (int)widthLength];
+					gateAmount++;
+				}
+
+				float temp = sinMultiplier - roadSizes[i];
+
+				for (int j = 1; j <= widthLength; j++)
+				{
+					roadSizes[i + j] = roadSizes[i + j - 1] + temp / widthLength;
+				}
+
+				i += (int)widthLength;
+
+				counter = (int)straightLength;
+			}
+			else
+			{
+				roadSizes[i] = roadSizes[i - 1];
+			}
+		}
+
+		for (int i = 0; i < gateAmount; i++)
+		{
+			Instantiate(gate, gatePoints[i], transform.rotation);
+		}
+
 		#endregion
 
 
 
 		#region Create rocks creating the road
 
-		GenerateRocks(0, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, roadWidth, roadWidth);
-
-		/*
-		for (int i = 0; i < (int)roadLength; i += (int)stepDistance)
-		{
-			rot = Random.Range(0f, stepAngleMax);
-
-			if (i % 2 == 0)
-			{
-				rot += (stepAngleMin) / 2;
-			}
-			dist = roadWidth;
-
-			startRot = rot;
-
-			Vector3[] currentRocks = new Vector3[previousRocks.Length];
-			int currentRocksAmount = 0;
-
-			while (rot < startRot + 360 - rockAngle)
-			{
-				Vector3 newPos = new Vector3(roadPoints[i].x + Mathf.Cos(rot * Mathf.Deg2Rad) * roadWidth, roadPoints[i].y + Mathf.Sin(rot * Mathf.Deg2Rad) * roadWidth, roadPoints[i].z);
-
-				if (DoesHitARock(newPos) == -1)
-				{
-					Instantiate(staticRock, newPos, transform.rotation);
-					currentRocks[currentRocksAmount] = newPos;
-					currentRocksAmount++;
-
-					rot += Random.Range(stepAngleMin, stepAngleMax);
-				}
-				else
-				{
-					rot += Random.Range(0, stepAngleMax - stepAngleMin);
-				}
-
-
-			}
-
-			previousRocksAmount = currentRocksAmount;
-			previousRocks = currentRocks;
-
-		}
-		*/
+		GenerateRocks(0, 0, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0f, 0f, 1f, 1f, staticRock);
 
 		#endregion
 
 		#region Create rocks around the road
 
-		GenerateRocks(0, (int)stepDistance, (int)stepDistance, wideStepAngleMin, wideStepAngleMax, roadWidth + rockRadius, totalWidth);
-
-		/*
-		// For each step on main road:
-		for (int i = 0; i < (int)roadLength; i += (int)stepDistance)
-		{
-			// Take initial rotation value:
-			rot = Random.Range(0f, wideStepAngleMax);
-			
-			if (i % 2 == 0)
-			{
-				rot += (wideStepAngleMin) / 2;
-			}
-			dist = Random.Range(roadWidth + rockRadius, totalWidth);
-
-			// Record this starting value:
-			startRot = rot;
-
-			// Reset currentRocks container:
-			Vector3[] currentRocks = new Vector3[previousRocks.Length];
-			int currentRocksAmount = 0;
-
-			// Generate rocks around this point:
-			while (rot < startRot + 360 - rockAngle)
-			{
-				// Calculate new rock's position:
-				Vector3 newPos = new Vector3(roadPoints[i].x + Mathf.Cos(rot * Mathf.Deg2Rad) * dist, roadPoints[i].y + Mathf.Sin(rot * Mathf.Deg2Rad) * dist, roadPoints[i].z);
-
-				// Check if the new location doesn't collide with old ones from previous ring:
-				if (DoesHitARock(newPos) == -1)
-				{
-					Instantiate(staticRock, newPos, transform.rotation);
-					currentRocks[currentRocksAmount] = newPos;
-					currentRocksAmount++;
-					
-					rot += Random.Range(wideStepAngleMin, wideStepAngleMax);
-					dist = Random.Range(roadWidth + rockRadius, totalWidth);
-				}
-				// If it does, change rotation slightly and do nothing else:
-				else
-				{
-					rot += Random.Range(0, wideStepAngleMax - wideStepAngleMin);
-				}
-				
-				
-			}
-			
-			previousRocksAmount = currentRocksAmount;
-			previousRocks = currentRocks;
-			
-		}
-		*/
+		GenerateRocks(0, 0, (int)stepDistance, (int)stepDistance, wideStepAngleMin, wideStepAngleMax, rockRadius, totalWidth, 1, 1, staticRock);
 
 		#endregion
 
 		// Generate some rocks inside the tube:
-		GenerateRocks(Random.Range(0f, 359f), rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, roadWidth - rockRadius, Random.Range(rocksAmountMin, rocksAmountMax + 1));
+		GenerateRocks(Random.Range(0f, 359f), 100, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, 0, 0, 0.2f, 0.8f, kinematicRock, Random.Range(rocksAmountMin, rocksAmountMax + 1));
 	}
 
 
@@ -336,10 +299,10 @@ public class LevelGeneratorScript : MonoBehaviour {
 		return -1;
 	}
 
-	void GenerateRocks(float rotInit, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, int rocksPerStep = 500)
+	void GenerateRocks(float rotInit, int stepInit, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, int rocksPerStep = 500)
 	{
 		// For each step on main road:
-		for (int i = 0; i < (int)roadLength; i += (int)Random.Range(stepMin, stepMax))
+		for (int i = stepInit; i < (int)roadLength; i += (int)Random.Range(stepMin, stepMax))
 		{
 			// Take initial rotation value:
 			float rot = Random.Range(0f, angleStepMax);
@@ -349,7 +312,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 			{
 				rot += (angleStepMin) / 2;
 			}
-			float dist = Random.Range(distMin, distMax);
+			float dist = Random.Range(distMin, distMax) + Random.Range(distMultMin, distMultMax) * roadSizes[i];
 			
 			// Record this starting value:
 			float startRot = rot;
@@ -369,13 +332,13 @@ public class LevelGeneratorScript : MonoBehaviour {
 				// Check if the new location doesn't collide with old ones from previous ring:
 				if (DoesHitARock(newPos) == -1)
 				{
-					Instantiate(staticRock, newPos, transform.rotation);
+					Instantiate(obj, newPos, transform.rotation);
 					currentRocks[currentRocksAmount] = newPos;
 					currentRocksAmount++;
 					sum++;
 					
 					rot += Random.Range(angleStepMin, angleStepMax);
-					dist = Random.Range(distMin, distMax);
+					dist = Random.Range(distMin, distMax) + Random.Range(distMultMin, distMultMax) * roadSizes[i];
 				}
 				// If it does, change rotation slightly and do nothing else:
 				else
