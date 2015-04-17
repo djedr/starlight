@@ -13,7 +13,7 @@ public class PlayerScript : MonoBehaviour {
 
 	// player properties
 
-	StateTypes state = StateTypes.OnStart;
+	public StateTypes state = StateTypes.OnStart;
 
 	public float movementSpeed = 0;
 	public float movementMaxSpeed = 10;
@@ -29,6 +29,9 @@ public class PlayerScript : MonoBehaviour {
 	public float rotationHMaxSpeed = 40;
 	public float rotationVMaxSpeed = 40;
 	public float shipRotation = 0;
+
+	public float shipMaxRotationH = 0.5f;
+	public float shipMaxRotationV = 0.4f;
 
 	public float timer = 1;
 	public float stunTime = 0.5f;
@@ -53,6 +56,8 @@ public class PlayerScript : MonoBehaviour {
 	private bool movementHPressed = false;
 	private bool movementVPressed = false;
 
+	private GameObject levelGenerator;
+
 	public GameObject camera = null;
 
 	// Use this for initialization
@@ -62,6 +67,8 @@ public class PlayerScript : MonoBehaviour {
 		camera = GameObject.Find ("Main Camera");
 
 		timer = launchTime;
+
+		levelGenerator = GameObject.Find ("LevelGenerator");
 	}
 
 
@@ -123,7 +130,9 @@ public class PlayerScript : MonoBehaviour {
 		// Get directional input:
 		if (state == StateTypes.InControl)
 		{
-			if (Input.GetKey(KeyCode.D))
+			Vector3 tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
+
+			if ( (Input.GetKey(KeyCode.D) && transform.forward.x < shipMaxRotationH && tooFar.x != 1) || (tooFar.x == -1 && transform.forward.x < 0.1f))
 			{
 				rotationHSpeed += rotationHAcceleration * Time.deltaTime;
 				if (rotationHSpeed > rotationHMaxSpeed)
@@ -133,7 +142,7 @@ public class PlayerScript : MonoBehaviour {
 
 				//transform.Rotate (new Vector3(0, Time.deltaTime * rotationSpeed, 0));
 			}
-			else if (Input.GetKey(KeyCode.A))
+			else if ( (Input.GetKey(KeyCode.A) && transform.forward.x > -shipMaxRotationH && tooFar.x != -1) || (tooFar.x == 1 && transform.forward.x > -0.1f))
 			{
 				rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
 				if (rotationHSpeed < -rotationHMaxSpeed)
@@ -144,7 +153,7 @@ public class PlayerScript : MonoBehaviour {
 				//transform.Rotate (new Vector3(0, -Time.deltaTime * rotationSpeed, 0));
 			}
 
-			if (Input.GetKey(KeyCode.W))
+			if ( (Input.GetKey(KeyCode.W) && transform.forward.y > -shipMaxRotationV && tooFar.y != -1) || (tooFar.y == 1 && transform.forward.y > -0.1f))
 			{
 				rotationVSpeed += rotationVAcceleration * Time.deltaTime;
 				if (rotationVSpeed > rotationVMaxSpeed)
@@ -154,7 +163,7 @@ public class PlayerScript : MonoBehaviour {
 
 				//transform.Rotate (new Vector3(Time.deltaTime * rotationSpeed, 0, 0));
 			}
-			else if (Input.GetKey(KeyCode.S))
+			else if ( (Input.GetKey(KeyCode.S) && transform.forward.y < shipMaxRotationV && tooFar.y != 1) || (tooFar.y == -1 && transform.forward.y < 0.1f))
 			{
 				rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
 				if (rotationVSpeed < -rotationVMaxSpeed)
@@ -184,6 +193,19 @@ public class PlayerScript : MonoBehaviour {
 			else
 			rotationVSpeed -= rotationVSpeed / Mathf.Abs(rotationVSpeed) * rotationVDampen * Time.deltaTime;
 		}
+
+		// Restrict the rotations:
+		/*
+		if (transform.forward.x > shipMaxRotationH && rotationHSpeed > 0)
+			rotationHSpeed = 0;
+		if (transform.forward.x < -shipMaxRotationH && rotationHSpeed < 0)
+			rotationHSpeed = 0;
+
+		if (transform.forward.y > shipMaxRotationV && rotationVSpeed < 0)
+			rotationVSpeed = 0;
+		if (transform.forward.y < -shipMaxRotationV && rotationVSpeed > 0)
+			rotationVSpeed = 0;
+		*/
 
 		// Apply rotations:
 		transform.Rotate (new Vector3(0, Time.deltaTime * rotationHSpeed, 0));

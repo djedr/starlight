@@ -266,20 +266,14 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 
 
-		#region Create rocks creating the road
-
-		GenerateRocks(0, 0, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0f, 0f, 1f, 1f, staticRock);
-
-		#endregion
-
 		#region Create rocks around the road
 
-		GenerateRocks(0, 0, (int)stepDistance, (int)stepDistance, wideStepAngleMin, wideStepAngleMax, rockRadius, totalWidth, 1, 1, staticRock);
+		GenerateRocks(0, stepAngleMax, 0, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
+
+		GenerateRocks(0, 359, 50, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
 
 		#endregion
 
-		// Generate some rocks inside the tube:
-		GenerateRocks(Random.Range(0f, 359f), 100, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, 0, 0, 0.2f, 0.8f, kinematicRock, Random.Range(rocksAmountMin, rocksAmountMax + 1));
 	}
 
 
@@ -299,14 +293,15 @@ public class LevelGeneratorScript : MonoBehaviour {
 		return -1;
 	}
 
-	void GenerateRocks(float rotInit, int stepInit, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, int rocksPerStep = 500)
+	void GenerateRocks(float rotInitMin, float rotInitMax, int stepInit, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, int rocksPerStepMin = 500, int rocksPerStepMax = 500)
 	{
+		Vector3 lastPos = Vector3.zero;
+
 		// For each step on main road:
 		for (int i = stepInit; i < (int)roadLength; i += (int)Random.Range(stepMin, stepMax))
 		{
 			// Take initial rotation value:
-			float rot = Random.Range(0f, angleStepMax);
-			rot += rotInit;
+			float rot = Random.Range(rotInitMin, rotInitMax);
 			
 			if (i % 2 == 0)
 			{
@@ -322,6 +317,8 @@ public class LevelGeneratorScript : MonoBehaviour {
 			int currentRocksAmount = 0;
 
 			int sum = 0;
+
+			int rocksPerStep = Random.Range(rocksPerStepMin, rocksPerStepMax);
 			
 			// Generate rocks around this point:
 			while (rot < startRot + 360 - rockAngle && sum < rocksPerStep)
@@ -330,12 +327,14 @@ public class LevelGeneratorScript : MonoBehaviour {
 				Vector3 newPos = new Vector3(roadPoints[i].x + Mathf.Cos(rot * Mathf.Deg2Rad) * dist, roadPoints[i].y + Mathf.Sin(rot * Mathf.Deg2Rad) * dist, roadPoints[i].z);
 				
 				// Check if the new location doesn't collide with old ones from previous ring:
-				if (DoesHitARock(newPos) == -1)
+				if (Vector3.SqrMagnitude(newPos - lastPos) > rockRadius * rockRadius && DoesHitARock(newPos) == -1)
 				{
 					Instantiate(obj, newPos, transform.rotation);
 					currentRocks[currentRocksAmount] = newPos;
 					currentRocksAmount++;
 					sum++;
+
+					lastPos = newPos;
 					
 					rot += Random.Range(angleStepMin, angleStepMax);
 					dist = Random.Range(distMin, distMax) + Random.Range(distMultMin, distMultMax) * roadSizes[i];
@@ -354,39 +353,40 @@ public class LevelGeneratorScript : MonoBehaviour {
 			
 		}
 	}
+
+	public Vector3 OffRoad(Vector3 arg)
+	{
+		float temp = arg.z - transform.position.z;
+
+		temp = Mathf.Floor (temp);
+
+		if (temp < 0 || temp > roadPoints.Length - 1)
+			return Vector3.zero;
+
+		if (Vector3.SqrMagnitude (arg - roadPoints [(int)temp]) < roadSizes [(int)temp] * roadSizes [(int)temp] * 0.7f * 0.7f)
+			return Vector3.zero;
+
+		Vector3 norm = arg - roadPoints[(int)temp];
+		norm.Normalize ();
+
+		Vector3 toReturn = Vector3.zero;
+
+		if (norm.x > 0.5)
+			toReturn.x = 1;
+		else if (norm.x < -0.5)
+			toReturn.x = -1;
+
+		if (norm.y > 0.5)
+			toReturn.y = 1;
+		else if (norm.y < -0.5)
+			toReturn.y = -1;
+
+		return toReturn;
+	}
 	
 	// Update is called once per frame
-	void Update () {
-		/*
-		turnTimer -= Time.deltaTime;
-		if (turnTimer <= 0)
-		{
-			if (turn != 0)
-			{
-				turn = 0;
+	void Update ()
+	{
 
-				turnTimer = straightLength;
-			}
-			else
-			{
-				turn = (int)Mathf.Floor(Random.Range(0f, 3f));
-				//turn *= 2;
-				turn--;
-
-				turnTimer = turnHLength;
-			}
-		}
-
-		if (transform.position.x - startX > totalWidth && turn > 0)
-			turn = - turn;
-
-		if (transform.position.x - startX < -totalWidth && turn < 0)
-			turn = - turn;
-
-		float step = turnHSpeed * Time.deltaTime;
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(forwardDir + rightDir * turn, Vector3.up), step);
-
-		GetComponent<Rigidbody> ().velocity = transform.forward * generationSpeed;
-		*/
 	}
 }
