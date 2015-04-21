@@ -6,6 +6,9 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 	public float roadStartOffset = 0;
 	public float roadLength = 100;
+	public int roadPartLength = 600;
+	public int roadLightSpeedLength = 400;
+	public float lightSpeedWidth = 10;
 	public float roadWidthMin = 5;
 	public float roadWidthMax = 10;
 	public float totalWidth = 15;
@@ -52,18 +55,22 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 	public generatorStates states = generatorStates.straight;
 
-	private Vector3[] roadPoints;
-	private Vector3[] previousRocks;
-	private float[] roadSizes;
-	private Vector3[] gatePoints;
-	private int gateAmount = 0;
-	private int previousRocksAmount = 0;
 	public float rockRadius = 6;
 	public float rockAngle = 10;
 
 	public GameObject staticRock;
 	public GameObject kinematicRock;
 	public GameObject gate;
+	private GameObject player;
+
+	private Vector3[] roadPoints;
+	private Vector3[] previousRocks;
+	private float[] roadSizes;
+	private Vector3[] gatePoints;
+	private int gateAmount = 0;
+	private int previousRocksAmount = 0;
+
+	private bool generatedSecondPart = false;
 
 	// Use this for initialization
 	void Start () {
@@ -79,43 +86,79 @@ public class LevelGeneratorScript : MonoBehaviour {
 		roadSizes = new float[(int)Mathf.Ceil(roadLength)];
 		gatePoints = new Vector3[(int)(roadLength / straightLength)];
 
+		player = GameObject.Find ("Player");
+
 		float rot;
 		float startRot;
 		float dist;
 
 		int sum = 0;
 
-		#region Generate road curve
 		// Initialize first road point:
 		roadPoints [0] = transform.position;
+		roadSizes[0] = roadWidthMin;
+
+		GenerateRoadCurve (1, roadPartLength);
+
+		roadSizes[roadPartLength + roadLightSpeedLength - 1] = roadWidthMin;
+		GenerateRoadCurve (roadPartLength + roadLightSpeedLength, (int)roadLength);
+
+
+		#region Create rocks around the road
+
+		GenerateRocks(0, stepAngleMax, 0, roadPartLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
+
+		GenerateRocks(0, 359, 50, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
+
+
+		GenerateRocks(0, 359, roadPartLength, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, roadWidthMin, roadWidthMin * 2, 0, 0, staticRock, 1, 3);
+
+		/*
+		GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
+		
+		GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
+		*/
+		#endregion
+
+	}
+
+
+	// When hit something:
+	void OnTriggerEnter(Collider other) {
+		Destroy(other.gameObject);
+	}
+
+
+
+	void GenerateRoadCurve(int arg0, int arg1){
 
 		// Initialize vars for generation:
 		int counter = (int)straightLength;
 		float sinMultiplier = 0;
-
+		
 		// Generate path points:
-		for (int i = 1; i < (int)roadLength; i++)
+		for (int i = arg0; i < arg1; i++)
 		{
 			// Keep y and z values from previous position:
 			roadPoints[i].z = transform.position.z + (float)i;
-
+			
 			roadPoints[i].y = roadPoints[i - 1].y;
-
+			
 			counter--;
-
+			
 			// If in this step, path mode is changed:
 			if (counter == 0)
 			{
 				// Mostly, decisions here are made, so just take x from previous point:
 				roadPoints[i].x = roadPoints[i - 1].x;
-
+				
 				// If until now, it was straight road:
 				if (sinMultiplier == 0)
 				{
 					// Set counter and sinMultiplier values:
 					counter = (int)turnHLength + 1;
 					sinMultiplier = (int)turnHSpeed;
-
+					
 					// Temp value is meant to have value of either -1 or 1 after theese instructions:
 					int temp = (int)Mathf.Floor(Random.Range(0f, 2f));
 					// Now, temp is either 0, or 1
@@ -123,7 +166,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 					// Now, temp is either 0 or 2
 					temp -= 1;
 					// Now, temp is either -1 or 1
-
+					
 					// Now, we multiply sinMultiplier by -1 or 1 randomily:
 					sinMultiplier *= temp;
 				}
@@ -147,19 +190,19 @@ public class LevelGeneratorScript : MonoBehaviour {
 				{
 					// passed stands for nuber of steps since beginning of the curve:
 					int passed = (int)turnHLength - counter;
-
+					
 					// Now, make the curve look like cosinus:
 					roadPoints[i].x = roadPoints[i - 1 - passed].x + Mathf.Cos(((float)passed / turnHLength) * Mathf.PI) * sinMultiplier;
 					roadPoints[i].x -= sinMultiplier;
 				}
 			}
 		}
-
+		
 		counter = (int)straightLength;
 		sinMultiplier = 0;
-
+		
 		// Generate y path points:
-		for (int i = 1; i < (int)roadLength; i++)
+		for (int i = arg0; i < arg1; i++)
 		{
 			counter--;
 			
@@ -214,20 +257,18 @@ public class LevelGeneratorScript : MonoBehaviour {
 				}
 			}
 		}
-
+		
 		counter = (int)straightLength;
 		sinMultiplier = 0;
 
-		roadSizes[0] = roadWidthMin;
-
-		for (int i = 1; i < (int)roadLength; i++)
+		for (int i = arg0; i < arg1; i++)
 		{
 			counter--;
-
+			
 			if (counter == 0)
 			{
 				roadSizes[i] = roadSizes[i - 1];
-
+				
 				if (roadSizes[i] == roadWidthMin)
 				{
 					sinMultiplier = Random.Range(roadWidthMin, roadWidthMax);
@@ -236,19 +277,22 @@ public class LevelGeneratorScript : MonoBehaviour {
 				{
 					sinMultiplier = roadWidthMin;
 
-					gatePoints[gateAmount] = roadPoints[i + (int)widthLength];
-					gateAmount++;
+					if (i + (int)widthLength < arg1)
+					{
+						gatePoints[gateAmount] = roadPoints[i + (int)widthLength];
+						gateAmount++;
+					}
 				}
-
+				
 				float temp = sinMultiplier - roadSizes[i];
-
-				for (int j = 1; j <= widthLength; j++)
+				
+				for (int j = 1; j <= widthLength && i + j < arg1; j++)
 				{
 					roadSizes[i + j] = roadSizes[i + j - 1] + temp / widthLength;
 				}
-
+				
 				i += (int)widthLength;
-
+				
 				counter = (int)straightLength;
 			}
 			else
@@ -257,31 +301,21 @@ public class LevelGeneratorScript : MonoBehaviour {
 			}
 		}
 
+		for (int i = arg1; i < (int)roadLength; i++)
+		{
+			roadPoints[i] = roadPoints[i - 1];
+			roadPoints[i] += new Vector3(0, 0, 1);
+			roadSizes[i] = lightSpeedWidth;
+		}
+		
 		for (int i = 0; i < gateAmount; i++)
 		{
 			Instantiate(gate, gatePoints[i], transform.rotation);
 		}
-
-		#endregion
-
-
-
-		#region Create rocks around the road
-
-		GenerateRocks(0, stepAngleMax, 0, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
-
-		GenerateRocks(0, 359, 50, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
-
-		#endregion
-
 	}
 
 
-	// When hit something:
-	void OnTriggerEnter(Collider other) {
-		Destroy(other.gameObject);
-	}
-
+	
 	private int DoesHitARock(Vector3 pos)
 	{
 		for (int i = 0; i < previousRocksAmount; i++)
@@ -293,12 +327,12 @@ public class LevelGeneratorScript : MonoBehaviour {
 		return -1;
 	}
 
-	void GenerateRocks(float rotInitMin, float rotInitMax, int stepInit, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, int rocksPerStepMin = 500, int rocksPerStepMax = 500)
+	void GenerateRocks(float rotInitMin, float rotInitMax, int stepInit, int stepFinish, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, int rocksPerStepMin = 500, int rocksPerStepMax = 500)
 	{
 		Vector3 lastPos = Vector3.zero;
 
 		// For each step on main road:
-		for (int i = stepInit; i < (int)roadLength; i += (int)Random.Range(stepMin, stepMax))
+		for (int i = stepInit; i < stepFinish; i += (int)Random.Range(stepMin, stepMax))
 		{
 			// Take initial rotation value:
 			float rot = Random.Range(rotInitMin, rotInitMax);
@@ -387,6 +421,14 @@ public class LevelGeneratorScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		if (generatedSecondPart == false && player.transform.position.z - transform.position.z > roadPartLength)
+		{
+			generatedSecondPart = true;
 
+
+			GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
+			
+			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
+		}
 	}
 }

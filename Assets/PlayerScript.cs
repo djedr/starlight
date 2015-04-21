@@ -8,7 +8,9 @@ public class PlayerScript : MonoBehaviour {
 		InControl,
 		Bounced,
 		OnStart,
-		OnLaunch
+		OnLaunch,
+		BeforeLightSpeed,
+		LightSpeed
 	};
 
 	// player properties
@@ -128,11 +130,11 @@ public class PlayerScript : MonoBehaviour {
 		movementVPressed = false;
 	
 		// Get directional input:
-		if (state == StateTypes.InControl)
-		{
+		//if (state == StateTypes.InControl)
+		//{
 			Vector3 tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
 
-			if ( (Input.GetKey(KeyCode.D) && transform.forward.x < shipMaxRotationH && tooFar.x != 1) || (tooFar.x == -1 && transform.forward.x < 0.1f))
+			if ( (Input.GetKey(KeyCode.D) && transform.forward.x < shipMaxRotationH && tooFar.x != 1 && state == StateTypes.InControl) || (tooFar.x == -1 && transform.forward.x < 0.1f))
 			{
 				rotationHSpeed += rotationHAcceleration * Time.deltaTime;
 				if (rotationHSpeed > rotationHMaxSpeed)
@@ -142,7 +144,7 @@ public class PlayerScript : MonoBehaviour {
 
 				//transform.Rotate (new Vector3(0, Time.deltaTime * rotationSpeed, 0));
 			}
-			else if ( (Input.GetKey(KeyCode.A) && transform.forward.x > -shipMaxRotationH && tooFar.x != -1) || (tooFar.x == 1 && transform.forward.x > -0.1f))
+			else if ( (Input.GetKey(KeyCode.A) && transform.forward.x > -shipMaxRotationH && tooFar.x != -1 && state == StateTypes.InControl) || (tooFar.x == 1 && transform.forward.x > -0.1f))
 			{
 				rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
 				if (rotationHSpeed < -rotationHMaxSpeed)
@@ -153,7 +155,7 @@ public class PlayerScript : MonoBehaviour {
 				//transform.Rotate (new Vector3(0, -Time.deltaTime * rotationSpeed, 0));
 			}
 
-			if ( (Input.GetKey(KeyCode.W) && transform.forward.y > -shipMaxRotationV && tooFar.y != -1) || (tooFar.y == 1 && transform.forward.y > -0.1f))
+			if ( (Input.GetKey(KeyCode.W) && transform.forward.y > -shipMaxRotationV && tooFar.y != -1 && state == StateTypes.InControl) || (tooFar.y == 1 && transform.forward.y > -0.1f))
 			{
 				rotationVSpeed += rotationVAcceleration * Time.deltaTime;
 				if (rotationVSpeed > rotationVMaxSpeed)
@@ -163,7 +165,7 @@ public class PlayerScript : MonoBehaviour {
 
 				//transform.Rotate (new Vector3(Time.deltaTime * rotationSpeed, 0, 0));
 			}
-			else if ( (Input.GetKey(KeyCode.S) && transform.forward.y < shipMaxRotationV && tooFar.y != 1) || (tooFar.y == -1 && transform.forward.y < 0.1f))
+			else if ( (Input.GetKey(KeyCode.S) && transform.forward.y < shipMaxRotationV && tooFar.y != 1 && state == StateTypes.InControl) || (tooFar.y == -1 && transform.forward.y < 0.1f))
 			{
 				rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
 				if (rotationVSpeed < -rotationVMaxSpeed)
@@ -173,7 +175,7 @@ public class PlayerScript : MonoBehaviour {
 
 				//transform.Rotate (new Vector3(-Time.deltaTime * rotationSpeed, 0, 0));
 			}
-		}
+		//}
 
 
 		// Slow down rotation movement if the player is not turning in given plane:

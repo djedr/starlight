@@ -882,7 +882,7 @@ MonoBehaviour:
   rotationHMaxSpeed: 80
   rotationVMaxSpeed: 80
   shipRotation: 0
-  shipMaxRotationH: .5
+  shipMaxRotationH: .449999988
   shipMaxRotationV: .400000006
   timer: 1
   stunTime: .300000012
@@ -958,6 +958,75 @@ Transform:
 Transform:
   m_PrefabParentObject: {fileID: 487290, guid: 728b5184565a76f47999dabeca801fe4, type: 2}
   m_PrefabInternal: {fileID: 913436415}
+--- !u!1 &1798777081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1798777085}
+  - 54: {fileID: 1798777084}
+  - 65: {fileID: 1798777083}
+  - 114: {fileID: 1798777082}
+  m_Layer: 0
+  m_Name: Destroyer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1798777082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1798777081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce17fd2152aabbe40a4c27659cf0326b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: {x: 0, y: 0, z: -100}
+--- !u!65 &1798777083
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1798777081}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 300, y: 300, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1798777084
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1798777081}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!4 &1798777085
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1798777081}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -29.2804108, y: 55.7139053, z: 278.29248}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
 --- !u!1 &1871320636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,10 +1211,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 2075889209}
   - 114: {fileID: 2075889210}
-  - 135: {fileID: 2075889212}
   - 54: {fileID: 2075889211}
   - 33: {fileID: 2075889214}
   - 23: {fileID: 2075889213}
+  - 65: {fileID: 2075889212}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -1177,7 +1246,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadStartOffset: 0
-  roadLength: 600
+  roadLength: 1000
+  roadPartLength: 300
+  roadLightSpeedLength: 500
+  lightSpeedWidth: 10
   roadWidthMin: 60
   roadWidthMax: 80
   totalWidth: 50
@@ -1225,8 +1297,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &2075889212
-SphereCollider:
+--- !u!65 &2075889212
+BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -1235,8 +1307,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 8
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: .000225484371, y: .90367949, z: -.66537559}
 --- !u!23 &2075889213
 MeshRenderer:
   m_ObjectHideFlags: 0
