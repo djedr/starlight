@@ -873,6 +873,7 @@ MonoBehaviour:
   movementMaxSpeed: 30
   movementAcceleration: 10
   movementAttenuation: 2.25
+  lightSpeedMultiplier: 100
   rotationHSpeed: 0
   rotationVSpeed: 0
   rotationHAcceleration: 200
@@ -881,6 +882,7 @@ MonoBehaviour:
   rotationVDampen: 200
   rotationHMaxSpeed: 80
   rotationVMaxSpeed: 80
+  rotationPreLightSpeedMultiplier: 100
   shipRotation: 0
   shipMaxRotationH: .449999988
   shipMaxRotationV: .400000006
@@ -1246,9 +1248,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadStartOffset: 0
-  roadLength: 1000
-  roadPartLength: 300
-  roadLightSpeedLength: 500
+  roadLength: 2000
+  roadPartLength: 200
+  roadLightSpeedLength: 1600
   lightSpeedWidth: 10
   roadWidthMin: 60
   roadWidthMax: 80

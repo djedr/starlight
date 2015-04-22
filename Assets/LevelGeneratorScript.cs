@@ -70,7 +70,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 	private int gateAmount = 0;
 	private int previousRocksAmount = 0;
 
-	private bool generatedSecondPart = false;
+	private int generatedSecondPart = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -111,7 +111,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 		GenerateRocks(0, 359, 50, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
 
 
-		GenerateRocks(0, 359, roadPartLength, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, roadWidthMin, roadWidthMin * 2, 0, 0, staticRock, 1, 3);
+		GenerateRocks(0, 359, roadPartLength + 30, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance * 2, stepAngleMin, stepAngleMax, 0, roadWidthMin * 2, 1.2f, 1.2f, staticRock, 1, 3);
 
 		/*
 		GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
@@ -421,14 +421,24 @@ public class LevelGeneratorScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if (generatedSecondPart == false && player.transform.position.z - transform.position.z > roadPartLength)
+		if (generatedSecondPart == 0 && player.transform.position.z - transform.position.z > roadPartLength)
 		{
-			generatedSecondPart = true;
+			generatedSecondPart = 1;
 
 
 			GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
 			
 			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
+
+
+
+			player.GetComponent<PlayerScript> ().EnterLightSpeedMode();
+		}
+		else if (generatedSecondPart == 1 && player.transform.position.z - transform.position.z > roadPartLength + roadLightSpeedLength)
+		{
+			generatedSecondPart = 2;
+
+			player.GetComponent<PlayerScript> ().LeaveLightSpeedMode();
 		}
 	}
 }

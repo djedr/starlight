@@ -21,6 +21,7 @@ public class PlayerScript : MonoBehaviour {
 	public float movementMaxSpeed = 10;
 	public float movementAcceleration = 1;
 	public float movementAttenuation = 0.1f;
+	public float lightSpeedMultiplier = 10;
 
 	public float rotationHSpeed = 0;
 	public float rotationVSpeed = 0;
@@ -30,6 +31,7 @@ public class PlayerScript : MonoBehaviour {
 	public float rotationVDampen = 20;
 	public float rotationHMaxSpeed = 40;
 	public float rotationVMaxSpeed = 40;
+	public float rotationPreLightSpeedMultiplier = 10;
 	public float shipRotation = 0;
 
 	public float shipMaxRotationH = 0.5f;
@@ -88,11 +90,32 @@ public class PlayerScript : MonoBehaviour {
 
 		// Push away from hit rock:
 		additionalSpeed = temp * (pushForceMultiplier * movementSpeed * dot2 + pushForceConstant);
-		state = StateTypes.Bounced;
-		timer = stunTime;
+
+		if (state != StateTypes.BeforeLightSpeed && state != StateTypes.LightSpeed)
+		{
+			state = StateTypes.Bounced;
+			timer = stunTime;
+		}
 
 		movementSpeed = movementSpeed * dot * 1f;
 		//movementSpeed = movementSpeed / 2f;
+	}
+
+
+	public void EnterLightSpeedMode(){
+
+		state = StateTypes.BeforeLightSpeed;
+
+	}
+
+
+	public void LeaveLightSpeedMode(){
+		
+		state = StateTypes.InControl;
+
+
+		movementMaxSpeed /= lightSpeedMultiplier;
+		movementAcceleration /= lightSpeedMultiplier;
 	}
 
 
@@ -115,6 +138,13 @@ public class PlayerScript : MonoBehaviour {
 					state = StateTypes.OnLaunch;
 					timer = launchTime;
 				}
+				else if (state == StateTypes.BeforeLightSpeed)
+				{
+					state = StateTypes.LightSpeed;
+
+					movementMaxSpeed *= lightSpeedMultiplier;
+					movementAcceleration *= lightSpeedMultiplier;
+				}
 				else
 					state = StateTypes.InControl;
 			}
@@ -128,6 +158,13 @@ public class PlayerScript : MonoBehaviour {
 		// Variables to keep track if player is turning in horizontal and vertical plane this frame:
 		movementHPressed = false;
 		movementVPressed = false;
+
+		if (state == StateTypes.BeforeLightSpeed)
+		{
+			state = state;
+			int i = 0;
+			i++;
+		}
 	
 		// Get directional input:
 		//if (state == StateTypes.InControl)
@@ -178,6 +215,47 @@ public class PlayerScript : MonoBehaviour {
 		//}
 
 
+		// If you're about to enter lightspeed, rotate to right position:
+		if (tooFar == Vector3.zero && (state == StateTypes.LightSpeed || state == StateTypes.BeforeLightSpeed))
+		{
+			Vector3 set = Vector3.zero;
+
+			if (Mathf.Abs(transform.forward.x) < 0.01f)
+			{
+				set.x = 1;
+				//transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+				rotationHSpeed = 0;
+			}
+			else
+			{
+				rotationHSpeed = - transform.forward.x * rotationPreLightSpeedMultiplier;
+			}
+
+			if (Mathf.Abs(transform.forward.y) < 0.01f)
+			{
+				set.y = 1;
+				//transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+				rotationVSpeed = 0;
+			}
+			else
+			{
+				rotationVSpeed = transform.forward.y * rotationPreLightSpeedMultiplier;
+			}
+
+			if (set.x == 1 && set.y == 1)
+			{
+				transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+
+				if (timer <= 0 && state == StateTypes.BeforeLightSpeed)
+					timer = 2;
+			}
+
+
+			movementHPressed = true;
+			movementVPressed = true;
+		}
+
+
 		// Slow down rotation movement if the player is not turning in given plane:
 		// Horizontal:
 		if (movementHPressed == false)
@@ -193,7 +271,7 @@ public class PlayerScript : MonoBehaviour {
 			if (Mathf.Abs(rotationVSpeed) < rotationVDampen * Time.deltaTime)
 				rotationVSpeed = 0;
 			else
-			rotationVSpeed -= rotationVSpeed / Mathf.Abs(rotationVSpeed) * rotationVDampen * Time.deltaTime;
+				rotationVSpeed -= rotationVSpeed / Mathf.Abs(rotationVSpeed) * rotationVDampen * Time.deltaTime;
 		}
 
 		// Restrict the rotations:
@@ -220,7 +298,7 @@ public class PlayerScript : MonoBehaviour {
 		#region speed
 
 		// Speed up, depending on state:
-		if (state == StateTypes.InControl || state == StateTypes.OnLaunch)
+		if (state == StateTypes.InControl || state == StateTypes.OnLaunch || state == StateTypes.LightSpeed || state == StateTypes.BeforeLightSpeed)
 		{
 			movementSpeed += movementAcceleration * Time.deltaTime;
 			if (movementSpeed > movementMaxSpeed)
@@ -245,6 +323,7 @@ public class PlayerScript : MonoBehaviour {
 		if (additionalSpeed.sqrMagnitude < additionalSpeedDampen * additionalSpeedDampen * Time.deltaTime)
 		{
 			additionalSpeed = Vector3.zero;
+
 		}
 		else
 		{
