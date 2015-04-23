@@ -889,7 +889,7 @@ MonoBehaviour:
   timer: 1
   stunTime: .300000012
   launchTime: 2.5
-  pushForceMultiplier: .5
+  pushForceMultiplier: .200000003
   pushForceConstant: 5
   additionalSpeed: {x: 0, y: 0, z: 0}
   additionalSpeedDampen: 10
@@ -1248,17 +1248,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadStartOffset: 0
-  roadLength: 2000
-  roadPartLength: 200
-  roadLightSpeedLength: 1600
+  roadLength: 3000
+  roadPartLength: 700
+  roadLightSpeedLength: 2000
+  roadRocklessLength: 100
   lightSpeedWidth: 10
   roadWidthMin: 60
   roadWidthMax: 80
   totalWidth: 50
   totalHeight: 20
   stepDistance: 6
-  stepAngleMin: 10
-  stepAngleMax: 20
+  stepAngleMin: 40
+  stepAngleMax: 60
   wideStepAngleMin: 45
   wideStepAngleMax: 65
   stationWidth: 10
@@ -1279,7 +1280,7 @@ MonoBehaviour:
   turn: 0
   turnTimer: 1
   states: 0
-  rockRadius: 13
+  rockRadius: 4
   rockAngle: 1
   staticRock: {fileID: 122698, guid: 27f41b5d6fa160f4cacbdf7276fb1093, type: 2}
   kinematicRock: {fileID: 117186, guid: 728b5184565a76f47999dabeca801fe4, type: 2}
