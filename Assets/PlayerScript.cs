@@ -62,6 +62,8 @@ public class PlayerScript : MonoBehaviour {
 	private bool movementHPressed = false;
 	private bool movementVPressed = false;
 
+	private int enteringLightSpeed = 1;
+
 	private GameObject levelGenerator;
 
 	public GameObject camera = null;
@@ -111,6 +113,16 @@ public class PlayerScript : MonoBehaviour {
 		state = StateTypes.BeforeLightSpeed;
 		timer = 0;
 
+		enteringLightSpeed = 1;
+	}
+
+	// Docking is just like entering lightSpeed, only one var informs scripts to slow down instead of accelerating:
+	public void EnterDockingMode()
+	{
+		state = StateTypes.BeforeLightSpeed;
+		timer = 0;
+		
+		enteringLightSpeed = 0;
 	}
 
 
@@ -147,8 +159,11 @@ public class PlayerScript : MonoBehaviour {
 				{
 					state = StateTypes.LightSpeed;
 
-					movementMaxSpeed *= lightSpeedMultiplier;
-					movementAcceleration *= lightSpeedMultiplier;
+					if (enteringLightSpeed == 1)
+					{
+						movementMaxSpeed *= lightSpeedMultiplier;
+						movementAcceleration *= lightSpeedMultiplier;
+					}
 				}
 				else
 					state = StateTypes.InControl;

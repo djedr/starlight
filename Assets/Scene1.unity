@@ -1251,10 +1251,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadStartOffset: 0
-  roadLength: 3000
+  roadLength: 4000
   roadPartLength: 700
-  roadLightSpeedLength: 2000
+  roadLightSpeedLength: 2500
   roadRocklessLength: 100
+  roadDockingLength: 300
+  dockingSpeedDampen: 10
   lightSpeedWidth: 10
   roadWidthMin: 60
   roadWidthMax: 80
@@ -1288,6 +1290,7 @@ MonoBehaviour:
   staticRock: {fileID: 122698, guid: 27f41b5d6fa160f4cacbdf7276fb1093, type: 2}
   kinematicRock: {fileID: 117186, guid: 728b5184565a76f47999dabeca801fe4, type: 2}
   gate: {fileID: 165466, guid: 072c2e57bf5349c4c8ebcbf2c0f0dd5b, type: 2}
+  station: {fileID: 178766, guid: 869dbc605e1ca624db942f4c9d379de5, type: 2}
 --- !u!54 &2075889211
 Rigidbody:
   m_ObjectHideFlags: 0
