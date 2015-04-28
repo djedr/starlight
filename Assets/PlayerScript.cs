@@ -35,7 +35,9 @@ public class PlayerScript : MonoBehaviour {
 	public float shipRotation = 0;
 
 	public float shipMaxRotationH = 0.5f;
+	public float shipMaxRotationHMult = 2;
 	public float shipMaxRotationV = 0.4f;
+	public float shipMaxRotationVMult = 2;
 
 	public float timer = 1;
 	public float stunTime = 0.5f;
@@ -63,6 +65,8 @@ public class PlayerScript : MonoBehaviour {
 	private GameObject levelGenerator;
 
 	public GameObject camera = null;
+
+	public Vector3 shipForward;
 
 	// Use this for initialization
 	void Start () {
@@ -102,15 +106,16 @@ public class PlayerScript : MonoBehaviour {
 	}
 
 
-	public void EnterLightSpeedMode(){
-
+	public void EnterLightSpeedMode()
+	{
 		state = StateTypes.BeforeLightSpeed;
+		timer = 0;
 
 	}
 
 
-	public void LeaveLightSpeedMode(){
-		
+	public void LeaveLightSpeedMode()
+	{
 		state = StateTypes.InControl;
 
 
@@ -167,79 +172,97 @@ public class PlayerScript : MonoBehaviour {
 		}
 	
 		// Get directional input:
-		//if (state == StateTypes.InControl)
-		//{
-			Vector3 tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
+		Vector3 tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
 
-			if ( (Input.GetKey(KeyCode.D) && transform.forward.x < shipMaxRotationH && tooFar.x != 1 && state == StateTypes.InControl) || (tooFar.x == -1 && transform.forward.x < 0.1f))
-			{
-				rotationHSpeed += rotationHAcceleration * Time.deltaTime;
-				if (rotationHSpeed > rotationHMaxSpeed)
-					rotationHSpeed = rotationHMaxSpeed;
+		//  && transform.forward.x < shipMaxRotationH
+		if ( (Input.GetKey(KeyCode.D) && tooFar.x != 1 && state == StateTypes.InControl) || (tooFar.x == -1 && transform.forward.x < 0.1f))
+		{
+			rotationHSpeed += rotationHAcceleration * Time.deltaTime;
+			if (rotationHSpeed > rotationHMaxSpeed)
+				rotationHSpeed = rotationHMaxSpeed;
 
-				movementHPressed = true;
+			movementHPressed = true;
+		}
+		//  && transform.forward.x > -shipMaxRotationH
+		else if ( (Input.GetKey(KeyCode.A) && tooFar.x != -1 && state == StateTypes.InControl) || (tooFar.x == 1 && transform.forward.x > -0.1f))
+		{
+			rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
+			if (rotationHSpeed < -rotationHMaxSpeed)
+				rotationHSpeed = -rotationHMaxSpeed;
 
-				//transform.Rotate (new Vector3(0, Time.deltaTime * rotationSpeed, 0));
-			}
-			else if ( (Input.GetKey(KeyCode.A) && transform.forward.x > -shipMaxRotationH && tooFar.x != -1 && state == StateTypes.InControl) || (tooFar.x == 1 && transform.forward.x > -0.1f))
-			{
-				rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
-				if (rotationHSpeed < -rotationHMaxSpeed)
-					rotationHSpeed = -rotationHMaxSpeed;
+			movementHPressed = true;
+		}
 
-				movementHPressed = true;
+		//  && transform.forward.y > -shipMaxRotationV
+		if ( (Input.GetKey(KeyCode.W) && tooFar.y != -1 && state == StateTypes.InControl) || (tooFar.y == 1 && transform.forward.y > -0.1f))
+		{
+			rotationVSpeed += rotationVAcceleration * Time.deltaTime;
+			if (rotationVSpeed > rotationVMaxSpeed)
+				rotationVSpeed = rotationVMaxSpeed;
 
-				//transform.Rotate (new Vector3(0, -Time.deltaTime * rotationSpeed, 0));
-			}
+			movementVPressed = true;
+		}
+		//  && transform.forward.y < shipMaxRotationV
+		else if ( (Input.GetKey(KeyCode.S) && tooFar.y != 1 && state == StateTypes.InControl) || (tooFar.y == -1 && transform.forward.y < 0.1f))
+		{
+			rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
+			if (rotationVSpeed < -rotationVMaxSpeed)
+				rotationVSpeed = -rotationVMaxSpeed;
 
-			if ( (Input.GetKey(KeyCode.W) && transform.forward.y > -shipMaxRotationV && tooFar.y != -1 && state == StateTypes.InControl) || (tooFar.y == 1 && transform.forward.y > -0.1f))
-			{
-				rotationVSpeed += rotationVAcceleration * Time.deltaTime;
-				if (rotationVSpeed > rotationVMaxSpeed)
-					rotationVSpeed = rotationVMaxSpeed;
-
-				movementVPressed = true;
-
-				//transform.Rotate (new Vector3(Time.deltaTime * rotationSpeed, 0, 0));
-			}
-			else if ( (Input.GetKey(KeyCode.S) && transform.forward.y < shipMaxRotationV && tooFar.y != 1 && state == StateTypes.InControl) || (tooFar.y == -1 && transform.forward.y < 0.1f))
-			{
-				rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
-				if (rotationVSpeed < -rotationVMaxSpeed)
-					rotationVSpeed = -rotationVMaxSpeed;
-
-				movementVPressed = true;
-
-				//transform.Rotate (new Vector3(-Time.deltaTime * rotationSpeed, 0, 0));
-			}
-		//}
+			movementVPressed = true;
+		}
 
 
 		// If you're about to enter lightspeed, rotate to right position:
 		if (tooFar == Vector3.zero && (state == StateTypes.LightSpeed || state == StateTypes.BeforeLightSpeed))
 		{
+			// Init help vars:
 			Vector3 set = Vector3.zero;
+			Vector3 targetSpeeds = Vector3.zero;
 
-			if (Mathf.Abs(transform.forward.x) < 0.01f)
+			targetSpeeds.x = - transform.forward.x * rotationPreLightSpeedMultiplier;
+			targetSpeeds.y = transform.forward.y * rotationPreLightSpeedMultiplier;
+
+			// Rotate in H axis:
+			// If you're positioned horizontally, mark it:
+			if (Mathf.Abs(transform.forward.x) < 0.005f)
 			{
 				set.x = 1;
 				//transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
 				rotationHSpeed = 0;
 			}
+			// If not, try to match your rotation speed to targetSpeeds:
+			else if (Mathf.Abs(rotationHSpeed - targetSpeeds.x) < Time.deltaTime * rotationHAcceleration)
+			{
+				rotationHSpeed = targetSpeeds.x;
+			}
+			else if (rotationHSpeed < targetSpeeds.x)
+			{
+				rotationHSpeed += rotationHAcceleration * Time.deltaTime;
+			}
 			else
 			{
-				rotationHSpeed = - transform.forward.x * rotationPreLightSpeedMultiplier;
+				rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
 			}
 
-			if (Mathf.Abs(transform.forward.y) < 0.01f)
+			// Similarily in V axis:
+			if (Mathf.Abs(transform.forward.y) < 0.005f)
 			{
 				set.y = 1;
 				//transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
 				rotationVSpeed = 0;
 			}
+			else if (Mathf.Abs(rotationVSpeed - targetSpeeds.y) < Time.deltaTime * rotationVAcceleration)
+			{
+				rotationVSpeed = targetSpeeds.y;
+			}
+			else if (rotationVSpeed < targetSpeeds.y)
+			{
+				rotationVSpeed += rotationVAcceleration * Time.deltaTime;
+			}
 			else
 			{
-				rotationVSpeed = transform.forward.y * rotationPreLightSpeedMultiplier;
+				rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
 			}
 
 			if (set.x == 1 && set.y == 1)
@@ -274,18 +297,26 @@ public class PlayerScript : MonoBehaviour {
 				rotationVSpeed -= rotationVSpeed / Mathf.Abs(rotationVSpeed) * rotationVDampen * Time.deltaTime;
 		}
 
-		// Restrict the rotations:
-		/*
-		if (transform.forward.x > shipMaxRotationH && rotationHSpeed > 0)
-			rotationHSpeed = 0;
-		if (transform.forward.x < -shipMaxRotationH && rotationHSpeed < 0)
-			rotationHSpeed = 0;
+		shipForward = transform.forward;
 
+		// Restrict the rotations:
+
+		if (rotationHSpeed > (transform.forward.x - shipMaxRotationH) * -shipMaxRotationHMult && rotationHSpeed > 0)
+			rotationHSpeed = (transform.forward.x - shipMaxRotationH) * -shipMaxRotationHMult;
+		if (rotationHSpeed < (transform.forward.x + shipMaxRotationH) * -shipMaxRotationHMult && rotationHSpeed < 0)
+			rotationHSpeed = (transform.forward.x + shipMaxRotationH) * -shipMaxRotationHMult;
+
+		if (rotationVSpeed > (transform.forward.y + shipMaxRotationV) * shipMaxRotationVMult && rotationVSpeed > 0)
+			rotationVSpeed = (transform.forward.y + shipMaxRotationV) * shipMaxRotationVMult;
+		if (rotationVSpeed < (transform.forward.y - shipMaxRotationV) * shipMaxRotationVMult && rotationVSpeed < 0)
+			rotationVSpeed = (transform.forward.y - shipMaxRotationV) * shipMaxRotationVMult;
+
+		/*
 		if (transform.forward.y > shipMaxRotationV && rotationVSpeed < 0)
 			rotationVSpeed = 0;
 		if (transform.forward.y < -shipMaxRotationV && rotationVSpeed > 0)
 			rotationVSpeed = 0;
-		*/
+			*/
 
 		// Apply rotations:
 		transform.Rotate (new Vector3(0, Time.deltaTime * rotationHSpeed, 0));

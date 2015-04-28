@@ -870,7 +870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 2
   movementSpeed: 0
-  movementMaxSpeed: 30
+  movementMaxSpeed: 40
   movementAcceleration: 10
   movementAttenuation: 2.25
   lightSpeedMultiplier: 100
@@ -884,8 +884,10 @@ MonoBehaviour:
   rotationVMaxSpeed: 80
   rotationPreLightSpeedMultiplier: 100
   shipRotation: 0
-  shipMaxRotationH: .449999988
-  shipMaxRotationV: .400000006
+  shipMaxRotationH: .649999976
+  shipMaxRotationHMult: 350
+  shipMaxRotationV: .550000012
+  shipMaxRotationVMult: 350
   timer: 1
   stunTime: .300000012
   launchTime: 2.5
@@ -898,6 +900,7 @@ MonoBehaviour:
   cameraXMultiplier: 100
   cameraRotation: 0
   camera: {fileID: 0}
+  shipForward: {x: 0, y: 0, z: 0}
 --- !u!54 &1506190403
 Rigidbody:
   m_ObjectHideFlags: 0
