@@ -10,3 +10,17 @@ upewniæ siê, ze widaæ tunel
 cinematic ~2 - 3 sek.
 
 kamienie mniejsze / rzadziej i wiêkszy statek, coby by³o widaæ skybox'a
+
+
+
+ma³e kamienie, obijaj¹ce siê o statek, coby by³o widaæ szybkoœæ
+
+usun¹æ kolizje z zewnêtrznych kamieni
+
+jest wra¿enie, ¿e statek leci wolno
+
+kamienie na zewn¹trz s¹ za gêsto
+
+rozmycie w ruchu
+
+du¿e kamienie

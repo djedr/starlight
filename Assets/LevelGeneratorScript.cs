@@ -8,6 +8,9 @@ public class LevelGeneratorScript : MonoBehaviour {
 	public float roadLength = 100;
 	public int roadPartLength = 600;
 	public int roadLightSpeedLength = 400;
+	public int roadRocklessLength = 50;
+	public int roadDockingLength = 100;
+	public float dockingSpeedDampen = 10;
 	public float lightSpeedWidth = 10;
 	public float roadWidthMin = 5;
 	public float roadWidthMax = 10;
@@ -61,6 +64,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 	public GameObject staticRock;
 	public GameObject kinematicRock;
 	public GameObject gate;
+	public GameObject station;
 	private GameObject player;
 
 	private Vector3[] roadPoints;
@@ -101,17 +105,20 @@ public class LevelGeneratorScript : MonoBehaviour {
 		GenerateRoadCurve (1, roadPartLength);
 
 		roadSizes[roadPartLength + roadLightSpeedLength - 1] = roadWidthMin;
-		GenerateRoadCurve (roadPartLength + roadLightSpeedLength, (int)roadLength);
+		GenerateRoadCurve (roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength);
 
 
 		#region Create rocks around the road
 
-		GenerateRocks(0, stepAngleMax, 0, roadPartLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
+		GenerateRocks(0, stepAngleMax, 0, roadPartLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1.1f, 1.4f, staticRock, 3);
 
-		GenerateRocks(0, 359, 50, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
+		GenerateRocks(0, 359, 0, roadPartLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRock, 9);
+
+		GenerateRocks(0, 359, roadRocklessLength, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, 3, rocksAmountMin, rocksAmountMax);
 
 
-		GenerateRocks(0, 359, roadPartLength + 30, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance * 2, stepAngleMin, stepAngleMax, 0, roadWidthMin * 2, 1.2f, 1.2f, staticRock, 1, 3);
+		// Generate rocks around lightspeed path:
+		GenerateRocks(0, 359, roadPartLength + roadRocklessLength, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance * 2, stepAngleMin, stepAngleMax, 0, roadWidthMin * 2, 1.2f, 1.2f, staticRock, 3, 1, 3);
 
 		/*
 		GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
@@ -316,18 +323,18 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 
 	
-	private int DoesHitARock(Vector3 pos)
+	private int DoesHitARock(Vector3 pos, float rockSize)
 	{
 		for (int i = 0; i < previousRocksAmount; i++)
 		{
-			if (Vector3.SqrMagnitude(pos - previousRocks[i]) < rockRadius * rockRadius)
+			if (Vector3.SqrMagnitude(pos - previousRocks[i]) < rockRadius * rockRadius * rockSize * rockSize)
 				return i;
 		}
 
 		return -1;
 	}
 
-	void GenerateRocks(float rotInitMin, float rotInitMax, int stepInit, int stepFinish, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, int rocksPerStepMin = 500, int rocksPerStepMax = 500)
+	void GenerateRocks(float rotInitMin, float rotInitMax, int stepInit, int stepFinish, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, float rockSize, int rocksPerStepMin = 500, int rocksPerStepMax = 500)
 	{
 		Vector3 lastPos = Vector3.zero;
 
@@ -361,9 +368,11 @@ public class LevelGeneratorScript : MonoBehaviour {
 				Vector3 newPos = new Vector3(roadPoints[i].x + Mathf.Cos(rot * Mathf.Deg2Rad) * dist, roadPoints[i].y + Mathf.Sin(rot * Mathf.Deg2Rad) * dist, roadPoints[i].z);
 				
 				// Check if the new location doesn't collide with old ones from previous ring:
-				if (Vector3.SqrMagnitude(newPos - lastPos) > rockRadius * rockRadius && DoesHitARock(newPos) == -1)
+				if (Vector3.SqrMagnitude(newPos - lastPos) > rockRadius * rockRadius * rockSize * rockSize && DoesHitARock(newPos, rockSize) == -1)
 				{
-					Instantiate(obj, newPos, transform.rotation);
+					GameObject temp = (GameObject)Instantiate(obj, newPos, transform.rotation);
+					temp.transform.localScale = new Vector3(rockSize, rockSize, rockSize);
+
 					currentRocks[currentRocksAmount] = newPos;
 					currentRocksAmount++;
 					sum++;
@@ -426,10 +435,14 @@ public class LevelGeneratorScript : MonoBehaviour {
 			generatedSecondPart = 1;
 
 
-			GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
-			
-			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
+			GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock, 3);
 
+			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRock, 9);
+			
+			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, 3, rocksAmountMin, rocksAmountMax);
+
+
+			GameObject temp = (GameObject)Instantiate(station, roadPoints[(int)roadLength - 1], transform.rotation);
 
 
 			player.GetComponent<PlayerScript> ().EnterLightSpeedMode();
@@ -439,6 +452,21 @@ public class LevelGeneratorScript : MonoBehaviour {
 			generatedSecondPart = 2;
 
 			player.GetComponent<PlayerScript> ().LeaveLightSpeedMode();
+		}
+		else if (generatedSecondPart == 2 && player.transform.position.z - transform.position.z > roadLength - roadDockingLength)
+		{
+			generatedSecondPart = 3;
+			
+			player.GetComponent<PlayerScript> ().EnterDockingMode();
+		}
+		else if (generatedSecondPart == 3 && player.transform.position.z - transform.position.z > roadLength)
+		{
+			player.GetComponent<PlayerScript> ().movementMaxSpeed -= dockingSpeedDampen * Time.deltaTime;
+
+			if (player.GetComponent<PlayerScript> ().movementMaxSpeed < 0)
+			{
+				player.GetComponent<PlayerScript> ().movementMaxSpeed = 0;
+			}
 		}
 	}
 }
