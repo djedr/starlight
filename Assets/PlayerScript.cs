@@ -74,7 +74,7 @@ public class PlayerScript : MonoBehaviour {
 	void Start () {
 		Screen.lockCursor = true;
 
-		camera = GameObject.Find ("Main Camera");
+		//camera = GameObject.Find ("Main Camera");
 
 		timer = launchTime;
 
