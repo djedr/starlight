@@ -136,7 +136,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 	}
 
 
-
+	// arg0 - arg1: start and end point to work with.
 	void GenerateRoadCurve(int arg0, int arg1){
 
 		// Initialize vars for generation:
@@ -447,18 +447,21 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 			player.GetComponent<PlayerScript> ().EnterLightSpeedMode();
 		}
+
 		else if (generatedSecondPart == 1 && player.transform.position.z - transform.position.z > roadPartLength + roadLightSpeedLength)
 		{
 			generatedSecondPart = 2;
 
 			player.GetComponent<PlayerScript> ().LeaveLightSpeedMode();
 		}
+
 		else if (generatedSecondPart == 2 && player.transform.position.z - transform.position.z > roadLength - roadDockingLength)
 		{
 			generatedSecondPart = 3;
 			
 			player.GetComponent<PlayerScript> ().EnterDockingMode();
 		}
+
 		else if (generatedSecondPart == 3 && player.transform.position.z - transform.position.z > roadLength)
 		{
 			player.GetComponent<PlayerScript> ().movementMaxSpeed -= dockingSpeedDampen * Time.deltaTime;
