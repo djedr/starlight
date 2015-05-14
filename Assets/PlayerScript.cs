@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.ImageEffects;
 
 public class PlayerScript : MonoBehaviour {
 
@@ -133,6 +134,11 @@ public class PlayerScript : MonoBehaviour {
 
 		movementMaxSpeed /= lightSpeedMultiplier;
 		movementAcceleration /= lightSpeedMultiplier;
+		
+		// deactivate motion blur
+		MotionBlur[] blurs = camera.GetComponentsInChildren<MotionBlur>();
+		blurs[0].enabled = false;
+		blurs[1].enabled = false;
 	}
 
 
@@ -163,6 +169,11 @@ public class PlayerScript : MonoBehaviour {
 					{
 						movementMaxSpeed *= lightSpeedMultiplier;
 						movementAcceleration *= lightSpeedMultiplier;
+
+						// activate motion blur
+						MotionBlur[] blurs = camera.GetComponentsInChildren<MotionBlur>();
+						blurs[0].enabled = true;
+						blurs[1].enabled = true;
 					}
 				}
 				else
