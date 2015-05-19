@@ -11,7 +11,9 @@ public class PlayerScript : MonoBehaviour {
 		OnStart,
 		OnLaunch,
 		BeforeLightSpeed,
-		LightSpeed
+		LightSpeed,
+		Landing,
+		Landed
 	};
 
 	// player properties
@@ -45,6 +47,12 @@ public class PlayerScript : MonoBehaviour {
 	public float launchTime = 1;
 	public float pushForceMultiplier = 2;
 	public float pushForceConstant = 5;
+
+	public Vector3 landingDestination;
+	public float landingSpeedMultiplier = 2;
+	public float landingStopDist = 0.3f;
+
+	public float inputZero = 0.1f;
 
 	public Vector3 additionalSpeed = Vector3.zero;
 
@@ -80,6 +88,8 @@ public class PlayerScript : MonoBehaviour {
 		timer = launchTime;
 
 		levelGenerator = GameObject.Find ("LevelGenerator");
+
+		landingStopDist = landingStopDist * landingStopDist;
 	}
 
 
@@ -98,7 +108,7 @@ public class PlayerScript : MonoBehaviour {
 		// Push away from hit rock:
 		additionalSpeed = temp * (pushForceMultiplier * movementSpeed * dot2 + pushForceConstant);
 
-		if (state != StateTypes.BeforeLightSpeed && state != StateTypes.LightSpeed)
+		if (state != StateTypes.BeforeLightSpeed && state != StateTypes.LightSpeed && state != StateTypes.Landing && state != StateTypes.Landed)
 		{
 			state = StateTypes.Bounced;
 			timer = stunTime;
@@ -114,16 +124,16 @@ public class PlayerScript : MonoBehaviour {
 		state = StateTypes.BeforeLightSpeed;
 		timer = 0;
 
-		enteringLightSpeed = 1;
+		//enteringLightSpeed = 1;
 	}
 
-	// Docking is just like entering lightSpeed, only one var informs scripts to slow down instead of accelerating:
+
 	public void EnterDockingMode()
 	{
-		state = StateTypes.BeforeLightSpeed;
+		state = StateTypes.Landing;
 		timer = 0;
 		
-		enteringLightSpeed = 0;
+		//enteringLightSpeed = 0;
 	}
 
 
@@ -184,24 +194,24 @@ public class PlayerScript : MonoBehaviour {
 		#endregion
 
 
-		#region rotation
+		#region rotation & speeds
 
 		// Variables to keep track if player is turning in horizontal and vertical plane this frame:
 		movementHPressed = false;
 		movementVPressed = false;
 
-		if (state == StateTypes.BeforeLightSpeed)
+		/*if (state == StateTypes.BeforeLightSpeed)
 		{
 			state = state;
 			int i = 0;
 			i++;
-		}
+		}*/
 	
 		// Get directional input:
 		Vector3 tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
 
 		//  && transform.forward.x < shipMaxRotationH
-		if ( (Input.GetKey(KeyCode.D) && tooFar.x != 1 && state == StateTypes.InControl) || (tooFar.x == -1 && transform.forward.x < 0.1f))
+		if ( false || (tooFar.x == -1 && transform.forward.x < 0.4f))
 		{
 			rotationHSpeed += rotationHAcceleration * Time.deltaTime;
 			if (rotationHSpeed > rotationHMaxSpeed)
@@ -210,7 +220,7 @@ public class PlayerScript : MonoBehaviour {
 			movementHPressed = true;
 		}
 		//  && transform.forward.x > -shipMaxRotationH
-		else if ( (Input.GetKey(KeyCode.A) && tooFar.x != -1 && state == StateTypes.InControl) || (tooFar.x == 1 && transform.forward.x > -0.1f))
+		else if ( false || (tooFar.x == 1 && transform.forward.x > -0.4f))
 		{
 			rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
 			if (rotationHSpeed < -rotationHMaxSpeed)
@@ -219,8 +229,20 @@ public class PlayerScript : MonoBehaviour {
 			movementHPressed = true;
 		}
 
+		if ( Mathf.Abs(Input.GetAxis("Horizontal")) > inputZero && tooFar.x != 1 && state == StateTypes.InControl && movementHPressed == false)
+		{
+			rotationHSpeed += rotationHAcceleration * Mathf.Sign(Input.GetAxis("Horizontal")) * Time.deltaTime;
+
+			if (rotationHSpeed < -rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal")))
+				rotationHSpeed = -rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal"));
+			if (rotationHSpeed > rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal")))
+				rotationHSpeed = rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal"));
+			
+			movementHPressed = true;
+		}
+
 		//  && transform.forward.y > -shipMaxRotationV
-		if ( (Input.GetKey(KeyCode.W) && tooFar.y != -1 && state == StateTypes.InControl) || (tooFar.y == 1 && transform.forward.y > -0.1f))
+		if ( false || (tooFar.y == 1 && transform.forward.y > -0.4f))
 		{
 			rotationVSpeed += rotationVAcceleration * Time.deltaTime;
 			if (rotationVSpeed > rotationVMaxSpeed)
@@ -229,7 +251,7 @@ public class PlayerScript : MonoBehaviour {
 			movementVPressed = true;
 		}
 		//  && transform.forward.y < shipMaxRotationV
-		else if ( (Input.GetKey(KeyCode.S) && tooFar.y != 1 && state == StateTypes.InControl) || (tooFar.y == -1 && transform.forward.y < 0.1f))
+		else if ( false || (tooFar.y == -1 && transform.forward.y < 0.4f))
 		{
 			rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
 			if (rotationVSpeed < -rotationVMaxSpeed)
@@ -238,20 +260,88 @@ public class PlayerScript : MonoBehaviour {
 			movementVPressed = true;
 		}
 
+		if (Mathf.Abs(Input.GetAxis("Vertical")) > inputZero && tooFar.y != 1 && state == StateTypes.InControl && movementVPressed == false)
+		{
+			rotationVSpeed -= rotationVAcceleration * Mathf.Sign(Input.GetAxis("Vertical")) * Time.deltaTime;
+			
+			if (rotationVSpeed < -rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical")))
+				rotationVSpeed = -rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical"));
+			if (rotationVSpeed > rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical")))
+				rotationVSpeed = rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical"));
+			
+			movementVPressed = true;
+		}
+
+		// Speed up, depending on state:
+		if (state == StateTypes.InControl || state == StateTypes.OnLaunch || state == StateTypes.LightSpeed || state == StateTypes.BeforeLightSpeed || state == StateTypes.Landing)
+		{
+			movementSpeed += movementAcceleration * Time.deltaTime;
+			if (movementSpeed > movementMaxSpeed)
+				movementSpeed = movementMaxSpeed;
+		}
+		
+		// Slow down if forward is not pushed:
+		if (false)
+		{
+			if (movementSpeed < 0.5f)
+			{
+				movementSpeed = 0;
+			}
+			else
+			{
+				movementSpeed -= movementSpeed * movementAttenuation * Time.deltaTime;
+			}
+		}
+		
+		
+		// Reduce additional speed vector, representing knokback from space rock:
+		if (additionalSpeed.sqrMagnitude < additionalSpeedDampen * additionalSpeedDampen * Time.deltaTime)
+		{
+			additionalSpeed = Vector3.zero;
+			
+		}
+		else
+		{
+			additionalSpeed -= additionalSpeed.normalized * additionalSpeedDampen * Time.deltaTime;
+		}
+
 
 		// If you're about to enter lightspeed, rotate to right position:
-		if (tooFar == Vector3.zero && (state == StateTypes.LightSpeed || state == StateTypes.BeforeLightSpeed))
+		if (tooFar == Vector3.zero && (state == StateTypes.LightSpeed || state == StateTypes.BeforeLightSpeed || state == StateTypes.Landing))
 		{
 			// Init help vars:
 			Vector3 set = Vector3.zero;
 			Vector3 targetSpeeds = Vector3.zero;
+			
+			Vector3 whereTo = Vector3.zero;
 
-			targetSpeeds.x = - transform.forward.x * rotationPreLightSpeedMultiplier;
-			targetSpeeds.y = transform.forward.y * rotationPreLightSpeedMultiplier;
+			bool closeEnough;
 
+			// Set variable informing, whether you are close to your target destination:
+			if ((landingDestination - transform.position).sqrMagnitude < landingStopDist)
+				closeEnough = true;
+			else
+				closeEnough = false;
+
+			// Choose whereTo vector, which will be the normal vector, the ship will try to take:
+			if (state == StateTypes.Landing && closeEnough == false)
+			{
+				whereTo = landingDestination - transform.position;
+				whereTo.Normalize();
+			}
+			else
+			{
+				whereTo = new Vector3(0, 0, 1);
+			}
+
+			// Choose rotation speeds, the code should aim for:
+			targetSpeeds.x = - (transform.forward.x - whereTo.x) * rotationPreLightSpeedMultiplier;
+			targetSpeeds.y = (transform.forward.y - whereTo.y) * rotationPreLightSpeedMultiplier;
+			
+			
 			// Rotate in H axis:
 			// If you're positioned horizontally, mark it:
-			if (Mathf.Abs(transform.forward.x) < 0.005f)
+			if (Mathf.Abs(transform.forward.x - whereTo.x) < 0.005f)
 			{
 				set.x = 1;
 				//transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
@@ -270,9 +360,9 @@ public class PlayerScript : MonoBehaviour {
 			{
 				rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
 			}
-
+			
 			// Similarily in V axis:
-			if (Mathf.Abs(transform.forward.y) < 0.005f)
+			if (Mathf.Abs(transform.forward.y - whereTo.y) < 0.005f)
 			{
 				set.y = 1;
 				//transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
@@ -291,21 +381,51 @@ public class PlayerScript : MonoBehaviour {
 				rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
 			}
 
-			if (set.x == 1 && set.y == 1)
+			// If you're landing, manage your movement speeds:
+			if (state == StateTypes.Landing)
 			{
-				transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+				if (closeEnough == true)
+				{
+					movementSpeed = 0;
 
-				if (timer <= 0 && state == StateTypes.BeforeLightSpeed)
-					timer = 2;
+					if (set.x == 1 && set.y == 1)
+					{
+						state = StateTypes.Landed;
+						levelGenerator.GetComponent<LevelGeneratorScript>().EndGameSequence();
+					}
+				}
+				else
+				{
+					float maxSpeed = (landingDestination - transform.position).magnitude * landingSpeedMultiplier;
+					if (movementSpeed > maxSpeed)
+						movementSpeed = maxSpeed;
+				}
 			}
 
+			// If you hav reached destinated rotation:
+			if (set.x == 1 && set.y == 1)
+			{
+				if (state == StateTypes.Landing)
+				{
+					transform.forward = whereTo;
 
+				}
+				else
+				{
+					transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+					
+					if (timer <= 0 && state == StateTypes.BeforeLightSpeed)
+						timer = 1;
+				}
+			}
+			
+			
 			movementHPressed = true;
 			movementVPressed = true;
 		}
 
 
-		// Slow down rotation movement if the player is not turning in given plane:
+		// Slow down rotation speed if the player is not turning in given plane:
 		// Horizontal:
 		if (movementHPressed == false)
 		{
@@ -350,42 +470,6 @@ public class PlayerScript : MonoBehaviour {
 		
 		transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.up);
 
-		#endregion
-
-		#region speed
-
-		// Speed up, depending on state:
-		if (state == StateTypes.InControl || state == StateTypes.OnLaunch || state == StateTypes.LightSpeed || state == StateTypes.BeforeLightSpeed)
-		{
-			movementSpeed += movementAcceleration * Time.deltaTime;
-			if (movementSpeed > movementMaxSpeed)
-				movementSpeed = movementMaxSpeed;
-		}
-
-		// Slow down if forward is not pushed:
-		if (false)
-		{
-			if (movementSpeed < 0.5f)
-			{
-				movementSpeed = 0;
-			}
-			else
-			{
-				movementSpeed -= movementSpeed * movementAttenuation * Time.deltaTime;
-			}
-		}
-
-
-		// Reduce additional speed vector, representing knokback from space rock:
-		if (additionalSpeed.sqrMagnitude < additionalSpeedDampen * additionalSpeedDampen * Time.deltaTime)
-		{
-			additionalSpeed = Vector3.zero;
-
-		}
-		else
-		{
-			additionalSpeed -= additionalSpeed.normalized * additionalSpeedDampen * Time.deltaTime;
-		}
 
 		// Apply calculated speed to rigidbody:
 		GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;

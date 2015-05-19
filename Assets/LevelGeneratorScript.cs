@@ -38,6 +38,11 @@ public class LevelGeneratorScript : MonoBehaviour {
 	public int rocksAmountMin = 1;
 	public int rocksAmountMax = 3;
 
+	public int mobileRocksAmountMin = 1;
+	public int mobileRocksAmountMax = 2;
+	public int mobileRocksDistMin = 20;
+	public int mobileRocksDistMax = 30;
+
 	public float rocksAngleStepMin = 45;
 	public float rocksAngleStepMax = 70;
 
@@ -45,6 +50,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 	public int turn = 0;
 	public float turnTimer = 4;
+	public Vector3 landingPointOffset;
 
 	private Vector3 forwardDir;
 	private Vector3 rightDir;
@@ -63,6 +69,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 	public GameObject staticRock;
 	public GameObject kinematicRock;
+	public GameObject movingRock;
 	public GameObject gate;
 	public GameObject station;
 	private GameObject player;
@@ -73,6 +80,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 	private Vector3[] gatePoints;
 	private int gateAmount = 0;
 	private int previousRocksAmount = 0;
+	private GameObject endStation;
 
 	private int generatedSecondPart = 0;
 
@@ -397,6 +405,18 @@ public class LevelGeneratorScript : MonoBehaviour {
 		}
 	}
 
+	public Vector3 MiddleRoadPoint(Vector3 arg)
+	{
+		float temp = arg.z - transform.position.z;
+		
+		temp = Mathf.Floor (temp);
+
+		if (temp < 0 || temp > roadPoints.Length - 1 || roadPoints == null)
+			return Vector3.zero;
+		else
+			return roadPoints [(int)temp];
+	}
+
 	public Vector3 OffRoad(Vector3 arg)
 	{
 		float temp = arg.z - transform.position.z;
@@ -426,6 +446,13 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 		return toReturn;
 	}
+
+	public void EndGameSequence()
+	{
+		endStation.GetComponent<SpaceShuttleScript> ().Close ();
+
+		player.transform.parent = endStation.GetComponent<SpaceShuttleScript>().armParts[2].transform;
+	}
 	
 	// Update is called once per frame
 	void Update ()
@@ -441,9 +468,12 @@ public class LevelGeneratorScript : MonoBehaviour {
 			
 			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, 3, rocksAmountMin, rocksAmountMax);
 
+			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, mobileRocksDistMin, mobileRocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0.9f, 0.9f, movingRock, 3, mobileRocksAmountMin, mobileRocksAmountMax);
 
-			GameObject temp = (GameObject)Instantiate(station, roadPoints[(int)roadLength - 1], transform.rotation);
 
+			endStation = (GameObject)Instantiate(station, roadPoints[(int)roadLength - 1], transform.rotation);
+
+			player.GetComponent<PlayerScript> ().landingDestination = roadPoints[(int)roadLength - 1] + landingPointOffset;
 
 			player.GetComponent<PlayerScript> ().EnterLightSpeedMode();
 		}
@@ -453,6 +483,10 @@ public class LevelGeneratorScript : MonoBehaviour {
 			generatedSecondPart = 2;
 
 			player.GetComponent<PlayerScript> ().LeaveLightSpeedMode();
+			player.transform.position = new Vector3(
+				player.transform.position.x,
+				player.transform.position.y,
+				transform.position.z + roadPartLength + roadLightSpeedLength);
 		}
 
 		else if (generatedSecondPart == 2 && player.transform.position.z - transform.position.z > roadLength - roadDockingLength)
