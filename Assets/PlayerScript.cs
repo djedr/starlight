@@ -35,7 +35,6 @@ public class PlayerScript : MonoBehaviour {
 	public float rotationHMaxSpeed = 40;
 	public float rotationVMaxSpeed = 40;
 	public float rotationPreLightSpeedMultiplier = 10;
-	public float shipRotation = 0;
 
 	public float shipMaxRotationH = 0.5f;
 	public float shipMaxRotationHMult = 2;
@@ -53,6 +52,10 @@ public class PlayerScript : MonoBehaviour {
 	public float landingStopDist = 0.3f;
 
 	public float inputZero = 0.1f;
+	public Vector3 joyBaseRotation;
+	public float joyMaxRotation = 10;
+
+	private float shootCounter = 0;
 
 	public Vector3 additionalSpeed = Vector3.zero;
 
@@ -74,6 +77,13 @@ public class PlayerScript : MonoBehaviour {
 	private int enteringLightSpeed = 1;
 
 	private GameObject levelGenerator;
+	private GameObject joystick;
+	private GameObject laserSpot1;
+	private GameObject laserSpot2;
+	private GameObject shotRock;
+	public GameObject targetedRock = null;
+	public GameObject lazerProjectile;
+	public GameObject hitEffect;
 
 	public GameObject camera = null;
 
@@ -88,6 +98,9 @@ public class PlayerScript : MonoBehaviour {
 		timer = launchTime;
 
 		levelGenerator = GameObject.Find ("LevelGenerator");
+		joystick = GameObject.Find ("joystick");
+		laserSpot1 = GameObject.Find ("LaserSpot1");
+		laserSpot2 = GameObject.Find ("LaserSpot2");
 
 		landingStopDist = landingStopDist * landingStopDist;
 	}
@@ -189,6 +202,58 @@ public class PlayerScript : MonoBehaviour {
 				else
 					state = StateTypes.InControl;
 			}
+		}
+
+		#endregion
+
+		#region Shooting
+
+		if (shootCounter > 0)
+		{
+			shootCounter -= Time.deltaTime;
+			if (shootCounter <= 0)
+			{
+				shootCounter = 0;
+
+				GameObject projectile = Instantiate (hitEffect);
+				projectile.transform.position = shotRock.transform.position;
+
+				Destroy(shotRock);
+			}
+		}
+
+		RaycastHit rayInfo;
+
+		targetedRock = null;
+
+		if (Physics.Raycast(
+			camera.transform.position + transform.forward * 1,
+		    transform.forward,
+			out rayInfo,
+			60))
+		{
+			if (rayInfo.collider.gameObject.tag == "Rock")
+			{
+				targetedRock = rayInfo.collider.gameObject;
+			}
+		}
+
+		if (Input.GetKeyDown("left ctrl") && targetedRock != null && shootCounter == 0)
+		{
+			GameObject projectile = Instantiate (lazerProjectile);
+			projectile.transform.position = laserSpot1.transform.position;
+			projectile.GetComponent<LazerScript>().startPos = projectile.transform.position;
+			projectile.GetComponent<LazerScript>().endPos = targetedRock.transform.position;
+
+
+			projectile = Instantiate (lazerProjectile);
+			projectile.transform.position = laserSpot2.transform.position;
+			projectile.GetComponent<LazerScript>().startPos = projectile.transform.position;
+			projectile.GetComponent<LazerScript>().endPos = targetedRock.transform.position;
+
+			shotRock = targetedRock;
+			targetedRock = null;
+			shootCounter = 0.2f;
 		}
 
 		#endregion
@@ -504,5 +569,17 @@ public class PlayerScript : MonoBehaviour {
 		//GetComponent<Rigidbody> ().rotation = Quaternion.AngleAxis(shipRotation, Vector3.up);
 
 		#endregion
+
+		#region virtual joystick rotation
+
+		Vector3 temp = joyBaseRotation;
+
+		temp.x -= Input.GetAxis("Horizontal") * joyMaxRotation;
+		temp.y -= Input.GetAxis("Vertical") * joyMaxRotation;
+
+		joystick.transform.localRotation = Quaternion.Euler(temp);
+
+		#endregion
+
 	}
 }

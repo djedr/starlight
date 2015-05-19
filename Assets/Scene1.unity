@@ -318,10 +318,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
   m_PrefabInternal: {fileID: 1971857809}
---- !u!1 &492762568
-GameObject:
-  m_PrefabParentObject: {fileID: 100004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-  m_PrefabInternal: {fileID: 1971857809}
 --- !u!1001 &530819886
 Prefab:
   m_ObjectHideFlags: 0
@@ -377,6 +373,22 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e928035fa9fb3c6409065761e99344e7, type: 2}
+    - target: {fileID: 400000, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -1.62920685e-07
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
   m_IsPrefabParent: 0
@@ -583,6 +595,33 @@ LensFlare:
     serializedVersion: 2
     m_Bits: 6
   m_Directional: 1
+--- !u!1 &774138661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 774138662}
+  m_Layer: 0
+  m_Name: LaserSpot1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &774138662
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 774138661}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .699999988, y: -.5, z: .600000024}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1506190405}
+  m_RootOrder: 4
 --- !u!1 &810740244
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +906,33 @@ RectTransform:
 Transform:
   m_PrefabParentObject: {fileID: 474592, guid: 2187dbcb0e9b89a4cb112723b434378c, type: 2}
   m_PrefabInternal: {fileID: 635954298}
+--- !u!1 &1237254653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1237254654}
+  m_Layer: 0
+  m_Name: LaserSpot2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1237254654
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1237254653}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.699999988, y: -.5, z: .600000024}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1506190405}
+  m_RootOrder: 5
 --- !u!1 &1286374967
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1286374968
 Transform:
   m_ObjectHideFlags: 0
@@ -895,7 +961,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1286374967}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .50999999, z: .119999997}
+  m_LocalPosition: {x: 0, y: .50999999, z: -.179000005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1506190405}
@@ -1304,13 +1370,23 @@ MonoBehaviour:
   landingSpeedMultiplier: 2
   landingStopDist: .100000001
   inputZero: 0
+  joyBaseRotation: {x: 0, y: 180, z: 0}
+  joyMaxRotation: 30
+  scanTimer: 1
+  scanTimerMax: .5
+  scanProjectileSpeed: 350
+  shootCounter: 0
   additionalSpeed: {x: 0, y: 0, z: 0}
   additionalSpeedDampen: 10
   cameraMaxAngle: 90
   cameraMinAngle: 0
   cameraXMultiplier: 100
   cameraRotation: 0
-  camera: {fileID: 492762568}
+  targetedRock: {fileID: 0}
+  lockInProjectile: {fileID: 151440, guid: 782ced0b4c8b6cb49b28a2e6f428b2a2, type: 2}
+  lazerProjectile: {fileID: 136464, guid: a1ed9a4c89f0dd348aeb073970740e71, type: 2}
+  hitEffect: {fileID: 164668, guid: 23c9a6efc5537034fbcaa8d32032f00d, type: 2}
+  camera: {fileID: 1286374967}
   shipForward: {x: 0, y: 0, z: 0}
 --- !u!54 &1506190403
 Rigidbody:
@@ -1354,6 +1430,8 @@ Transform:
   - {fileID: 1286374968}
   - {fileID: 484259538}
   - {fileID: 1497271548}
+  - {fileID: 774138662}
+  - {fileID: 1237254654}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!135 &1506190406
@@ -1531,7 +1609,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 300, y: 300, z: 1}
+  m_Size: {x: 300, y: 300, z: 30}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1798777084
 Rigidbody:
@@ -1747,7 +1825,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalPosition.z
-      value: .119999997
+      value: -.179000005
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1779,7 +1857,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
@@ -1934,10 +2012,10 @@ MonoBehaviour:
   turnVLength: 50
   widthLength: 40
   straightLength: 40
-  rocksDistMin: 12
-  rocksDistMax: 22
+  rocksDistMin: 20
+  rocksDistMax: 30
   rocksAmountMin: 1
-  rocksAmountMax: 3
+  rocksAmountMax: 2
   mobileRocksAmountMin: 1
   mobileRocksAmountMax: 2
   mobileRocksDistMin: 20
