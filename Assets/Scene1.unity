@@ -442,20 +442,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
   m_PrefabInternal: {fileID: 1971857809}
---- !u!114 &492762571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 492762568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee1c9d3c881b80f41b59c965fa9e824e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shake: -1
-  shakeAmount: .0250000004
-  decreaseFactor: 1
 --- !u!1001 &530819886
 Prefab:
   m_ObjectHideFlags: 0
@@ -1232,7 +1218,25 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1506190405}
-  m_RootOrder: 5
+  m_RootOrder: 6
+--- !u!1 &1244997110
+GameObject:
+  m_PrefabParentObject: {fileID: 100004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
+  m_PrefabInternal: {fileID: 1971857809}
+--- !u!114 &1244997113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1244997110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1c9d3c881b80f41b59c965fa9e824e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shake: -1
+  shakeAmount: .100000001
+  decreaseFactor: 1
 --- !u!1 &1286374967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,7 +1257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1286374968
 Transform:
   m_ObjectHideFlags: 0
@@ -1722,7 +1726,6 @@ MonoBehaviour:
   rotationHMaxSpeed: 80
   rotationVMaxSpeed: 80
   rotationPreLightSpeedMultiplier: 100
-  shipRotation: 0
   shipMaxRotationH: .649999976
   shipMaxRotationHMult: 350
   shipMaxRotationV: .550000012
@@ -1738,10 +1741,6 @@ MonoBehaviour:
   inputZero: 0
   joyBaseRotation: {x: 0, y: 180, z: 0}
   joyMaxRotation: 30
-  scanTimer: 1
-  scanTimerMax: .5
-  scanProjectileSpeed: 350
-  shootCounter: 0
   additionalSpeed: {x: 0, y: 0, z: 0}
   additionalSpeedDampen: 10
   cameraMaxAngle: 90
@@ -1749,10 +1748,9 @@ MonoBehaviour:
   cameraXMultiplier: 100
   cameraRotation: 0
   targetedRock: {fileID: 0}
-  lockInProjectile: {fileID: 151440, guid: 782ced0b4c8b6cb49b28a2e6f428b2a2, type: 2}
   lazerProjectile: {fileID: 136464, guid: a1ed9a4c89f0dd348aeb073970740e71, type: 2}
   hitEffect: {fileID: 164668, guid: 23c9a6efc5537034fbcaa8d32032f00d, type: 2}
-  camera: {fileID: 1286374967}
+  camera: {fileID: 1244997110}
   shipForward: {x: 0, y: 0, z: 0}
 --- !u!54 &1506190403
 Rigidbody:
@@ -1798,6 +1796,7 @@ Transform:
   - {fileID: 1497271548}
   - {fileID: 489019}
   - {fileID: 279693088}
+  - {fileID: 1237254654}
   - {fileID: 1698633483}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -1828,7 +1827,7 @@ MonoBehaviour:
   autopilotText: {fileID: 1336760988}
   emergencyLight: {fileID: 708615647}
   autopilotLight: {fileID: 1535350403}
-  camera: {fileID: 492762568}
+  camera: {fileID: 1244997110}
   playerScript: {fileID: 0}
   emergencyTimeout: 1
   autopilotTimeout: .800000012
@@ -1927,7 +1926,7 @@ RectTransform:
   - {fileID: 2010299198}
   - {fileID: 1336760987}
   m_Father: {fileID: 1506190405}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: .00600000005, y: .234999999}
@@ -2510,7 +2509,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
