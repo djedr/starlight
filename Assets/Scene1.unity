@@ -155,7 +155,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 489015}
-  m_LocalRotation: {x: -.707107544, y: -.707105994, z: .000292351149, w: .000292351964}
+  m_LocalRotation: {x: -.707107484, y: -.707105935, z: .00029235112, w: .000292351935}
   m_LocalPosition: {x: .610000014, y: .69599998, z: .250999987}
   m_LocalScale: {x: .100000001, y: .100000001, z: .100000001}
   m_Children:
@@ -459,11 +459,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -.709999979
+      value: -.409999996
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: .300000012
+      value: .0820000023
       objectReference: {fileID: 0}
     - target: {fileID: 400008, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1933,8 +1933,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   armParts:
-  - {fileID: 1821117667}
-  - {fileID: 1716967094}
+  - {fileID: 0}
+  - {fileID: 0}
   armAngleStart:
   - {x: 0, y: 180, z: 180}
   - {x: 0, y: 180, z: 180}
@@ -2103,10 +2103,6 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!1 &1716967094 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100012, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
-  m_PrefabInternal: {fileID: 530819886}
 --- !u!4 &1775804158 stripped
 Transform:
   m_PrefabParentObject: {fileID: 487290, guid: 728b5184565a76f47999dabeca801fe4, type: 2}
@@ -2282,10 +2278,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
---- !u!1 &1821117667 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100010, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
-  m_PrefabInternal: {fileID: 530819886}
 --- !u!1 &1845919273 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100014, guid: 50c71cc60bb4a5745b599cf61d1c3e66, type: 3}
