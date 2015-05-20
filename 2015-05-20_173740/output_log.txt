@@ -1,0 +1,152 @@
+Initialize engine version: 5.0.0f4 (5b98b70ebeb9)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 640M      (ID=0xfd2)
+    Vendor:   NVIDIA
+    VRAM:     1990 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.045 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initialized touch support.
+Platform assembly: D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Managed\System.dll (this message is harmless)
+Crash!!!
+SymInit: Symbol-SearchPath: '.;D:\Instalacje\Unity 5\Projects\VRLab;D:\Instalacje\Unity 5\Projects\VRLab;C:\Windows;C:\Windows\system32;SRV*C:\websymbols*http://msdl.microsoft.com/download/symbols;', symOptions: 530, UserName: 'K56'
+OS-Version: 6.1.7601 (Service Pack 1) 0x100-0x1
+D:\Instalacje\Unity 5\Projects\VRLab\Exec.exe:Exec.exe (01030000), size: 16420864 (result: 0), SymType: '-exported-', PDB: 'D:\Instalacje\Unity 5\Projects\VRLab\Exec.exe', fileVersion: 5.0.0.39095
+C:\Windows\SysWOW64\ntdll.dll:ntdll.dll (775E0000), size: 1572864 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SysWOW64\ntdll.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\kernel32.dll:kernel32.dll (77040000), size: 1114112 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\kernel32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\KERNELBASE.dll:KERNELBASE.dll (75F60000), size: 286720 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\KERNELBASE.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\HID.DLL:HID.DLL (690B0000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\HID.DLL', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\msvcrt.dll:msvcrt.dll (75650000), size: 704512 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\msvcrt.dll', fileVersion: 7.0.7600.16385
+C:\Windows\syswow64\WS2_32.dll:WS2_32.dll (76E50000), size: 217088 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\WS2_32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\RPCRT4.dll:RPCRT4.dll (759D0000), size: 983040 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\RPCRT4.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\SspiCli.dll:SspiCli.dll (75140000), size: 393216 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SspiCli.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\CRYPTBASE.dll:CRYPTBASE.dll (75130000), size: 49152 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CRYPTBASE.dll', fileVersion: 6.1.7600.16385
+C:\Windows\SysWOW64\sechost.dll:sechost.dll (77020000), size: 102400 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\SysWOW64\sechost.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\NSI.dll:NSI.dll (75960000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\NSI.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\USER32.dll:USER32.dll (75360000), size: 1048576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\USER32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\GDI32.dll:GDI32.dll (751A0000), size: 589824 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\GDI32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\LPK.dll:LPK.dll (75970000), size: 40960 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\LPK.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\USP10.dll:USP10.dll (76050000), size: 643072 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\USP10.dll', fileVersion: 1.626.7601.17514
+C:\Windows\syswow64\ADVAPI32.dll:ADVAPI32.dll (75FB0000), size: 655360 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\ADVAPI32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\VERSION.dll:VERSION.dll (725C0000), size: 36864 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\VERSION.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\ole32.dll:ole32.dll (75CC0000), size: 1425408 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\ole32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\SHLWAPI.dll:SHLWAPI.dll (75AC0000), size: 356352 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SHLWAPI.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\SHELL32.dll:SHELL32.dll (760F0000), size: 12886016 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SHELL32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\OPENGL32.dll:OPENGL32.dll (70900000), size: 819200 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\OPENGL32.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\GLU32.dll:GLU32.dll (70F40000), size: 139264 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\GLU32.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\DDRAW.dll:DDRAW.dll (70810000), size: 946176 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\DDRAW.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\DCIMAN32.dll:DCIMAN32.dll (71390000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\DCIMAN32.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\SETUPAPI.dll:SETUPAPI.dll (75B20000), size: 1691648 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\SETUPAPI.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\CFGMGR32.dll:CFGMGR32.dll (759A0000), size: 159744 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CFGMGR32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\OLEAUT32.dll:OLEAUT32.dll (77150000), size: 585728 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\OLEAUT32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\DEVOBJ.dll:DEVOBJ.dll (75980000), size: 73728 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\DEVOBJ.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\dwmapi.dll:dwmapi.dll (713F0000), size: 77824 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dwmapi.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\WINMM.dll:WINMM.dll (74A80000), size: 204800 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\WINMM.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\MSACM32.dll:MSACM32.dll (668A0000), size: 81920 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MSACM32.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\IMM32.dll:IMM32.dll (75900000), size: 393216 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\IMM32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\MSCTF.dll:MSCTF.dll (75460000), size: 835584 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\MSCTF.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\DNSAPI.dll:DNSAPI.dll (72380000), size: 278528 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\DNSAPI.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\IPHLPAPI.DLL:IPHLPAPI.DLL (72580000), size: 114688 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\IPHLPAPI.DLL', fileVersion: 6.1.7601.17514
+C:\Windows\system32\WINNSI.DLL:WINNSI.DLL (72570000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\WINNSI.DLL', fileVersion: 6.1.7600.16385
+C:\Windows\system32\WINHTTP.dll:WINHTTP.dll (72420000), size: 360448 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\WINHTTP.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\webio.dll:webio.dll (723D0000), size: 323584 (result: 0), SymType: '-nosymbols-', PDB: 'C:\Windows\system32\webio.dll', fileVersion: 6.1.7601.17514
+c:\windows\syswow64\nvinit.dll:nvinit.dll (72250000), size: 167936 (result: 0), SymType: '-exported-', PDB: 'c:\windows\syswow64\nvinit.dll', fileVersion: 9.18.13.2702
+C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\detoured.dll:detoured.dll (0F000000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\detoured.dll'
+C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvd3d9wrap.dll:nvd3d9wrap.dll (707B0000), size: 339968 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvd3d9wrap.dll', fileVersion: 9.18.13.2702
+C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvdxgiwrap.dll:nvdxgiwrap.dll (70770000), size: 241664 (result: 0), SymType: '-exported-', PDB: 'C:\Program Files (x86)\NVIDIA Corporation\CoProcManager\nvdxgiwrap.dll', fileVersion: 9.18.13.2702
+D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Mono\mono.dll:mono.dll (10000000), size: 2289664 (result: 0), SymType: '-exported-', PDB: 'D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Mono\mono.dll'
+C:\Windows\syswow64\PSAPI.DLL:PSAPI.DLL (775B0000), size: 20480 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\PSAPI.DLL', fileVersion: 6.1.7600.16385
+C:\Windows\system32\MSWSOCK.dll:MSWSOCK.dll (73950000), size: 245760 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MSWSOCK.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\uxtheme.dll:uxtheme.dll (742A0000), size: 524288 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\uxtheme.dll', fileVersion: 6.1.7600.16385
+D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Plugins\OculusInitPlugin.dll:OculusInitPlugin.dll (67800000), size: 151552 (result: 0), SymType: '-exported-', PDB: 'D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Plugins\OculusInitPlugin.dll'
+C:\Windows\system32\d3d11.dll:d3d11.dll (74790000), size: 1527808 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\d3d11.dll', fileVersion: 6.2.9200.16492
+C:\Windows\system32\dxgi.dll:dxgi.dll (70F70000), size: 311296 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dxgi.dll', fileVersion: 6.2.9200.16492
+C:\Windows\system32\DXGIDebug.dll:DXGIDebug.dll (65240000), size: 114688 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\DXGIDebug.dll', fileVersion: 9.30.9600.16384
+C:\Windows\syswow64\WINTRUST.dll:WINTRUST.dll (75230000), size: 184320 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\WINTRUST.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\CRYPT32.dll:CRYPT32.dll (75530000), size: 1167360 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CRYPT32.dll', fileVersion: 6.1.7601.17514
+C:\Windows\syswow64\MSASN1.dll:MSASN1.dll (76F20000), size: 49152 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\MSASN1.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\nvumdshim.dll:nvumdshim.dll (65100000), size: 1249280 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\nvumdshim.dll', fileVersion: 9.18.13.2702
+C:\Windows\system32\nvwgf2um.dll:nvwgf2um.dll (63F10000), size: 13594624 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\nvwgf2um.dll', fileVersion: 9.18.13.2702
+C:\Windows\system32\igd10umd32.dll:igd10umd32.dll (63750000), size: 8093696 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\igd10umd32.dll', fileVersion: 8.15.10.2653
+C:\Windows\system32\D3Dx10_40.dll:D3Dx10_40.dll (65090000), size: 458752 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\D3Dx10_40.dll', fileVersion: 9.24.950.2656
+C:\Windows\system32\LibOVRRT32_0_5.dll:LibOVRRT32_0_5.dll (64F90000), size: 1011712 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\LibOVRRT32_0_5.dll', fileVersion: 5.0.10.57493
+C:\Windows\system32\dbghelp.dll:dbghelp.dll (70E20000), size: 962560 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dbghelp.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\d3d9.dll:d3d9.dll (63580000), size: 1847296 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\d3d9.dll', fileVersion: 6.1.7601.17514
+C:\Windows\system32\d3d8thk.dll:d3d8thk.dll (690A0000), size: 24576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\d3d8thk.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\d3d10core.dll:d3d10core.dll (63540000), size: 237568 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\d3d10core.dll', fileVersion: 6.2.9200.16492
+C:\Windows\system32\d3d10.dll:d3d10.dll (63430000), size: 1110016 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\d3d10.dll', fileVersion: 6.2.9200.16492
+C:\Windows\system32\OVRDisplayRT32.dll:OVRDisplayRT32.dll (64F70000), size: 94208 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\OVRDisplayRT32.dll', fileVersion: 1.2.5.0
+C:\Windows\system32\MSVCP120.dll:MSVCP120.dll (633B0000), size: 462848 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MSVCP120.dll', fileVersion: 12.0.21005.1
+C:\Windows\system32\MSVCR120.dll:MSVCR120.dll (632C0000), size: 974848 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MSVCR120.dll', fileVersion: 12.0.21005.1
+D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Plugins\OculusPlugin.dll:OculusPlugin.dll (63270000), size: 274432 (result: 0), SymType: '-exported-', PDB: 'D:\Instalacje\Unity 5\Projects\VRLab\Exec_Data\Plugins\OculusPlugin.dll'
+C:\Windows\system32\MMDevAPI.DLL:MMDevAPI.DLL (6D6D0000), size: 233472 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\MMDevAPI.DLL', fileVersion: 6.1.7601.17514
+C:\Windows\system32\PROPSYS.dll:PROPSYS.dll (6D4D0000), size: 1003520 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\PROPSYS.dll', fileVersion: 7.0.7601.17514
+C:\Windows\system32\wdmaud.drv:wdmaud.drv (63240000), size: 196608 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\wdmaud.drv', fileVersion: 6.1.7601.17514
+C:\Windows\system32\ksuser.dll:ksuser.dll (677F0000), size: 16384 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\ksuser.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\AVRT.dll:AVRT.dll (666F0000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\AVRT.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\AUDIOSES.DLL:AUDIOSES.DLL (6D690000), size: 221184 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\AUDIOSES.DLL', fileVersion: 6.1.7601.17514
+C:\Windows\system32\msacm32.drv:msacm32.drv (666A0000), size: 32768 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\msacm32.drv', fileVersion: 6.1.7600.16385
+C:\Windows\system32\midimap.dll:midimap.dll (63230000), size: 28672 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\midimap.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\dsound.dll:dsound.dll (631B0000), size: 466944 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\dsound.dll', fileVersion: 6.1.7600.16385
+C:\Windows\system32\POWRPROF.dll:POWRPROF.dll (71570000), size: 151552 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\POWRPROF.dll', fileVersion: 6.1.7600.16385
+C:\Windows\syswow64\CLBCatQ.DLL:CLBCatQ.DLL (76D90000), size: 536576 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\syswow64\CLBCatQ.DLL', fileVersion: 2001.12.8530.16385
+C:\Windows\system32\xinput1_3.dll:xinput1_3.dll (04D10000), size: 90112 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\system32\xinput1_3.dll', fileVersion: 9.18.944.0
+C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.17514_none_41e6975e2bd6f2b2\comctl32.dll:comctl32.dll (745F0000), size: 1695744 (result: 0), SymType: '-exported-', PDB: 'C:\Windows\WinSxS\x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.17514_none_41e6975e2bd6f2b2\comctl32.dll', fileVersion: 6.10.7601.17514
+
+========== OUTPUTING STACK TRACE ==================
+
+  ERROR: SymGetSymFromAddr64, GetLastError: 'Próbowano uzyskać dostęp do nieprawidłowego adresu.' (Address: 64F74E7F)
+64F74E7F (OVRDisplayRT32) 
+63273176 (OculusPlugin) ovrHmd_SetString
+632742A7 (OculusPlugin) OVR_SetViewport
+632743A2 (OculusPlugin) UnitySetGraphicsDevice
+011F5D36 (Exec) UserList::AddUser
+011F5D78 (Exec) UserList::AddUser
+011F6206 (Exec) UserList::AddUser
+10039932 (mono) mono_lookup_pinvoke_call
+10048437 (mono) mono_marshal_string_to_utf16
+100CF81E (mono) mono_inst_name
+100EEE6B (mono) mono_set_defaults
+100EFCB8 (mono) mono_set_defaults
+100F0213 (mono) mono_set_defaults
+100F03DC (mono) mono_set_defaults
+1005D7CB (mono) mono_runtime_invoke
+0118410E (Exec) scripting_gchandle_get_target
+0122D089 (Exec) ScriptingArguments::AddString
+0122D0FE (Exec) ScriptingArguments::AddString
+0122D13C (Exec) ScriptingArguments::AddString
+011731E2 (Exec) MeshFilter::MightContainPPtr
+011733C9 (Exec) MeshFilter::MightContainPPtr
+011756E8 (Exec) GetMonoBehaviourInConstructor
+011738DC (Exec) MeshFilter::MightContainPPtr
+0124395B (Exec) RegisterAllowNameConversionInDerivedTypes
+01243B2D (Exec) RegisterAllowNameConversionInDerivedTypes
+01206178 (Exec) CallbackArray3<std::basic_string<char,std::char_traits<char>,stl_allocator<char,58,16> > const &,AwakeFromLoadQueue &,enum LoadLevelOperation::LoadingMode>::Invoke
+0120634F (Exec) CallbackArray3<std::basic_string<char,std::char_traits<char>,stl_allocator<char,58,16> > const &,AwakeFromLoadQueue &,enum LoadLevelOperation::LoadingMode>::Invoke
+011F708E (Exec) UserList::AddUser
+011F6995 (Exec) UserList::AddUser
+011F4013 (Exec) UserList::AddUser
+0128A989 (Exec) PlayerMainWndProc
+0128C3A0 (Exec) PlayerWinMain
+015C1D98 (Exec) RectT<int>::GetBottom
+015F8DDF (Exec) RectT<int>::GetBottom
+770533CA (kernel32) BaseThreadInitThunk
+77619ED2 (ntdll) RtlInitializeExceptionChain
+77619EA5 (ntdll) RtlInitializeExceptionChain
+
+========== END OF STACKTRACE ===========
+
+**** Crash! ****

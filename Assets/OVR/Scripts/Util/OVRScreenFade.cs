@@ -62,7 +62,7 @@ public class OVRScreenFade : MonoBehaviour
 		StartCoroutine(FadeIn());
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-		// Add a listener to the OVRManager for custom postrender work
+		// Add a listener to OVRPostRender for custom postrender work
 		OVRPostRender.OnCustomPostRender += OnCustomPostRender;
 #endif
 	}
@@ -70,7 +70,7 @@ public class OVRScreenFade : MonoBehaviour
 	void OnDisable()
 	{
 #if UNITY_ANDROID && !UNITY_EDITOR
-		// Remove listener on the OVRManager for custom postrender work
+		// Remove listener on OVRPostRender for custom postrender work
 		OVRPostRender.OnCustomPostRender -= OnCustomPostRender;
 #endif
 	}
