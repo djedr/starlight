@@ -56,6 +56,7 @@ public class PlayerScript : MonoBehaviour {
 	public float joyMaxRotation = 10;
 
 	private float shootCounter = 0;
+	public float rayCastRange = 120;
 
 	public Vector3 additionalSpeed = Vector3.zero;
 
@@ -80,7 +81,7 @@ public class PlayerScript : MonoBehaviour {
 	private GameObject joystick;
 	private GameObject laserSpot1;
 	private GameObject laserSpot2;
-	private GameObject shotRock;
+	private GameObject shotRock = null;
 	public GameObject targetedRock = null;
 	public GameObject lazerProjectile;
 	public GameObject hitEffect;
@@ -208,29 +209,16 @@ public class PlayerScript : MonoBehaviour {
 
 		#region Shooting
 
-		if (shootCounter > 0)
-		{
-			shootCounter -= Time.deltaTime;
-			if (shootCounter <= 0)
-			{
-				shootCounter = 0;
-
-				GameObject projectile = Instantiate (hitEffect);
-				projectile.transform.position = shotRock.transform.position;
-
-				Destroy(shotRock);
-			}
-		}
-
 		RaycastHit rayInfo;
 
 		targetedRock = null;
 
+		// Look for rocks ahead:
 		if (Physics.Raycast(
 			camera.transform.position + transform.forward * 1,
 		    transform.forward,
 			out rayInfo,
-			60))
+			rayCastRange))
 		{
 			if (rayInfo.collider.gameObject.tag == "Rock")
 			{
@@ -238,22 +226,54 @@ public class PlayerScript : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyDown("left ctrl") && targetedRock != null && shootCounter == 0)
+		// Check, if lastly fired shot just hit something:
+		if (shootCounter > 0)
+		{
+			shootCounter -= Time.deltaTime;
+			if (shootCounter <= 0)
+			{
+				shootCounter = 0;
+				
+				if (shotRock != null)
+				{
+					GameObject projectile = Instantiate (hitEffect);
+					projectile.transform.position = shotRock.transform.position;
+					
+					Destroy(shotRock);
+					shotRock = null;
+				}
+			}
+		}
+
+		// Check for shoot input:
+		if (state == StateTypes.InControl && Input.GetKeyDown("left ctrl") && targetedRock != null && shootCounter == 0)
 		{
 			GameObject projectile = Instantiate (lazerProjectile);
 			projectile.transform.position = laserSpot1.transform.position;
 			projectile.GetComponent<LazerScript>().startPos = projectile.transform.position;
-			projectile.GetComponent<LazerScript>().endPos = targetedRock.transform.position;
+			//projectile.GetComponent<LazerScript>().endPos = laserSpot1.transform.position + transform.forward * 60;
 
+			GameObject projectile2 = Instantiate (lazerProjectile);
+			projectile2.transform.position = laserSpot2.transform.position;
+			projectile2.GetComponent<LazerScript>().startPos = projectile2.transform.position;
+			//projectile2.GetComponent<LazerScript>().endPos = laserSpot2.transform.position + transform.forward * 60;
 
-			projectile = Instantiate (lazerProjectile);
-			projectile.transform.position = laserSpot2.transform.position;
-			projectile.GetComponent<LazerScript>().startPos = projectile.transform.position;
-			projectile.GetComponent<LazerScript>().endPos = targetedRock.transform.position;
+			if (targetedRock == null)
+			{
+				projectile.GetComponent<LazerScript>().endPos = laserSpot1.transform.position + transform.forward * 60;
+				projectile2.GetComponent<LazerScript>().endPos = laserSpot2.transform.position + transform.forward * 60;
 
-			shotRock = targetedRock;
-			targetedRock = null;
-			shootCounter = 0.2f;
+				shootCounter = 0.2f;
+			}
+			else
+			{
+				projectile.GetComponent<LazerScript>().endPos = targetedRock.transform.position;
+				projectile2.GetComponent<LazerScript>().endPos = targetedRock.transform.position;
+
+				shotRock = targetedRock;
+				targetedRock = null;
+				shootCounter = 0.2f;
+			}
 		}
 
 		#endregion
@@ -402,6 +422,11 @@ public class PlayerScript : MonoBehaviour {
 			// Choose rotation speeds, the code should aim for:
 			targetSpeeds.x = - (transform.forward.x - whereTo.x) * rotationPreLightSpeedMultiplier;
 			targetSpeeds.y = (transform.forward.y - whereTo.y) * rotationPreLightSpeedMultiplier;
+
+			if (Mathf.Abs(targetSpeeds.x) > rotationHMaxSpeed)
+				targetSpeeds.x = rotationHMaxSpeed * Mathf.Sign(targetSpeeds.x);
+			if (Mathf.Abs(targetSpeeds.y) > rotationVMaxSpeed)
+				targetSpeeds.y = rotationVMaxSpeed * Mathf.Sign(targetSpeeds.y);
 			
 			
 			// Rotate in H axis:

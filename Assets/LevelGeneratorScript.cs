@@ -118,10 +118,13 @@ public class LevelGeneratorScript : MonoBehaviour {
 
 		#region Create rocks around the road
 
+		// Generate static rocks around the road:
 		GenerateRocks(0, stepAngleMax, 0, roadPartLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1.1f, 1.4f, staticRock, 3);
 
+		// Generate big static rocks around the road:
 		GenerateRocks(0, 359, 0, roadPartLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRock, 9);
 
+		// Generate kinematic rocks inside the road:
 		GenerateRocks(0, 359, roadRocklessLength, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, 3, rocksAmountMin, rocksAmountMax);
 
 
@@ -325,7 +328,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 		
 		for (int i = 0; i < gateAmount; i++)
 		{
-			Instantiate(gate, gatePoints[i], transform.rotation);
+			//Instantiate(gate, gatePoints[i], transform.rotation);
 		}
 	}
 
@@ -452,6 +455,8 @@ public class LevelGeneratorScript : MonoBehaviour {
 		endStation.GetComponent<SpaceShuttleScript> ().Close ();
 
 		player.transform.parent = endStation.GetComponent<SpaceShuttleScript>().armParts[2].transform;
+
+		player.GetComponent<SpaceShuttleScript> ().Close ();
 	}
 	
 	// Update is called once per frame
@@ -461,13 +466,16 @@ public class LevelGeneratorScript : MonoBehaviour {
 		{
 			generatedSecondPart = 1;
 
-
+			// Generate static rocks around the road:
 			GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock, 3);
 
+			// Generate big static rocks around the road:
 			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRock, 9);
-			
+
+			// Generate kinematic rocks inside the road:
 			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, 3, rocksAmountMin, rocksAmountMax);
 
+			// Generate mobile rocks inside the road:
 			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, mobileRocksDistMin, mobileRocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0.9f, 0.9f, movingRock, 3, mobileRocksAmountMin, mobileRocksAmountMax);
 
 

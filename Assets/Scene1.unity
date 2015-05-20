@@ -513,6 +513,34 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: -1.62920685e-07
       objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1.62920685e-07
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -1.62920685e-07
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 2.65431496e-14
+      objectReference: {fileID: 0}
+    - target: {fileID: 400012, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1.62920685e-07
+      objectReference: {fileID: 0}
+    - target: {fileID: 400012, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -1.62920685e-07
+      objectReference: {fileID: 0}
+    - target: {fileID: 400012, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 2.65431496e-14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
   m_IsPrefabParent: 0
@@ -719,6 +747,33 @@ LensFlare:
     serializedVersion: 2
     m_Bits: 6
   m_Directional: 1
+--- !u!1 &680594141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 680594142}
+  m_Layer: 0
+  m_Name: LaserSpot1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &680594142
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 680594141}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .700000823, y: -.5, z: .599998474}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1506190405}
+  m_RootOrder: 6
 --- !u!1 &708615645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1273,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1506190405}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!1 &1244997110
 GameObject:
   m_PrefabParentObject: {fileID: 100004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
@@ -1693,6 +1748,7 @@ GameObject:
   - 114: {fileID: 1506190402}
   - 135: {fileID: 1506190406}
   - 114: {fileID: 1506190407}
+  - 114: {fileID: 1506190408}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1725,7 +1781,7 @@ MonoBehaviour:
   rotationVDampen: 200
   rotationHMaxSpeed: 80
   rotationVMaxSpeed: 80
-  rotationPreLightSpeedMultiplier: 100
+  rotationPreLightSpeedMultiplier: 200
   shipMaxRotationH: .649999976
   shipMaxRotationHMult: 350
   shipMaxRotationV: .550000012
@@ -1741,6 +1797,7 @@ MonoBehaviour:
   inputZero: 0
   joyBaseRotation: {x: 0, y: 180, z: 0}
   joyMaxRotation: 30
+  rayCastRange: 120
   additionalSpeed: {x: 0, y: 0, z: 0}
   additionalSpeedDampen: 10
   cameraMaxAngle: 90
@@ -1796,6 +1853,7 @@ Transform:
   - {fileID: 1497271548}
   - {fileID: 489019}
   - {fileID: 279693088}
+  - {fileID: 680594142}
   - {fileID: 1237254654}
   - {fileID: 1698633483}
   m_Father: {fileID: 0}
@@ -1831,6 +1889,33 @@ MonoBehaviour:
   playerScript: {fileID: 0}
   emergencyTimeout: 1
   autopilotTimeout: .800000012
+--- !u!114 &1506190408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1506190401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f8f482ba8f76846a4f7219690c592c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armParts:
+  - {fileID: 1821117667}
+  - {fileID: 1716967094}
+  armAngleStart:
+  - {x: 0, y: 180, z: 180}
+  - {x: 0, y: 180, z: 180}
+  armAngleEnd:
+  - {x: -85, y: 180, z: 180}
+  - {x: 85, y: 180, z: 180}
+  armTimesStart:
+  - 0
+  - 0
+  armTimesEnd:
+  - 4
+  - 4
+  armTimeMax: 10
 --- !u!4 &1525159871
 Transform:
   m_PrefabParentObject: {fileID: 457464, guid: 27f41b5d6fa160f4cacbdf7276fb1093, type: 2}
@@ -1926,7 +2011,7 @@ RectTransform:
   - {fileID: 2010299198}
   - {fileID: 1336760987}
   m_Father: {fileID: 1506190405}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: .00600000005, y: .234999999}
@@ -1986,6 +2071,10 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!1 &1716967094
+GameObject:
+  m_PrefabParentObject: {fileID: 100012, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+  m_PrefabInternal: {fileID: 530819886}
 --- !u!4 &1775804158
 Transform:
   m_PrefabParentObject: {fileID: 487290, guid: 728b5184565a76f47999dabeca801fe4, type: 2}
@@ -2121,7 +2210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce17fd2152aabbe40a4c27659cf0326b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: {x: 0, y: 0, z: -100}
+  distance: {x: 0, y: 0, z: -400}
 --- !u!65 &1798777083
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2132,7 +2221,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 300, y: 300, z: 30}
+  m_Size: {x: 500, y: 500, z: 200}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1798777084
 Rigidbody:
@@ -2156,11 +2245,15 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1798777081}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.2804108, y: 55.7139053, z: 278.29248}
+  m_LocalPosition: {x: -29, y: 56, z: -1335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+--- !u!1 &1821117667
+GameObject:
+  m_PrefabParentObject: {fileID: 100010, guid: c28019c915a329347aa5f8a48043bce1, type: 3}
+  m_PrefabInternal: {fileID: 530819886}
 --- !u!1 &1845919273
 GameObject:
   m_PrefabParentObject: {fileID: 100014, guid: 50c71cc60bb4a5745b599cf61d1c3e66, type: 3}
@@ -2703,7 +2796,7 @@ MonoBehaviour:
   roadLength: 5000
   roadPartLength: 600
   roadLightSpeedLength: 3600
-  roadRocklessLength: 100
+  roadRocklessLength: 150
   roadDockingLength: 200
   dockingSpeedDampen: 10
   lightSpeedWidth: 60
