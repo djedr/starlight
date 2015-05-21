@@ -3,36 +3,43 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class UIScript : MonoBehaviour {
-
+	
 	public Text text;
 	public Text autopilotText;
+	public Image crosshairImage;
 	public Light emergencyLight;
 	public Light autopilotLight;
 	public GameObject camera;
 	public PlayerScript playerScript;
 	public float emergencyTimeout = 0.8f;
 	public float autopilotTimeout = 0.8f;
-
+	
 	private float currentEmergencyTimeout = 0.0f;
 	private float currentAutopilotTimeout = 0.0f;
 
+	private Sprite crosshairNormalSprite;
+	public Sprite crosshairAimedSprite;
+	
 	private Color[] colors = {
 		new Color(0.9f, 0.2f, 0.185f),
 		new Color(0.5f, 0.9f, 0.485f), 
 		new Color(0.5f, 0.485f, 0.95f), 
 		new Color(0.9f, 0.55f, 0.2f) 
 	};
-
+	
 	// Use this for initialization
 	void Start () {
 		playerScript = GetComponent<PlayerScript>();
+
+		crosshairNormalSprite = crosshairImage.sprite;
+		//crosshairAimedSprite = Resources.Load<Sprite>("crosshair2");
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		string uiText = "...";
 		Color color = colors[1];
-
+		
 		switch (playerScript.state) {
 		case PlayerScript.StateTypes.OnStart:
 			uiText = "PRZYGOTUJ SIĘ";
@@ -69,6 +76,7 @@ public class UIScript : MonoBehaviour {
 			if (currentEmergencyTimeout <= 0f) {
 				currentEmergencyTimeout = emergencyTimeout;
 				camera.GetComponent<CameraShake>().shake = 0.4f;
+				camera.GetComponent<CameraShake>().shakeAmount = 0.1f;
 				emergencyLight.enabled = true;
 			}
 			break;
@@ -87,29 +95,37 @@ public class UIScript : MonoBehaviour {
 			uiText = playerScript.state.ToString();
 			break;
 		}
-
-//		if (currentAutopilotTimeout <= 0f) {
-//			currentAutopilotTimeout = autopilotTimeout;
-//			autopilotLight.enabled = true;
-//		}
-
+		
+		//		if (currentAutopilotTimeout <= 0f) {
+		//			currentAutopilotTimeout = autopilotTimeout;
+		//			autopilotLight.enabled = true;
+		//		}
+		
 		if (autopilotLight.enabled) {
 			if (Mathf.Repeat(Time.time, 0.5f) > 0.25f) autopilotText.color = Color.blue;
 			else autopilotText.color = Color.black;
 			//if (autopilotLight.intensity <= 0f) autopilotLight.intensity = 8f;
 		}
-
+		
 		text.text = uiText;
 		text.color = color;
-
+		
 		if (currentEmergencyTimeout > 0f) {
 			float oldEmergencyTimeout = currentEmergencyTimeout;
 			currentEmergencyTimeout -= Time.deltaTime;
 			emergencyLight.intensity -= 1f;
 			if (emergencyLight.intensity <= 0f) emergencyLight.intensity = 8f;
-
+			
 		} else {
 			emergencyLight.enabled = false;
+		}
+
+		if (playerScript.targetedRock != null) {
+			crosshairImage.sprite = crosshairAimedSprite;
+			crosshairImage.color = colors[0];
+		} else {
+			crosshairImage.sprite = crosshairNormalSprite;
+			crosshairImage.color = colors[1];
 		}
 	}
 }

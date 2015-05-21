@@ -259,6 +259,10 @@ public class PlayerScript : MonoBehaviour {
 				{
 					GameObject projectile = Instantiate (hitEffect);
 					projectile.transform.position = shotRock.transform.position;
+
+					// shake the camera
+					camera.GetComponent<CameraShake>().shake = 0.5f;
+					camera.GetComponent<CameraShake>().shakeAmount = 0.01f;
 					
 					Destroy(shotRock);
 					shotRock = null;
