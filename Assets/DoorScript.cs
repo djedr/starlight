@@ -13,6 +13,8 @@ public class DoorScript : MonoBehaviour {
 	private int step = 0;
 	private float currentDistance = 0;
 
+	public GameObject audioObject = null;
+
 	// To activate the door, you can call this or just make the public var active = 1:
 	public void Activate()
 	{
@@ -52,6 +54,9 @@ public class DoorScript : MonoBehaviour {
 			else
 			{
 				countdown -= Time.deltaTime;
+
+				if (countdown <= 0 && audioObject != null)
+					audioObject.GetComponent<AudioSource>().Play();
 			}
 		}
 	}

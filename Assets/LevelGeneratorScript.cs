@@ -486,7 +486,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 			player.GetComponent<PlayerScript> ().EnterLightSpeedMode();
 		}
 
-		else if (generatedSecondPart == 1 && player.transform.position.z - transform.position.z > roadPartLength + roadLightSpeedLength)
+		else if (generatedSecondPart == 1 && player.transform.position.z - transform.position.z + player.GetComponent<Rigidbody>().velocity.z * Time.deltaTime > roadPartLength + roadLightSpeedLength)
 		{
 			generatedSecondPart = 2;
 

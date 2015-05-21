@@ -69,6 +69,12 @@ public class PlayerScript : MonoBehaviour {
 	public float cameraXMultiplier = 100;
 	public float cameraRotation = 0;
 
+
+	public float engineSoundChangeSpeed = 1;
+	public float engineSoundLightSpeed = 3;
+	private float engineSoundPitch = 0;
+	private float engineSoundTargetPitch = 1;
+
 	// key bindings
 
 	// variables used in code
@@ -82,6 +88,9 @@ public class PlayerScript : MonoBehaviour {
 	private GameObject laserSpot1;
 	private GameObject laserSpot2;
 	private GameObject shotRock = null;
+	private AudioSource audioEngine = null;
+	private AudioSource audioHit = null;
+	private AudioSource audioShoot = null;
 	public GameObject targetedRock = null;
 	public GameObject lazerProjectile;
 	public GameObject hitEffect;
@@ -102,6 +111,9 @@ public class PlayerScript : MonoBehaviour {
 		joystick = GameObject.Find ("joystick");
 		laserSpot1 = GameObject.Find ("LaserSpot1");
 		laserSpot2 = GameObject.Find ("LaserSpot2");
+		audioEngine = GameObject.Find ("EngineSound").GetComponent<AudioSource>();
+		audioHit = GameObject.Find ("HitSound").GetComponent<AudioSource>();
+		audioShoot = GameObject.Find ("ShootSound").GetComponent<AudioSource>();
 
 		landingStopDist = landingStopDist * landingStopDist;
 	}
@@ -130,6 +142,9 @@ public class PlayerScript : MonoBehaviour {
 
 		movementSpeed = movementSpeed * dot * 1f;
 		//movementSpeed = movementSpeed / 2f;
+
+		if (audioHit != null)
+			audioHit.Play ();
 	}
 
 
@@ -138,6 +153,7 @@ public class PlayerScript : MonoBehaviour {
 		state = StateTypes.BeforeLightSpeed;
 		timer = 0;
 
+		//engineSoundTargetPitch = engineSoundLightSpeed;
 		//enteringLightSpeed = 1;
 	}
 
@@ -158,11 +174,16 @@ public class PlayerScript : MonoBehaviour {
 
 		movementMaxSpeed /= lightSpeedMultiplier;
 		movementAcceleration /= lightSpeedMultiplier;
+
+		movementSpeed = movementMaxSpeed;
+		GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
 		
 		// deactivate motion blur
 		MotionBlur[] blurs = camera.GetComponentsInChildren<MotionBlur>();
 		blurs[0].enabled = false;
 		blurs[1].enabled = false;
+
+		engineSoundTargetPitch = 1;
 	}
 
 
@@ -274,6 +295,9 @@ public class PlayerScript : MonoBehaviour {
 				targetedRock = null;
 				shootCounter = 0.2f;
 			}
+
+			if (audioShoot != null)
+				audioShoot.Play();
 		}
 
 		#endregion
@@ -476,12 +500,16 @@ public class PlayerScript : MonoBehaviour {
 			{
 				if (closeEnough == true)
 				{
+					engineSoundTargetPitch = 0.1f;
+
 					movementSpeed = 0;
 
 					if (set.x == 1 && set.y == 1)
 					{
 						state = StateTypes.Landed;
 						levelGenerator.GetComponent<LevelGeneratorScript>().EndGameSequence();
+
+						engineSoundTargetPitch = 0;
 					}
 				}
 				else
@@ -506,6 +534,9 @@ public class PlayerScript : MonoBehaviour {
 					
 					if (timer <= 0 && state == StateTypes.BeforeLightSpeed)
 						timer = 1;
+
+					if (state != StateTypes.Landing && state != StateTypes.Landed)
+						engineSoundTargetPitch = engineSoundLightSpeed;
 				}
 			}
 			
@@ -603,6 +634,21 @@ public class PlayerScript : MonoBehaviour {
 		temp.y -= Input.GetAxis("Vertical") * joyMaxRotation;
 
 		joystick.transform.localRotation = Quaternion.Euler(temp);
+
+		#endregion
+
+		#region Sounds
+
+		if (Mathf.Abs(engineSoundPitch - engineSoundTargetPitch) < engineSoundChangeSpeed * Time.deltaTime)
+		{
+			engineSoundPitch = engineSoundTargetPitch;
+		}
+		else
+		{
+			engineSoundPitch += engineSoundChangeSpeed * Time.deltaTime * Mathf.Sign(engineSoundTargetPitch - engineSoundPitch);
+		}
+
+		audioEngine.pitch = engineSoundPitch;
 
 		#endregion
 
