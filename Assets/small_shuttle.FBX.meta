@@ -13,6 +13,13 @@ ModelImporter:
     100010: small_shuttle_left_wing
     100012: small_shuttle_right_wing
     100014: display
+    100016: display001
+    100018: joystick001
+    100020: joystick_upper_button001
+    100022: Object015
+    100024: Object016
+    100026: small_shuttle_left_wing001
+    100028: small_shuttle_right_wing001
     400000: joystick
     400002: joystick_trigger
     400004: joystick_upper_button
@@ -21,6 +28,13 @@ ModelImporter:
     400010: small_shuttle_left_wing
     400012: small_shuttle_right_wing
     400014: display
+    400016: display001
+    400018: joystick001
+    400020: joystick_upper_button001
+    400022: Object015
+    400024: Object016
+    400026: small_shuttle_left_wing001
+    400028: small_shuttle_right_wing001
     2300000: joystick
     2300002: joystick_trigger
     2300004: joystick_upper_button
@@ -29,6 +43,13 @@ ModelImporter:
     2300010: small_shuttle_left_wing
     2300012: small_shuttle_right_wing
     2300014: display
+    2300016: display001
+    2300018: joystick001
+    2300020: joystick_upper_button001
+    2300022: Object015
+    2300024: Object016
+    2300026: small_shuttle_left_wing001
+    2300028: small_shuttle_right_wing001
     3300000: joystick
     3300002: joystick_trigger
     3300004: joystick_upper_button
@@ -37,6 +58,13 @@ ModelImporter:
     3300010: small_shuttle_left_wing
     3300012: small_shuttle_right_wing
     3300014: display
+    3300016: display001
+    3300018: joystick001
+    3300020: joystick_upper_button001
+    3300022: Object015
+    3300024: Object016
+    3300026: small_shuttle_left_wing001
+    3300028: small_shuttle_right_wing001
     4300000: Object006
     4300002: joystick
     4300004: joystick_upper_button
@@ -45,6 +73,14 @@ ModelImporter:
     4300010: Object013
     4300012: small_shuttle_right_wing
     4300014: display
+    4300016: Object014
+    4300018: small_shuttle_left_wing001
+    4300020: small_shuttle_right_wing001
+    4300022: joystick001
+    4300024: joystick_upper_button001
+    4300026: Object016
+    4300028: display001
+    4300030: Object015
     9500000: //RootNode
   materials:
     importMaterials: 1
