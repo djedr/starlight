@@ -51,12 +51,12 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.OnStart:
 			uiText = "STARTUJĘ";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			break;
 		case PlayerScript.StateTypes.OnLaunch:
 			uiText = "PRZYGOTUJ SIĘ";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			color = colors[3];
 			break;
 		case PlayerScript.StateTypes.InControl:
@@ -72,7 +72,7 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.BeforeLightSpeed:
 			uiText = "WŁĄCZAM NAPĘD WARP";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			color = colors[3];
 			break;	
 		case PlayerScript.StateTypes.Bounced:
@@ -92,12 +92,12 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.Landing:
 			uiText = "INICJUJĘ DOKOWANIE";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			break;
 		case PlayerScript.StateTypes.Landed:
 			uiText = "STATEK ZADOKOWANY!";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			autopilotLight.color = colors[1];
 			break;
 		default:
@@ -112,7 +112,7 @@ public class UIScript : MonoBehaviour {
 
 		if (playerScript.tooFar != Vector3.zero) {
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 		}
 		
 		if (autopilotLight.enabled) {
