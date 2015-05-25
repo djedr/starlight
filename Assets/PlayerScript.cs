@@ -13,12 +13,13 @@ public class PlayerScript : MonoBehaviour {
 		BeforeLightSpeed,
 		LightSpeed,
 		Landing,
-		Landed
+		Landed,
+		BeforeStart
 	};
 
 	// player properties
 
-	public StateTypes state = StateTypes.OnStart;
+	public StateTypes state = StateTypes.BeforeStart;
 
 	public float movementSpeed = 0;
 	public float movementMaxSpeed = 10;
@@ -91,9 +92,11 @@ public class PlayerScript : MonoBehaviour {
 	private AudioSource audioEngine = null;
 	private AudioSource audioHit = null;
 	private AudioSource audioShoot = null;
+	private AudioSource audioLight = null;
 	public GameObject targetedRock = null;
 	public GameObject lazerProjectile;
 	public GameObject hitEffect;
+	public GameObject startStation = null;
 
 	public GameObject camera = null;
 
@@ -114,6 +117,7 @@ public class PlayerScript : MonoBehaviour {
 		audioEngine = GameObject.Find ("EngineSound").GetComponent<AudioSource>();
 		audioHit = GameObject.Find ("HitSound").GetComponent<AudioSource>();
 		audioShoot = GameObject.Find ("ShootSound").GetComponent<AudioSource>();
+		audioLight = GameObject.Find ("LightSound").GetComponent<AudioSource>();
 
 		landingStopDist = landingStopDist * landingStopDist;
 	}
@@ -195,7 +199,7 @@ public class PlayerScript : MonoBehaviour {
 
 		#region states
 
-		if (timer > 0)
+		if (timer > 0 && state != StateTypes.BeforeStart)
 		{
 			timer -= Time.deltaTime;
 			if (timer <= 0)
@@ -219,6 +223,9 @@ public class PlayerScript : MonoBehaviour {
 						MotionBlur[] blurs = camera.GetComponentsInChildren<MotionBlur>();
 						blurs[0].enabled = true;
 						blurs[1].enabled = true;
+
+						if (audioLight != null)
+							audioLight.Play();
 					}
 				}
 				else
@@ -302,6 +309,13 @@ public class PlayerScript : MonoBehaviour {
 
 			if (audioShoot != null)
 				audioShoot.Play();
+		}
+		else if (state == StateTypes.BeforeStart && Input.GetKeyDown("left ctrl"))
+		{
+			state = StateTypes.OnStart;
+
+			if (startStation != null)
+				startStation.GetComponent<SpaceShuttleScript>().Close();
 		}
 
 		#endregion
@@ -439,7 +453,8 @@ public class PlayerScript : MonoBehaviour {
 			// Choose whereTo vector, which will be the normal vector, the ship will try to take:
 			if (state == StateTypes.Landing && closeEnough == false)
 			{
-				whereTo = landingDestination - transform.position;
+				whereTo = landingDestination + new Vector3(0, 0, (transform.position.z - landingDestination.z) / 2.0f);
+				whereTo = whereTo - transform.position;
 				whereTo.Normalize();
 			}
 			else

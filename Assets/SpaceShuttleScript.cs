@@ -9,9 +9,17 @@ public class SpaceShuttleScript : MonoBehaviour {
 	public Vector3[] armAngleEnd;
 	public float[] armTimesStart;
 	public float[] armTimesEnd;
+	public GameObject[] soundEmitters;
+	public float[] soundTimes;
+	public GameObject[] particleGens;
+	public float[] particleTimes;
 	public float armTimeMax = 10;
 
+	public bool animateOnStart = false;
+
 	private float timeCounter = -1;
+	private int soundsPlayed = 0;
+	private int particlesPlayed = 0;
 
 	public void Close()
 	{
@@ -21,7 +29,8 @@ public class SpaceShuttleScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//Close ();
+		if (animateOnStart == true)
+			Close ();
 
 		//for (int i = 0; i < armParts.Length; i++)
 
@@ -64,6 +73,26 @@ public class SpaceShuttleScript : MonoBehaviour {
 
 				// Since rotations are stored in wuaternions, convert our vector into quaternion:
 				armParts[i].transform.localRotation = Quaternion.Euler(temp);
+			}
+
+			if (soundsPlayed < soundEmitters.Length)
+			{
+				if (timeCounter >= soundTimes[soundsPlayed])
+				{
+					soundEmitters[soundsPlayed].GetComponent<AudioSource>().Play();
+
+					soundsPlayed++;
+				}
+			}
+
+			if (particlesPlayed < particleGens.Length)
+			{
+				if (timeCounter >= particleTimes[particlesPlayed])
+				{
+					particleGens[particlesPlayed].GetComponent<ParticleSystem>().Play();
+					
+					particlesPlayed++;
+				}
 			}
 		}
 	}

@@ -67,9 +67,9 @@ public class LevelGeneratorScript : MonoBehaviour {
 	public float rockRadius = 6;
 	public float rockAngle = 10;
 
-	public GameObject staticRock;
-	public GameObject kinematicRock;
-	public GameObject movingRock;
+	public GameObject[] staticRocks;
+	public GameObject[] kinematicRocks;
+	public GameObject[] movingRocks;
 	public GameObject gate;
 	public GameObject station;
 	private GameObject player;
@@ -119,22 +119,22 @@ public class LevelGeneratorScript : MonoBehaviour {
 		#region Create rocks around the road
 
 		// Generate static rocks around the road:
-		GenerateRocks(0, stepAngleMax, 0, roadPartLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1.1f, 1.4f, staticRock, 3);
+		GenerateRocks(0, stepAngleMax, 0, roadPartLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1.1f, 1.4f, staticRocks, 3);
 
 		// Generate big static rocks around the road:
-		GenerateRocks(0, 359, 0, roadPartLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRock, 9);
+		GenerateRocks(0, 359, 0, roadPartLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRocks, 9);
 
 		// Generate kinematic rocks inside the road:
-		GenerateRocks(0, 359, roadRocklessLength, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, 3, rocksAmountMin, rocksAmountMax);
+		GenerateRocks(0, 359, roadRocklessLength, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRocks, 3, rocksAmountMin, rocksAmountMax);
 
 
 		// Generate rocks around lightspeed path:
-		GenerateRocks(0, 359, roadPartLength + roadRocklessLength, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance * 2, stepAngleMin, stepAngleMax, 0, roadWidthMin * 2, 1.2f, 1.2f, staticRock, 3, 1, 3);
+		GenerateRocks(0, 359, roadPartLength + roadRocklessLength, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance * 2, stepAngleMin, stepAngleMax, 0, roadWidthMin * 2, 1.2f, 1.2f, staticRocks, 3, 1, 3);
 
 		/*
 		GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
 		
-		GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, rocksAmountMin, rocksAmountMax);
+		GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRocks, rocksAmountMin, rocksAmountMax);
 		*/
 		#endregion
 
@@ -345,7 +345,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 		return -1;
 	}
 
-	void GenerateRocks(float rotInitMin, float rotInitMax, int stepInit, int stepFinish, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject obj, float rockSize, int rocksPerStepMin = 500, int rocksPerStepMax = 500)
+	void GenerateRocks(float rotInitMin, float rotInitMax, int stepInit, int stepFinish, int stepMin, int stepMax, float angleStepMin, float angleStepMax, float distMin, float distMax, float distMultMin, float distMultMax, GameObject[] objs, float rockSize, int rocksPerStepMin = 500, int rocksPerStepMax = 500)
 	{
 		Vector3 lastPos = Vector3.zero;
 
@@ -381,7 +381,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 				// Check if the new location doesn't collide with old ones from previous ring:
 				if (Vector3.SqrMagnitude(newPos - lastPos) > rockRadius * rockRadius * rockSize * rockSize && DoesHitARock(newPos, rockSize) == -1)
 				{
-					GameObject temp = (GameObject)Instantiate(obj, newPos, transform.rotation);
+					GameObject temp = (GameObject)Instantiate(objs[Random.Range(0, objs.Length)], newPos, transform.rotation);
 					temp.transform.localScale = new Vector3(rockSize, rockSize, rockSize);
 
 					currentRocks[currentRocksAmount] = newPos;
@@ -467,16 +467,16 @@ public class LevelGeneratorScript : MonoBehaviour {
 			generatedSecondPart = 1;
 
 			// Generate static rocks around the road:
-			GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock, 3);
+			GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRocks, 3);
 
 			// Generate big static rocks around the road:
-			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRock, 9);
+			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRocks, 9);
 
 			// Generate kinematic rocks inside the road:
-			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRock, 3, rocksAmountMin, rocksAmountMax);
+			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRocks, 3, rocksAmountMin, rocksAmountMax);
 
 			// Generate mobile rocks inside the road:
-			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, mobileRocksDistMin, mobileRocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0.9f, 0.9f, movingRock, 3, mobileRocksAmountMin, mobileRocksAmountMax);
+			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, mobileRocksDistMin, mobileRocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0.9f, 0.9f, movingRocks, 3, mobileRocksAmountMin, mobileRocksAmountMax);
 
 
 			endStation = (GameObject)Instantiate(station, roadPoints[(int)roadLength - 1], transform.rotation);
