@@ -194,6 +194,11 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			Application.LoadLevel("Scene1");
+		}
+
 		// Temp rotationVector for steering the vehicle
 		var rotationVector = GetComponent<Rigidbody>().rotation;
 
