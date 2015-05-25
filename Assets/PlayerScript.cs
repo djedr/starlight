@@ -134,7 +134,7 @@ public class PlayerScript : MonoBehaviour {
 
 		// dot2: 0 means touching with side, +value direct hit
 		// dot: 0 means direct hit, +value touching with side:
-		float dot2 = Mathf.Abs(Vector3.Dot(transform.forward, temp));
+		float dot2 = Mathf.Abs (Vector3.Dot (transform.forward, temp));
 		float dot = 1 - dot2;
 
 		// Push away from hit rock:
@@ -190,6 +190,7 @@ public class PlayerScript : MonoBehaviour {
 		blurs[1].enabled = false;
 
 		engineSoundTargetPitch = 1;
+		engineSoundPitch = 1;
 	}
 
 
@@ -233,6 +234,8 @@ public class PlayerScript : MonoBehaviour {
 
 						if (audioLight != null)
 							audioLight.Play();
+
+						engineSoundTargetPitch = engineSoundLightSpeed;
 					}
 				}
 				else
@@ -320,6 +323,9 @@ public class PlayerScript : MonoBehaviour {
 		else if (state == StateTypes.BeforeStart && Input.GetKeyDown("left ctrl"))
 		{
 			state = StateTypes.OnStart;
+
+			if (levelGenerator != null)
+				levelGenerator.GetComponent<LevelGeneratorScript>().Begin();
 
 			if (startStation != null)
 				startStation.GetComponent<SpaceShuttleScript>().Close();
@@ -561,8 +567,8 @@ public class PlayerScript : MonoBehaviour {
 					if (timer <= 0 && state == StateTypes.BeforeLightSpeed)
 						timer = 1;
 
-					if (state != StateTypes.Landing && state != StateTypes.Landed)
-						engineSoundTargetPitch = engineSoundLightSpeed;
+					//if (state != StateTypes.Landing && state != StateTypes.Landed)
+					//	engineSoundTargetPitch = engineSoundLightSpeed;
 				}
 			}
 			

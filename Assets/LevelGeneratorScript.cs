@@ -72,6 +72,8 @@ public class LevelGeneratorScript : MonoBehaviour {
 	public GameObject[] movingRocks;
 	public GameObject gate;
 	public GameObject station;
+	public GameObject[] miscObjs;
+	public Vector3[] miscPoses;
 	private GameObject player;
 
 	private Vector3[] roadPoints;
@@ -116,28 +118,35 @@ public class LevelGeneratorScript : MonoBehaviour {
 		GenerateRoadCurve (roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength);
 
 
-		#region Create rocks around the road
 
+
+	}
+
+	public void Begin()
+	{
+		#region Create rocks around the road
+		
 		// Generate static rocks around the road:
 		GenerateRocks(0, stepAngleMax, 0, roadPartLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1.1f, 1.4f, staticRocks, 3);
-
+		
 		// Generate big static rocks around the road:
 		GenerateRocks(0, 359, 0, roadPartLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRocks, 9);
-
+		
 		// Generate kinematic rocks inside the road:
 		GenerateRocks(0, 359, roadRocklessLength, roadPartLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRocks, 3, rocksAmountMin, rocksAmountMax);
-
-
+		
+		
 		// Generate rocks around lightspeed path:
 		GenerateRocks(0, 359, roadPartLength + roadRocklessLength, roadPartLength + roadLightSpeedLength, (int)stepDistance, (int)stepDistance * 2, stepAngleMin, stepAngleMax, 0, roadWidthMin * 2, 1.2f, 1.2f, staticRocks, 3, 1, 3);
 
+		Instantiate(miscObjs[1], roadPoints[roadPartLength + roadRocklessLength] + miscPoses[1], transform.rotation);
+		
 		/*
 		GenerateRocks(0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRock);
 		
 		GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRocks, rocksAmountMin, rocksAmountMax);
 		*/
 		#endregion
-
 	}
 
 
