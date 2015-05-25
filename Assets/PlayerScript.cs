@@ -102,6 +102,8 @@ public class PlayerScript : MonoBehaviour {
 
 	public Vector3 shipForward;
 
+	public Vector3 tooFar;
+
 	// Use this for initialization
 	void Start () {
 		Screen.lockCursor = true;
@@ -335,7 +337,7 @@ public class PlayerScript : MonoBehaviour {
 		}*/
 	
 		// Get directional input:
-		Vector3 tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
+		tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
 
 		//  && transform.forward.x < shipMaxRotationH
 		if ( false || (tooFar.x == -1 && transform.forward.x < 0.4f))

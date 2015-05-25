@@ -13,6 +13,8 @@ public class UIScript : MonoBehaviour {
 	public PlayerScript playerScript;
 	public float emergencyTimeout = 0.8f;
 	public float autopilotTimeout = 0.8f;
+
+	public AudioSource alarmSound;
 	
 	private float currentEmergencyTimeout = 0.0f;
 	private float currentAutopilotTimeout = 0.0f;
@@ -41,13 +43,18 @@ public class UIScript : MonoBehaviour {
 		Color color = colors[1];
 		
 		switch (playerScript.state) {
+		case PlayerScript.StateTypes.BeforeStart:
+			uiText = "WCIŚNIJ JOYSTICK";
+			autopilotLight.enabled = true;
+			autopilotText.color = Color.blue;
+			break;
 		case PlayerScript.StateTypes.OnStart:
-			uiText = "PRZYGOTUJ SIĘ";
+			uiText = "STARTUJĘ";
 			autopilotLight.enabled = true;
 			autopilotText.color = Color.blue;
 			break;
 		case PlayerScript.StateTypes.OnLaunch:
-			uiText = "WYŁĄCZAM AUTOPILOT";
+			uiText = "PRZYGOTUJ SIĘ";
 			autopilotLight.enabled = true;
 			autopilotText.color = Color.blue;
 			color = colors[3];
@@ -78,6 +85,8 @@ public class UIScript : MonoBehaviour {
 				camera.GetComponent<CameraShake>().shake = 0.4f;
 				camera.GetComponent<CameraShake>().shakeAmount = 0.1f;
 				emergencyLight.enabled = true;
+
+				alarmSound.Play();
 			}
 			break;
 		case PlayerScript.StateTypes.Landing:
@@ -100,6 +109,11 @@ public class UIScript : MonoBehaviour {
 		//			currentAutopilotTimeout = autopilotTimeout;
 		//			autopilotLight.enabled = true;
 		//		}
+
+		if (playerScript.tooFar != Vector3.zero) {
+			autopilotLight.enabled = true;
+			autopilotText.color = Color.blue;
+		}
 		
 		if (autopilotLight.enabled) {
 			if (Mathf.Repeat(Time.time, 0.5f) > 0.25f) autopilotText.color = Color.blue;
