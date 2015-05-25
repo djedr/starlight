@@ -31,6 +31,7 @@ ModelImporter:
     2300010: space_station_left_wing
     2300012: space_station_right_shining_surface
     2300014: space_station_right_wing
+    2300016: //RootNode
     3300000: joystick_upper_button001
     3300002: space_station
     3300004: space_station_doors_left
@@ -39,6 +40,7 @@ ModelImporter:
     3300010: space_station_left_wing
     3300012: space_station_right_shining_surface
     3300014: space_station_right_wing
+    3300016: //RootNode
     4300000: space_station
     4300002: space_station_right_wing
     4300004: space_station_right_shining_surface
