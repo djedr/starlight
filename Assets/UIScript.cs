@@ -31,8 +31,8 @@ public class UIScript : MonoBehaviour {
 		new Color(0.5f, 0.485f, 0.95f), 
 		new Color(0.9f, 0.55f, 0.2f),
 		new Color(0.9f, 0.9f, 0.9f),
-		new Color(0.9f, 0.1f, 0.085f, 0.4f),
-		new Color(0.5f, 0.9f, 0.485f, 0.2f)
+		new Color(0.9f, 0.1f, 0.085f, 0.5f),
+		new Color(0.5f, 0.9f, 0.485f, 0.25f)
 	};
 	
 	// Use this for initialization
@@ -129,18 +129,20 @@ public class UIScript : MonoBehaviour {
 			autopilotText.color = Color.black;
 			autopilotLight.enabled = false;
 
-			if (closingCaptionsTimer > 16f) {
+			if (closingCaptionsTimer > 18f) {
 				uiText = " ";
-			} else if (closingCaptionsTimer > 11f) {
+			} else if (closingCaptionsTimer > 14f) {
 				uiText = "NASA, freesfx.co.uk, freesound.org";
 				color = colors[4];
-			} else if (closingCaptionsTimer > 8f) {
-				uiText = "Dźwięki dzięki uprzejmości:";
+			} else if (closingCaptionsTimer > 11f) {
+				uiText = "Dźwięki dzięki uprzejmości";
 				color = colors[4];
+			} else if (closingCaptionsTimer > 8f) {
+				uiText = " ";
 			} else if (closingCaptionsTimer > 5f) {
-				uiText = "Misja zakończona powodzeniem!";
+				uiText = "MISJA ZAKOŃCZONA POWODZENIEM!";
 			} else if (closingCaptionsTimer > 2.5f) {
-				uiText = "Gratulacje!";
+				uiText = "GRATULACJE!";
 			}
 		}
 		
