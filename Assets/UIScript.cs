@@ -53,7 +53,7 @@ public class UIScript : MonoBehaviour {
 		
 		switch (playerScript.state) {
 		case PlayerScript.StateTypes.BeforeStart:
-			uiText = "WCIŚNIJ JOYSTICK";
+			uiText = "WCIŚNIJ PRZYCISK JOYSTICKA";
 			autopilotLight.enabled = true;
 			autopilotText.color = Color.blue;
 			break;
@@ -69,7 +69,7 @@ public class UIScript : MonoBehaviour {
 			color = colors[3];
 			break;
 		case PlayerScript.StateTypes.InControl:
-			uiText = "OMIJAJ ASTEROIDY";
+			uiText = "OMIJAJ LUB ZESTRZELAJ ASTEROIDY";
 			autopilotLight.enabled = false;
 			autopilotText.color = Color.black;
 			color = colors[3];
