@@ -21,18 +21,12 @@ public class UIScript : MonoBehaviour {
 
 	private Sprite crosshairNormalSprite;
 	public Sprite crosshairAimedSprite;
-
-	private bool startClosingCaptions = false;
-	private float closingCaptionsTimer = 0f;
 	
 	private Color[] colors = {
 		new Color(0.9f, 0.2f, 0.185f),
 		new Color(0.5f, 0.9f, 0.485f), 
 		new Color(0.5f, 0.485f, 0.95f), 
-		new Color(0.9f, 0.55f, 0.2f),
-		new Color(0.9f, 0.9f, 0.9f),
-		new Color(0.9f, 0.1f, 0.085f, 0.4f),
-		new Color(0.5f, 0.9f, 0.485f, 0.2f)
+		new Color(0.9f, 0.55f, 0.2f) 
 	};
 	
 	// Use this for initialization
@@ -57,12 +51,12 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.OnStart:
 			uiText = "STARTUJĘ";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			break;
 		case PlayerScript.StateTypes.OnLaunch:
 			uiText = "PRZYGOTUJ SIĘ";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			color = colors[3];
 			break;
 		case PlayerScript.StateTypes.InControl:
@@ -78,7 +72,7 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.BeforeLightSpeed:
 			uiText = "WŁĄCZAM NAPĘD WARP";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			color = colors[3];
 			break;	
 		case PlayerScript.StateTypes.Bounced:
@@ -98,15 +92,13 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.Landing:
 			uiText = "INICJUJĘ DOKOWANIE";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			break;
 		case PlayerScript.StateTypes.Landed:
 			uiText = "STATEK ZADOKOWANY!";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			//autopilotText.color = Color.blue;
 			autopilotLight.color = colors[1];
-
-			startClosingCaptions = true;
 			break;
 		default:
 			uiText = playerScript.state.ToString();
@@ -120,28 +112,11 @@ public class UIScript : MonoBehaviour {
 
 		if (playerScript.tooFar != Vector3.zero) {
 			autopilotLight.enabled = true;
+<<<<<<< HEAD
 			autopilotText.color = Color.blue;
-		}
-		
-		if (startClosingCaptions) {
-			closingCaptionsTimer += Time.deltaTime;
-			
-			autopilotText.color = Color.black;
-			autopilotLight.enabled = false;
-
-			if (closingCaptionsTimer > 16f) {
-				uiText = " ";
-			} else if (closingCaptionsTimer > 11f) {
-				uiText = "NASA, freesfx.co.uk, freesound.org";
-				color = colors[4];
-			} else if (closingCaptionsTimer > 8f) {
-				uiText = "Dźwięki dzięki uprzejmości:";
-				color = colors[4];
-			} else if (closingCaptionsTimer > 5f) {
-				uiText = "Misja zakończona powodzeniem!";
-			} else if (closingCaptionsTimer > 2.5f) {
-				uiText = "Gratulacje!";
-			}
+=======
+			//autopilotText.color = Color.blue;
+>>>>>>> improved autopilot interface -- tooFar is now taken into account, HUD messages changed
 		}
 		
 		if (autopilotLight.enabled) {
@@ -165,10 +140,10 @@ public class UIScript : MonoBehaviour {
 
 		if (playerScript.targetedRock != null) {
 			crosshairImage.sprite = crosshairAimedSprite;
-			crosshairImage.color = colors[5];
+			crosshairImage.color = colors[0];
 		} else {
 			crosshairImage.sprite = crosshairNormalSprite;
-			crosshairImage.color = colors[6];
+			crosshairImage.color = colors[1];
 		}
 	}
 }

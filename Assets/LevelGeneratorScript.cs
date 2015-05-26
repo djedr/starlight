@@ -503,7 +503,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 			player.transform.position = new Vector3(
 				player.transform.position.x,
 				player.transform.position.y,
-				transform.position.z + roadPartLength + roadLightSpeedLength);
+				roadPartLength + roadLightSpeedLength);
 		}
 
 		else if (generatedSecondPart == 2 && player.transform.position.z - transform.position.z > roadLength - roadDockingLength)

@@ -177,9 +177,6 @@ public class PlayerScript : MonoBehaviour {
 
 	public void LeaveLightSpeedMode()
 	{
-		// play stop sound
-		audioLightDone.Play ();
-
 		state = StateTypes.InControl;
 
 
@@ -240,8 +237,13 @@ public class PlayerScript : MonoBehaviour {
 						blurs[0].enabled = true;
 						blurs[1].enabled = true;
 
+<<<<<<< HEAD
+						if (audioLight != null)
+							audioLight.Play();
 
 						engineSoundTargetPitch = engineSoundLightSpeed;
+=======
+>>>>>>> added more sounds
 					}
 				}
 				else
