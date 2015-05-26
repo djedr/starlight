@@ -25,6 +25,7 @@ public class PlayerScript : MonoBehaviour {
 	public float movementMaxSpeed = 10;
 	public float movementAcceleration = 1;
 	public float movementAttenuation = 0.1f;
+	public float movementLightDampen = 20;
 	public float lightSpeedMultiplier = 10;
 
 	public float rotationHSpeed = 0;
@@ -35,6 +36,7 @@ public class PlayerScript : MonoBehaviour {
 	public float rotationVDampen = 20;
 	public float rotationHMaxSpeed = 40;
 	public float rotationVMaxSpeed = 40;
+	public float rotationTiltMultiplier = 0.5f;
 	public float rotationPreLightSpeedMultiplier = 10;
 
 	public float shipMaxRotationH = 0.5f;
@@ -186,8 +188,8 @@ public class PlayerScript : MonoBehaviour {
 		movementMaxSpeed /= lightSpeedMultiplier;
 		movementAcceleration /= lightSpeedMultiplier;
 
-		movementSpeed = movementMaxSpeed;
-		GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
+		//movementSpeed = movementMaxSpeed;
+		//GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
 		
 		// deactivate motion blur
 		MotionBlur[] blurs = camera.GetComponentsInChildren<MotionBlur>();
@@ -195,7 +197,7 @@ public class PlayerScript : MonoBehaviour {
 		blurs[1].enabled = false;
 
 		engineSoundTargetPitch = 1;
-		engineSoundPitch = 1;
+		//engineSoundPitch = 1;
 	}
 
 
@@ -423,7 +425,12 @@ public class PlayerScript : MonoBehaviour {
 		{
 			movementSpeed += movementAcceleration * Time.deltaTime;
 			if (movementSpeed > movementMaxSpeed)
-				movementSpeed = movementMaxSpeed;
+			{
+				if (movementSpeed < movementMaxSpeed + movementLightDampen * Time.deltaTime)
+					movementSpeed = movementMaxSpeed;
+				else
+					movementSpeed -= movementLightDampen * Time.deltaTime;
+			}
 		}
 		
 		// Slow down if forward is not pushed:
@@ -626,8 +633,17 @@ public class PlayerScript : MonoBehaviour {
 		// Apply rotations:
 		transform.Rotate (new Vector3(0, Time.deltaTime * rotationHSpeed, 0));
 		transform.Rotate (new Vector3(Time.deltaTime * rotationVSpeed, 0, 0));
+
+		Vector3 temp = transform.right;
+		temp.y = 0;
+		temp.Normalize();
+
+		temp *= rotationTiltMultiplier * rotationHSpeed;
+
+		temp.y = 1;
+		temp.Normalize();
 		
-		transform.rotation = Quaternion.LookRotation(transform.forward, Vector3.up);
+		transform.rotation = Quaternion.LookRotation(transform.forward, temp);
 
 
 		// Apply calculated speed to rigidbody:
@@ -666,7 +682,7 @@ public class PlayerScript : MonoBehaviour {
 
 		#region virtual joystick rotation
 
-		Vector3 temp = joyBaseRotation;
+		temp = joyBaseRotation;
 
 		temp.x -= Input.GetAxis("Horizontal") * joyMaxRotation;
 		temp.y -= Input.GetAxis("Vertical") * joyMaxRotation;

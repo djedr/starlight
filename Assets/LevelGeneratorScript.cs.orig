@@ -504,7 +504,11 @@ public class LevelGeneratorScript : MonoBehaviour {
 			player.transform.position = new Vector3(
 				player.transform.position.x,
 				player.transform.position.y,
-				transform.position.z + roadPartLength + roadLightSpeedLength - roadLightBrakingLength);
+<<<<<<< HEAD
+				roadPartLength + roadLightSpeedLength);
+=======
+				roadPartLength + roadLightSpeedLength - roadLightBrakingLength);
+>>>>>>> + Ship tilts when turning
 		}
 
 		else if (generatedSecondPart == 2 && player.transform.position.z - transform.position.z > roadLength - roadDockingLength)
