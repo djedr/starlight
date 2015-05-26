@@ -563,7 +563,7 @@ RectTransform:
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 0, y: 5.49363904e-07}
-  m_SizeDelta: {x: 300, y: 240}
+  m_SizeDelta: {x: 310, y: 240}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &255066604
 MonoBehaviour:
@@ -590,7 +590,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: STATEK ZADOKOWANY!
+  m_Text: "MISJA ZAKO\u0143CZONA POWODZENIEM!"
 --- !u!222 &255066605
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1132,7 +1132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 893500073}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!114 &526949663
 MonoBehaviour:
   m_ObjectHideFlags: 0
