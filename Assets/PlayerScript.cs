@@ -296,7 +296,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		// Check for shoot input:
-		if (state == StateTypes.InControl && Input.GetKeyDown("left ctrl") && targetedRock != null && shootCounter == 0)
+		if (state == StateTypes.InControl && Input.GetKeyDown("joystick button 0") && targetedRock != null && shootCounter == 0)
 		{
 			GameObject projectile = Instantiate (lazerProjectile);
 			projectile.transform.position = laserSpot1.transform.position;
@@ -328,7 +328,7 @@ public class PlayerScript : MonoBehaviour {
 			if (audioShoot != null)
 				audioShoot.Play();
 		}
-		else if (state == StateTypes.BeforeStart && Input.GetKeyDown("left ctrl"))
+		else if (state == StateTypes.BeforeStart && Input.GetKeyDown("joystick button 0"))
 		{
 			state = StateTypes.OnStart;
 
