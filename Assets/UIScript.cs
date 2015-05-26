@@ -15,6 +15,7 @@ public class UIScript : MonoBehaviour {
 	public float autopilotTimeout = 0.8f;
 
 	public AudioSource alarmSound;
+	public AudioSource targetSound;
 	
 	private float currentEmergencyTimeout = 0.0f;
 	private float currentAutopilotTimeout = 0.0f;
@@ -24,6 +25,8 @@ public class UIScript : MonoBehaviour {
 
 	private bool startClosingCaptions = false;
 	private float closingCaptionsTimer = 0f;
+
+	private bool targetChanged = true;
 	
 	private Color[] colors = {
 		new Color(0.9f, 0.2f, 0.185f),
@@ -168,9 +171,14 @@ public class UIScript : MonoBehaviour {
 		if (playerScript.targetedRock != null) {
 			crosshairImage.sprite = crosshairAimedSprite;
 			crosshairImage.color = colors[5];
+			if (targetChanged) {
+				targetSound.Play();
+				targetChanged = false;
+			}
 		} else {
 			crosshairImage.sprite = crosshairNormalSprite;
 			crosshairImage.color = colors[6];
+			targetChanged = true;
 		}
 	}
 }
