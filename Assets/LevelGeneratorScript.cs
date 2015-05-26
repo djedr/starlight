@@ -488,6 +488,8 @@ public class LevelGeneratorScript : MonoBehaviour {
 			// Generate mobile rocks inside the road:
 			GenerateRocks(0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, mobileRocksDistMin, mobileRocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0.9f, 0.9f, movingRocks, 3, mobileRocksAmountMin, mobileRocksAmountMax);
 
+			Instantiate(miscObjs[0], roadPoints[roadPartLength + roadLightSpeedLength] + miscPoses[0], transform.rotation);
+
 
 			endStation = (GameObject)Instantiate(station, roadPoints[(int)roadLength - 1], transform.rotation);
 
