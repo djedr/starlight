@@ -88,6 +88,7 @@ ModelImporter:
     100160: right_wing001
     100162: small_ship001
     100164: warning_light001
+    100166: laser_gun002
     400000: button_001
     400002: button_002
     400004: button_003
@@ -171,6 +172,7 @@ ModelImporter:
     400160: right_wing001
     400162: small_ship001
     400164: warning_light001
+    400166: laser_gun002
     2300000: button_001
     2300002: button_002
     2300004: button_003
@@ -249,6 +251,7 @@ ModelImporter:
     2300150: right_wing001
     2300152: small_ship001
     2300154: warning_light001
+    2300156: laser_gun002
     3300000: button_001
     3300002: button_002
     3300004: button_003
@@ -327,6 +330,7 @@ ModelImporter:
     3300150: right_wing001
     3300152: small_ship001
     3300154: warning_light001
+    3300156: laser_gun002
     4300000: small_ship
     4300002: joystick
     4300004: joystick_front_button
@@ -405,6 +409,7 @@ ModelImporter:
     4300150: gauge_006
     4300152: gauge_007
     4300154: gauge_008
+    4300156: laser_gun002
   materials:
     importMaterials: 1
     materialName: 0
