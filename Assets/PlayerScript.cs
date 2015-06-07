@@ -321,7 +321,7 @@ public class PlayerScript : MonoBehaviour {
 				projectile2.GetComponent<LazerScript>().endPos = targetedRock.transform.position;
 
 				shotRock = targetedRock;
-				targetedRock = null;
+				//targetedRock = null;
 				shootCounter = 0.2f;
 			}
 
