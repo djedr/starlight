@@ -909,6 +909,26 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 89c949135c1244d4082a45e29e6ee63f, type: 2}
+    - target: {fileID: 2300072, guid: c9eab194b279c984b9618f189a005e84, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89c949135c1244d4082a45e29e6ee63f, type: 2}
+    - target: {fileID: 2300068, guid: c9eab194b279c984b9618f189a005e84, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89c949135c1244d4082a45e29e6ee63f, type: 2}
+    - target: {fileID: 2300032, guid: c9eab194b279c984b9618f189a005e84, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89c949135c1244d4082a45e29e6ee63f, type: 2}
+    - target: {fileID: 2300030, guid: c9eab194b279c984b9618f189a005e84, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89c949135c1244d4082a45e29e6ee63f, type: 2}
+    - target: {fileID: 2300034, guid: c9eab194b279c984b9618f189a005e84, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 89c949135c1244d4082a45e29e6ee63f, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c9eab194b279c984b9618f189a005e84, type: 3}
   m_IsPrefabParent: 0
@@ -1615,10 +1635,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b5a2a2c9445c56843874e5856b49d7d4, type: 3}
   m_IsPrefabParent: 0
---- !u!1 &1022540600 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100154, guid: c9eab194b279c984b9618f189a005e84, type: 3}
-  m_PrefabInternal: {fileID: 503969054}
 --- !u!4 &1023201689 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400078, guid: c9eab194b279c984b9618f189a005e84, type: 3}
@@ -3543,10 +3559,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 18
---- !u!1 &1429440703 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100160, guid: c9eab194b279c984b9618f189a005e84, type: 3}
-  m_PrefabInternal: {fileID: 503969054}
 --- !u!1 &1506190401
 GameObject:
   m_ObjectHideFlags: 0
@@ -3732,8 +3744,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   armParts:
-  - {fileID: 1022540600}
-  - {fileID: 1429440703}
+  - {fileID: 0}
+  - {fileID: 0}
   armAngleStart:
   - {x: 0, y: 180, z: 180}
   - {x: 0, y: 180, z: 180}
