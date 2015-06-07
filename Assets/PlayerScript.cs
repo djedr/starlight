@@ -295,8 +295,8 @@ public class PlayerScript : MonoBehaviour {
 			}
 		}
 
-		// Check for shoot input:
-		if (state == StateTypes.InControl && Input.GetKeyDown("joystick button 0") && targetedRock != null && shootCounter == 0)
+		// Check for shoot input:	// Input.GetKeyDown("joystick button 0")
+		if (state == StateTypes.InControl && Input.GetKeyDown(KeyCode.LeftControl) && targetedRock != null && shootCounter == 0)
 		{
 			GameObject projectile = Instantiate (lazerProjectile);
 			projectile.transform.position = laserSpot1.transform.position;
@@ -327,8 +327,8 @@ public class PlayerScript : MonoBehaviour {
 
 			if (audioShoot != null)
 				audioShoot.Play();
-		}
-		else if (state == StateTypes.BeforeStart && Input.GetKeyDown("joystick button 0"))
+		}	// Input.GetKeyDown("joystick button 0")
+		else if (state == StateTypes.BeforeStart && Input.GetKeyDown(KeyCode.LeftControl))
 		{
 			state = StateTypes.OnStart;
 
@@ -685,7 +685,7 @@ public class PlayerScript : MonoBehaviour {
 		temp = joyBaseRotation;
 
 		temp.x -= Input.GetAxis("Horizontal") * joyMaxRotation;
-		temp.y -= Input.GetAxis("Vertical") * joyMaxRotation;
+		temp.z -= Input.GetAxis("Vertical") * joyMaxRotation;
 
 		joystick.transform.localRotation = Quaternion.Euler(temp);
 
