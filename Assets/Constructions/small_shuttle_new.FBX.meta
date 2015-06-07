@@ -46,6 +46,48 @@ ModelImporter:
     100076: right_wing
     100078: //RootNode
     100080: warning_light
+    100082: button_012
+    100084: button_013
+    100086: button_014
+    100088: button_015
+    100090: button_016
+    100092: button_017
+    100094: button_018
+    100096: button_019
+    100098: button_020
+    100100: button_021
+    100102: button_022
+    100104: gauge_005
+    100106: gauge_006
+    100108: gauge_007
+    100110: gauge_008
+    100112: joystick001
+    100114: joystick_front_button001
+    100116: joystick_upper_button003
+    100118: "kad\u0142ub1"
+    100120: laser_gun001
+    100122: LED_015
+    100124: LED_016
+    100126: LED_017
+    100128: LED_018
+    100130: LED_019
+    100132: LED_020
+    100134: LED_021
+    100136: LED_022
+    100138: LED_023
+    100140: LED_024
+    100142: LED_025
+    100144: LED_026
+    100146: LED_027
+    100148: LED_028
+    100150: left_control_panel_lights_and_buttons001
+    100152: left_display001
+    100154: left_wing001
+    100156: main_display001
+    100158: right_panel_indicators001
+    100160: right_wing001
+    100162: small_ship001
+    100164: warning_light001
     400000: button_001
     400002: button_002
     400004: button_003
@@ -87,6 +129,48 @@ ModelImporter:
     400076: right_wing
     400078: //RootNode
     400080: warning_light
+    400082: button_012
+    400084: button_013
+    400086: button_014
+    400088: button_015
+    400090: button_016
+    400092: button_017
+    400094: button_018
+    400096: button_019
+    400098: button_020
+    400100: button_021
+    400102: button_022
+    400104: gauge_005
+    400106: gauge_006
+    400108: gauge_007
+    400110: gauge_008
+    400112: joystick001
+    400114: joystick_front_button001
+    400116: joystick_upper_button003
+    400118: "kad\u0142ub1"
+    400120: laser_gun001
+    400122: LED_015
+    400124: LED_016
+    400126: LED_017
+    400128: LED_018
+    400130: LED_019
+    400132: LED_020
+    400134: LED_021
+    400136: LED_022
+    400138: LED_023
+    400140: LED_024
+    400142: LED_025
+    400144: LED_026
+    400146: LED_027
+    400148: LED_028
+    400150: left_control_panel_lights_and_buttons001
+    400152: left_display001
+    400154: left_wing001
+    400156: main_display001
+    400158: right_panel_indicators001
+    400160: right_wing001
+    400162: small_ship001
+    400164: warning_light001
     2300000: button_001
     2300002: button_002
     2300004: button_003
@@ -126,6 +210,45 @@ ModelImporter:
     2300072: right_wing
     2300074: //RootNode
     2300076: warning_light
+    2300078: button_012
+    2300080: button_013
+    2300082: button_014
+    2300084: button_015
+    2300086: button_016
+    2300088: button_017
+    2300090: button_018
+    2300092: button_019
+    2300094: button_020
+    2300096: button_021
+    2300098: button_022
+    2300100: gauge_005
+    2300102: gauge_006
+    2300104: gauge_007
+    2300106: gauge_008
+    2300108: joystick001
+    2300110: joystick_front_button001
+    2300112: joystick_upper_button003
+    2300114: laser_gun001
+    2300116: LED_015
+    2300118: LED_016
+    2300120: LED_017
+    2300122: LED_018
+    2300124: LED_019
+    2300126: LED_020
+    2300128: LED_021
+    2300130: LED_022
+    2300132: LED_023
+    2300134: LED_024
+    2300136: LED_025
+    2300138: LED_026
+    2300140: LED_027
+    2300142: LED_028
+    2300144: left_display001
+    2300146: left_wing001
+    2300148: main_display001
+    2300150: right_wing001
+    2300152: small_ship001
+    2300154: warning_light001
     3300000: button_001
     3300002: button_002
     3300004: button_003
@@ -165,6 +288,45 @@ ModelImporter:
     3300072: right_wing
     3300074: //RootNode
     3300076: warning_light
+    3300078: button_012
+    3300080: button_013
+    3300082: button_014
+    3300084: button_015
+    3300086: button_016
+    3300088: button_017
+    3300090: button_018
+    3300092: button_019
+    3300094: button_020
+    3300096: button_021
+    3300098: button_022
+    3300100: gauge_005
+    3300102: gauge_006
+    3300104: gauge_007
+    3300106: gauge_008
+    3300108: joystick001
+    3300110: joystick_front_button001
+    3300112: joystick_upper_button003
+    3300114: laser_gun001
+    3300116: LED_015
+    3300118: LED_016
+    3300120: LED_017
+    3300122: LED_018
+    3300124: LED_019
+    3300126: LED_020
+    3300128: LED_021
+    3300130: LED_022
+    3300132: LED_023
+    3300134: LED_024
+    3300136: LED_025
+    3300138: LED_026
+    3300140: LED_027
+    3300142: LED_028
+    3300144: left_display001
+    3300146: left_wing001
+    3300148: main_display001
+    3300150: right_wing001
+    3300152: small_ship001
+    3300154: warning_light001
     4300000: small_ship
     4300002: joystick
     4300004: joystick_front_button
@@ -204,6 +366,45 @@ ModelImporter:
     4300072: gauge_004
     4300074: gauge_002
     4300076: warning_light
+    4300078: small_ship001
+    4300080: left_wing001
+    4300082: joystick001
+    4300084: joystick_upper_button003
+    4300086: joystick_front_button001
+    4300088: main_display001
+    4300090: right_wing001
+    4300092: warning_light001
+    4300094: laser_gun001
+    4300096: button_012
+    4300098: button_013
+    4300100: LED_015
+    4300102: LED_016
+    4300104: left_display001
+    4300106: button_014
+    4300108: button_015
+    4300110: LED_017
+    4300112: button_016
+    4300114: button_017
+    4300116: button_018
+    4300118: LED_018
+    4300120: LED_019
+    4300122: LED_020
+    4300124: LED_021
+    4300126: button_019
+    4300128: LED_022
+    4300130: LED_023
+    4300132: button_020
+    4300134: LED_024
+    4300136: button_021
+    4300138: button_022
+    4300140: LED_025
+    4300142: LED_026
+    4300144: LED_027
+    4300146: LED_028
+    4300148: gauge_005
+    4300150: gauge_006
+    4300152: gauge_007
+    4300154: gauge_008
   materials:
     importMaterials: 1
     materialName: 0
