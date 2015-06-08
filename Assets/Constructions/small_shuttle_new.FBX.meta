@@ -89,6 +89,11 @@ ModelImporter:
     100162: small_ship001
     100164: warning_light001
     100166: laser_gun002
+    100168: joystick_upper_button
+    100170: laser_gun_left
+    100172: laser_gun_right
+    100174: small_shuttle_left_wing
+    100176: small_shuttle_right_wing
     400000: button_001
     400002: button_002
     400004: button_003
@@ -173,6 +178,11 @@ ModelImporter:
     400162: small_ship001
     400164: warning_light001
     400166: laser_gun002
+    400168: joystick_upper_button
+    400170: laser_gun_left
+    400172: laser_gun_right
+    400174: small_shuttle_left_wing
+    400176: small_shuttle_right_wing
     2300000: button_001
     2300002: button_002
     2300004: button_003
@@ -252,6 +262,11 @@ ModelImporter:
     2300152: small_ship001
     2300154: warning_light001
     2300156: laser_gun002
+    2300158: joystick_upper_button
+    2300160: laser_gun_left
+    2300162: laser_gun_right
+    2300164: small_shuttle_left_wing
+    2300166: small_shuttle_right_wing
     3300000: button_001
     3300002: button_002
     3300004: button_003
@@ -331,6 +346,11 @@ ModelImporter:
     3300152: small_ship001
     3300154: warning_light001
     3300156: laser_gun002
+    3300158: joystick_upper_button
+    3300160: laser_gun_left
+    3300162: laser_gun_right
+    3300164: small_shuttle_left_wing
+    3300166: small_shuttle_right_wing
     4300000: small_ship
     4300002: joystick
     4300004: joystick_front_button
@@ -410,6 +430,11 @@ ModelImporter:
     4300152: gauge_007
     4300154: gauge_008
     4300156: laser_gun002
+    4300158: joystick_upper_button
+    4300160: laser_gun_right
+    4300162: laser_gun_left
+    4300164: small_shuttle_right_wing
+    4300166: small_shuttle_left_wing
   materials:
     importMaterials: 1
     materialName: 0
