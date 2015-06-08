@@ -684,7 +684,7 @@ public class PlayerScript : MonoBehaviour {
 
 		temp = joyBaseRotation;
 
-		temp.x -= Input.GetAxis("Horizontal") * joyMaxRotation;
+		temp.x += Input.GetAxis("Horizontal") * joyMaxRotation;
 		temp.z -= Input.GetAxis("Vertical") * joyMaxRotation;
 
 		joystick.transform.localRotation = Quaternion.Euler(temp);
