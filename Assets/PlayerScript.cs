@@ -90,6 +90,8 @@ public class PlayerScript : MonoBehaviour {
 	private GameObject joystick;
 	private GameObject laserSpot1;
 	private GameObject laserSpot2;
+	private ParticleSystem laserParticles1;
+	private ParticleSystem laserParticles2;
 	private GameObject shotRock = null;
 	private AudioSource audioEngine = null;
 	private AudioSource audioHit = null;
@@ -120,6 +122,8 @@ public class PlayerScript : MonoBehaviour {
 		joystick = GameObject.Find ("joystick");
 		laserSpot1 = GameObject.Find ("LaserSpot1");
 		laserSpot2 = GameObject.Find ("LaserSpot2");
+		laserParticles1 = GameObject.Find ("ShootParticles1").GetComponent<ParticleSystem>();
+		laserParticles2 = GameObject.Find ("ShootParticles2").GetComponent<ParticleSystem>();
 		audioEngine = GameObject.Find ("EngineSound").GetComponent<AudioSource>();
 		audioHit = GameObject.Find ("HitSound").GetComponent<AudioSource>();
 		audioShoot = GameObject.Find ("ShootSound").GetComponent<AudioSource>();
@@ -327,6 +331,12 @@ public class PlayerScript : MonoBehaviour {
 
 			if (audioShoot != null)
 				audioShoot.Play();
+
+			if (laserParticles1 != null)
+				laserParticles1.Play();
+
+			if (laserParticles2 != null)
+				laserParticles2.Play();
 		}	// Input.GetKeyDown("joystick button 0")
 		else if (state == StateTypes.BeforeStart && Input.GetKeyDown(KeyCode.LeftControl))
 		{
