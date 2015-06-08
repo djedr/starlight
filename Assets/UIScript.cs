@@ -35,7 +35,8 @@ public class UIScript : MonoBehaviour {
 		new Color(0.9f, 0.55f, 0.2f),
 		new Color(0.9f, 0.9f, 0.9f),
 		new Color(0.9f, 0.1f, 0.085f, 0.5f),
-		new Color(0.5f, 0.9f, 0.485f, 0.25f)
+		//new Color(0.5f, 0.9f, 0.485f, 0.33f)
+		new Color(1f, 1f, 1f, 0.33f)
 	};
 	
 	// Use this for initialization
