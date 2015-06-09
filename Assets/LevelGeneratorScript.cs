@@ -47,6 +47,9 @@ public class LevelGeneratorScript : MonoBehaviour {
 	public float rocksAngleStepMin = 45;
 	public float rocksAngleStepMax = 70;
 
+	private float playerNormalSpeed = 0;
+	private float playerLightSpeed = 0;
+
 	private float startX;
 
 	public int turn = 0;
@@ -472,74 +475,98 @@ public class LevelGeneratorScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if (generatedSecondPart == 0 && player.transform.position.z - transform.position.z > roadPartLength)
+		switch (generatedSecondPart)
 		{
-			generatedSecondPart = 1;
-
-			// Generate static rocks around the road:
-			GenerateRocks (0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRocks, 3);
-
-			// Generate big static rocks around the road:
-			GenerateRocks (0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRocks, 9);
-
-			// Generate kinematic rocks inside the road:
-			GenerateRocks (0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRocks, 3, rocksAmountMin, rocksAmountMax);
-
-			// Generate mobile rocks inside the road:
-			GenerateRocks (0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, mobileRocksDistMin, mobileRocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0.9f, 0.9f, movingRocks, 3, mobileRocksAmountMin, mobileRocksAmountMax);
-
-			Instantiate (miscObjs [0], roadPoints [roadPartLength + roadLightSpeedLength] + miscPoses [0], transform.rotation);
-
-
-			endStation = (GameObject)Instantiate (station, roadPoints [(int)roadLength - 1], transform.rotation);
-
-			player.GetComponent<PlayerScript> ().landingDestination = roadPoints [(int)roadLength - 1] + landingPointOffset;
-
-			player.GetComponent<PlayerScript> ().EnterLightSpeedMode ();
-		}
-		else if (generatedSecondPart == 1 && player.transform.position.z - transform.position.z + player.GetComponent<Rigidbody> ().velocity.z * Time.deltaTime > roadPartLength + roadLightSpeedLength - roadLightBrakingLength)
-		{
-			generatedSecondPart = 2;
-
-			player.GetComponent<PlayerScript> ().LeaveLightSpeedMode ();
-			player.transform.position = new Vector3 (
-				player.transform.position.x,
-				player.transform.position.y,
-				transform.position.z + roadPartLength + roadLightSpeedLength - roadLightBrakingLength);
-		}
-		else if (generatedSecondPart == 2 && player.transform.position.z - transform.position.z + player.GetComponent<Rigidbody> ().velocity.z * Time.deltaTime > roadPartLength + roadLightSpeedLength)
-		{
-			generatedSecondPart = 3;
-
-			if (player.GetComponent<PlayerScript> ().movementSpeed > player.GetComponent<PlayerScript> ().movementMaxSpeed)
+		case 0:
+			if (player.transform.position.z - transform.position.z > roadPartLength)
 			{
-				player.GetComponent<PlayerScript> ().movementSpeed = player.GetComponent<PlayerScript> ().movementMaxSpeed;
+				generatedSecondPart = 1;
 
+				// Generate static rocks around the road:
+				GenerateRocks (0, stepAngleMax, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance, (int)stepDistance, stepAngleMin, stepAngleMax, 0, 0, 1f, 1.4f, staticRocks, 3);
+
+				// Generate big static rocks around the road:
+				GenerateRocks (0, 359, roadPartLength + roadLightSpeedLength, (int)roadLength - roadDockingLength, (int)stepDistance * 5, (int)stepDistance * 5, stepAngleMin * 5, stepAngleMax * 5, 0, 0, 1.7f, 1.9f, staticRocks, 9);
+
+				// Generate kinematic rocks inside the road:
+				GenerateRocks (0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, rocksDistMin, rocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0f, 0.9f, kinematicRocks, 3, rocksAmountMin, rocksAmountMax);
+
+				// Generate mobile rocks inside the road:
+				GenerateRocks (0, 359, roadPartLength + roadLightSpeedLength + roadRocklessLength, (int)roadLength - roadDockingLength, mobileRocksDistMin, mobileRocksDistMax, rocksAngleStepMin, rocksAngleStepMax, rockRadius, rockRadius, 0.9f, 0.9f, movingRocks, 3, mobileRocksAmountMin, mobileRocksAmountMax);
+
+				Instantiate (miscObjs [0], roadPoints [roadPartLength + roadLightSpeedLength] + miscPoses [0], transform.rotation);
+
+				Instantiate (miscObjs [2], roadPoints [(int)roadLength - roadDockingLength] + miscPoses [2], transform.rotation);
+
+
+				endStation = (GameObject)Instantiate (station, roadPoints [(int)roadLength - 1], transform.rotation);
+
+				playerNormalSpeed = player.GetComponent<PlayerScript>().movementMaxSpeed;
+				playerLightSpeed = player.GetComponent<PlayerScript>().movementMaxSpeed * player.GetComponent<PlayerScript>().lightSpeedMultiplier;
+
+
+				player.GetComponent<PlayerScript> ().landingDestination = roadPoints [(int)roadLength - 1] + landingPointOffset;
+
+				player.GetComponent<PlayerScript> ().EnterLightSpeedMode ();
+			}
+		break;
+		case 1:
+			if (player.transform.position.z - transform.position.z + player.GetComponent<Rigidbody> ().velocity.z * Time.deltaTime > roadPartLength + roadLightSpeedLength - roadLightBrakingLength)
+			{
+				generatedSecondPart = 2;
+
+				player.GetComponent<PlayerScript> ().LeaveLightSpeedMode ();
+				player.transform.position = new Vector3 (
+					player.transform.position.x,
+					player.transform.position.y,
+					transform.position.z + roadPartLength + roadLightSpeedLength - roadLightBrakingLength);
+
+			}
+		break;
+		case 2:
+			if (player.transform.position.z - transform.position.z < roadPartLength + roadLightSpeedLength)
+			{
+				float part = player.transform.position.z - transform.position.z;
+				part = part - (roadPartLength + roadLightSpeedLength - roadLightBrakingLength);
+				part = roadLightBrakingLength - part;
+				part = part / roadLightBrakingLength;
+
+				float targetSpeed = (playerLightSpeed - playerNormalSpeed) * part + playerNormalSpeed;
+
+
+				player.GetComponent<PlayerScript> ().movementSpeed = targetSpeed;
+
+				player.GetComponent<Rigidbody>().velocity = player.transform.forward * targetSpeed;
+
+				/*
 				player.transform.position = new Vector3 (
 					player.transform.position.x,
 					player.transform.position.y,
 					transform.position.z + roadPartLength + roadLightSpeedLength);
-
-				player.GetComponent<Rigidbody>().velocity = player.transform.forward * player.GetComponent<PlayerScript>().movementSpeed;
+				*/
 			}
-
-		}
-
-		else if (generatedSecondPart == 3 && player.transform.position.z - transform.position.z > roadLength - roadDockingLength)
-		{
-			generatedSecondPart = 4;
-			
-			player.GetComponent<PlayerScript> ().EnterDockingMode();
-		}
-
-		else if (generatedSecondPart == 4 && player.transform.position.z - transform.position.z > roadLength)
-		{
-			player.GetComponent<PlayerScript> ().movementMaxSpeed -= dockingSpeedDampen * Time.deltaTime;
-
-			if (player.GetComponent<PlayerScript> ().movementMaxSpeed < 0)
+			else
+				generatedSecondPart = 3;
+		break;
+		case 3:
+			if (player.transform.position.z - transform.position.z > roadLength - roadDockingLength)
 			{
-				player.GetComponent<PlayerScript> ().movementMaxSpeed = 0;
+				generatedSecondPart = 4;
+				
+				player.GetComponent<PlayerScript> ().EnterDockingMode();
 			}
+		break;
+		case 4:
+			if (player.transform.position.z - transform.position.z > roadLength)
+			{
+				player.GetComponent<PlayerScript> ().movementMaxSpeed -= dockingSpeedDampen * Time.deltaTime;
+
+				if (player.GetComponent<PlayerScript> ().movementMaxSpeed < 0)
+				{
+					player.GetComponent<PlayerScript> ().movementMaxSpeed = 0;
+				}
+			}
+		break;
 		}
 	}
 }
