@@ -64,13 +64,13 @@ public class UIScript : MonoBehaviour {
 			autopilotText.color = Color.blue;
 			break;
 		case PlayerScript.StateTypes.OnLaunch:
-			uiText = "PRZYGOTUJ SIĘ";
+			uiText = "PRZYGOTUJ SIĘ NA POWRÓT DO WAHADŁOWCA";
 			autopilotLight.enabled = true;
 			autopilotText.color = Color.blue;
 			color = colors[3];
 			break;
 		case PlayerScript.StateTypes.InControl:
-			uiText = "OMIJAJ LUB ZESTRZELAJ ASTEROIDY";
+			uiText = "OMIJAJ ASTEROIDY LUB STRZELAJ W NIE";
 			autopilotLight.enabled = false;
 			autopilotText.color = Color.black;
 			color = colors[3];
@@ -100,7 +100,7 @@ public class UIScript : MonoBehaviour {
 			}
 			break;
 		case PlayerScript.StateTypes.Landing:
-			uiText = "INICJUJĘ DOKOWANIE";
+			uiText = "PROCEDURA DOKOWANIA";
 			autopilotLight.enabled = true;
 			autopilotText.color = Color.blue;
 			break;
