@@ -4457,7 +4457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce17fd2152aabbe40a4c27659cf0326b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: {x: 0, y: 0, z: -400}
+  distance: {x: 0, y: 0, z: -500}
 --- !u!65 &1798777083
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5240,7 +5240,7 @@ MonoBehaviour:
   rocksAngleStepMax: 90
   turn: 0
   turnTimer: 1
-  landingPointOffset: {x: 2.73000002, y: 5.5999999, z: 1}
+  landingPointOffset: {x: 2.70000005, y: 5.5999999, z: 1}
   states: 0
   rockRadius: 4
   rockAngle: 1

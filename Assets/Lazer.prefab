@@ -36,8 +36,8 @@ TrailRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136464}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_Materials:
   - {fileID: 2100000, guid: f07393fb3d51bdf44bc3110423ac3b45, type: 2}
   m_SubsetIndices: 
@@ -54,7 +54,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Time: .100000001
-  m_StartWidth: 1
+  m_StartWidth: .5
   m_EndWidth: 0
   m_Colors:
     m_Color[0]:
@@ -90,7 +90,6 @@ MonoBehaviour:
   timeTotal: .100000001
   timeWait: .100000001
   timeCounter: 0
-  hitEffect: {fileID: 164668, guid: 23c9a6efc5537034fbcaa8d32032f00d, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

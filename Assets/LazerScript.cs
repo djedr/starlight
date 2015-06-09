@@ -8,7 +8,7 @@ public class LazerScript : MonoBehaviour {
 
 	public float timeTotal = 0.1f;
 	public float timeWait = 0.1f;
-	public float timeCounter = 0;
+	public float timeCounter = -0.05f;
 
 	// Use this for initialization
 	void Start () {
@@ -18,8 +18,6 @@ public class LazerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-		timeCounter += Time.deltaTime;
-
 		float part;
 		if (timeCounter > timeTotal)
 			part = 1;
@@ -32,5 +30,7 @@ public class LazerScript : MonoBehaviour {
 		{
 			Destroy (this.gameObject);
 		}
+
+		timeCounter += Time.deltaTime;
 	}
 }

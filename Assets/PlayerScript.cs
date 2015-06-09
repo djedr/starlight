@@ -300,7 +300,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		// Check for shoot input:	// Input.GetKeyDown("joystick button 0")
-		if (state == StateTypes.InControl && Input.GetKeyDown(KeyCode.LeftControl) && targetedRock != null && shootCounter == 0)
+		if (state == StateTypes.InControl && Input.GetKeyDown(KeyCode.LeftControl) && shootCounter == 0) //  && targetedRock != null
 		{
 			GameObject projectile = Instantiate (lazerProjectile);
 			projectile.transform.position = laserSpot1.transform.position;
@@ -328,6 +328,7 @@ public class PlayerScript : MonoBehaviour {
 				//targetedRock = null;
 				shootCounter = 0.2f;
 			}
+			
 
 			if (audioShoot != null)
 				audioShoot.Play();
