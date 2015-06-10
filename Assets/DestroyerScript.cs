@@ -7,14 +7,20 @@ public class DestroyerScript : MonoBehaviour {
 
 	private GameObject target;
 
+	private Vector3 targetLastPos;
+
 	// Use this for initialization
 	void Start () {
 		target = GameObject.Find ("Player");
+
+		targetLastPos = target.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = target.transform.position + distance;
+		transform.position = targetLastPos + distance;
+
+		targetLastPos = target.transform.position;
 	}
 
 	// When hit something:

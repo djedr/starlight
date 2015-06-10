@@ -1120,7 +1120,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!114 &526949663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3753,6 +3753,7 @@ GameObject:
   - 135: {fileID: 1506190406}
   - 114: {fileID: 1506190407}
   - 114: {fileID: 1506190408}
+  - 65: {fileID: 1506190409}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3795,17 +3796,18 @@ MonoBehaviour:
   timer: 1
   stunTime: .300000012
   launchTime: 2
-  pushForceMultiplier: .200000003
-  pushForceConstant: 5
+  pushForceMultiplier: .129999995
+  pushForceConstant: 4
   landingDestination: {x: 0, y: 0, z: 0}
   landingSpeedMultiplier: 2
   landingStopDist: .100000001
   inputZero: .400000006
   joyBaseRotation: {x: 90, y: 0, z: 0}
   joyMaxRotation: 30
-  rayCastRange: 180
+  rayCastRange: 240
   additionalSpeed: {x: 0, y: 0, z: 0}
   additionalSpeedDampen: 10
+  rayCastSpread: 5
   cameraMaxAngle: 90
   cameraMinAngle: 0
   cameraXMultiplier: 100
@@ -3938,17 +3940,29 @@ MonoBehaviour:
   - {x: 80, y: 0, z: 0}
   - {x: -80, y: 0, z: 0}
   armTimesStart:
-  - 0
-  - 0
+  - 2
+  - 2
   armTimesEnd:
-  - 4
-  - 4
+  - 8
+  - 8
   soundEmitters: []
   soundTimes: []
   particleGens: []
   particleTimes: []
   armTimeMax: 10
   animateOnStart: 0
+--- !u!65 &1506190409
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1506190401}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.19000006, y: .159999996, z: 1.61000001}
+  m_Center: {x: 0, y: -.610000014, z: -.209999993}
 --- !u!1 &1535350401
 GameObject:
   m_ObjectHideFlags: 0
@@ -4428,7 +4442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce17fd2152aabbe40a4c27659cf0326b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: {x: 0, y: 0, z: -500}
+  distance: {x: 0, y: 0, z: -600}
 --- !u!65 &1798777083
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5257,7 +5271,7 @@ MonoBehaviour:
   turnTimer: 1
   landingPointOffset: {x: 2.70000005, y: 5.5999999, z: 1}
   states: 0
-  rockRadius: 5
+  rockRadius: 6
   rockAngle: 1
   staticRocks:
   - {fileID: 181834, guid: f64e7797dead5c14e9ee9c30ee6c7661, type: 2}

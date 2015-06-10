@@ -65,6 +65,9 @@ public class PlayerScript : MonoBehaviour {
 
 	public float additionalSpeedDampen = 20;
 
+	private Vector2[] rayCastOffsets;
+	public float rayCastSpread = 2;
+
 	// camera properties
 	public float cameraMaxAngle = 90;
 	public float cameraMinAngle = 0;
@@ -117,6 +120,12 @@ public class PlayerScript : MonoBehaviour {
 		//camera = GameObject.Find ("Main Camera");
 
 		timer = launchTime;
+
+		rayCastOffsets = new Vector2[4];
+		rayCastOffsets [0] = new Vector2 (rayCastSpread, 0);
+		rayCastOffsets [1] = new Vector2 (-rayCastSpread, 0);
+		rayCastOffsets [2] = new Vector2 (0, -rayCastSpread);
+		rayCastOffsets [3] = new Vector2 (0, -rayCastSpread);
 
 		levelGenerator = GameObject.Find ("LevelGenerator");
 		joystick = GameObject.Find ("joystick");
@@ -263,16 +272,21 @@ public class PlayerScript : MonoBehaviour {
 
 		targetedRock = null;
 
+		int i;
+
 		// Look for rocks ahead:
-		if (Physics.Raycast(
-			camera.transform.position + transform.forward * 1,
-		    transform.forward,
-			out rayInfo,
-			rayCastRange))
+		for (i = 0; i < 4; i++)
 		{
-			if (rayInfo.collider.gameObject.tag == "Rock")
+			if (Physics.Raycast(
+				camera.transform.position + rayCastOffsets[i].x * transform.right + rayCastOffsets[i].y * transform.up + transform.forward * 1,
+			    transform.forward,
+				out rayInfo,
+				rayCastRange))
 			{
-				targetedRock = rayInfo.collider.gameObject;
+				if (rayInfo.collider.gameObject.tag == "Rock")
+				{
+					targetedRock = rayInfo.collider.gameObject;
+				}
 			}
 		}
 
@@ -299,7 +313,7 @@ public class PlayerScript : MonoBehaviour {
 			}
 		}
 
-		// Check for shoot input:	// Input.GetKeyDown("joystick button 0")
+		// Check for shoot input:	// Input.GetKeyDown("joystick button 0") / KeyCode.LeftControl
 		if (state == StateTypes.InControl && Input.GetKeyDown(KeyCode.LeftControl) && shootCounter == 0) //  && targetedRock != null
 		{
 			GameObject projectile = Instantiate (lazerProjectile);
@@ -338,7 +352,7 @@ public class PlayerScript : MonoBehaviour {
 
 			if (laserParticles2 != null)
 				laserParticles2.Play();
-		}	// Input.GetKeyDown("joystick button 0")
+		}	// Input.GetKeyDown("joystick button 0") / KeyCode.LeftControl
 		else if (state == StateTypes.BeforeStart && Input.GetKeyDown(KeyCode.LeftControl))
 		{
 			state = StateTypes.OnStart;
