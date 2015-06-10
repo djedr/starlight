@@ -31,12 +31,14 @@ public class UIScript : MonoBehaviour {
 	private Color[] colors = {
 		new Color(0.9f, 0.2f, 0.185f),
 		new Color(0.5f, 0.9f, 0.485f), 
-		new Color(0.5f, 0.485f, 0.95f), 
+		new Color(0.8f, 0.785f, 0.95f), 
 		new Color(0.9f, 0.55f, 0.2f),
 		new Color(0.9f, 0.9f, 0.9f),
-		new Color(0.9f, 0.1f, 0.085f, 0.5f),
-		//new Color(0.5f, 0.9f, 0.485f, 0.33f)
-		new Color(1f, 1f, 1f, 0.33f)
+		new Color(0.85f, 0.05f, 0.035f, 0.4f),
+		new Color(0.9f, 0.1f, 0.085f, 0.6f),
+		//new Color(0.5f, 0.9f, 0.485f, 0.33f),
+		//new Color(1f, 1f, 1f, 0.33f),
+		new Color(1f, 0.82f, 0f)
 	};
 	
 	// Use this for initialization
@@ -56,17 +58,17 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.BeforeStart:
 			uiText = "WCIŚNIJ PRZYCISK JOYSTICKA";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			autopilotText.color = colors[7];
 			break;
 		case PlayerScript.StateTypes.OnStart:
 			uiText = "STARTUJĘ";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			autopilotText.color = colors[7];
 			break;
 		case PlayerScript.StateTypes.OnLaunch:
 			uiText = "PRZYGOTUJ SIĘ NA POWRÓT DO WAHADŁOWCA";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			autopilotText.color = colors[7];
 			color = colors[3];
 			break;
 		case PlayerScript.StateTypes.InControl:
@@ -82,7 +84,7 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.BeforeLightSpeed:
 			uiText = "WŁĄCZAM NAPĘD WARP";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			autopilotText.color = colors[7];
 			color = colors[3];
 			break;	
 		case PlayerScript.StateTypes.Bounced:
@@ -102,12 +104,12 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.Landing:
 			uiText = "PROCEDURA DOKOWANIA";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			autopilotText.color = colors[7];
 			break;
 		case PlayerScript.StateTypes.Landed:
 			uiText = "STATEK ZADOKOWANY!";
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			autopilotText.color = colors[7];
 			autopilotLight.color = colors[1];
 
 			startClosingCaptions = true;
@@ -124,7 +126,7 @@ public class UIScript : MonoBehaviour {
 
 		if (playerScript.tooFar != Vector3.zero) {
 			autopilotLight.enabled = true;
-			autopilotText.color = Color.blue;
+			autopilotText.color = colors[7];
 		}
 		
 		if (startClosingCaptions) {
@@ -151,7 +153,7 @@ public class UIScript : MonoBehaviour {
 		}
 		
 		if (autopilotLight.enabled) {
-			if (Mathf.Repeat(Time.time, 0.5f) > 0.25f) autopilotText.color = Color.blue;
+			if (Mathf.Repeat(Time.time, 0.5f) > 0.25f) autopilotText.color = colors[7];
 			else autopilotText.color = Color.black;
 			//if (autopilotLight.intensity <= 0f) autopilotLight.intensity = 8f;
 		}
@@ -171,14 +173,14 @@ public class UIScript : MonoBehaviour {
 
 		if (playerScript.targetedRock != null) {
 			crosshairImage.sprite = crosshairAimedSprite;
-			crosshairImage.color = colors[5];
+			crosshairImage.color = colors[6];
 			if (targetChanged) {
 				targetSound.Play();
 				targetChanged = false;
 			}
 		} else {
 			crosshairImage.sprite = crosshairNormalSprite;
-			crosshairImage.color = colors[6];
+			crosshairImage.color = colors[5];
 			targetChanged = true;
 		}
 	}
