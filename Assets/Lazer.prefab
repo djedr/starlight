@@ -42,7 +42,7 @@ TrailRenderer:
   - {fileID: 2100000, guid: f07393fb3d51bdf44bc3110423ac3b45, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
+  m_UseLightProbes: 0
   m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1

@@ -88,7 +88,7 @@ public class LevelGeneratorScript : MonoBehaviour {
 	private int previousRocksAmount = 0;
 	private GameObject endStation;
 
-	private int generatedSecondPart = 0;
+	public int generatedSecondPart = 0;
 
 	// Use this for initialization
 	void Start () {

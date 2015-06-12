@@ -55,6 +55,7 @@ public class PlayerScript : MonoBehaviour {
 	public float landingStopDist = 0.3f;
 
 	public float inputZero = 0.1f;
+	public float inputSensitivity = 1.5f;
 	public Vector3 joyBaseRotation;
 	public float joyMaxRotation = 10;
 
@@ -273,6 +274,8 @@ public class PlayerScript : MonoBehaviour {
 		targetedRock = null;
 
 		int i;
+		float minDist = rayCastRange* rayCastRange;
+		float dist;
 
 		// Look for rocks ahead:
 		for (i = 0; i < 4; i++)
@@ -283,8 +286,10 @@ public class PlayerScript : MonoBehaviour {
 				out rayInfo,
 				rayCastRange))
 			{
-				if (rayInfo.collider.gameObject.tag == "Rock")
+				dist = Vector3.SqrMagnitude(rayInfo.transform.position - transform.position);
+				if (rayInfo.collider.gameObject.tag == "Rock" && dist < minDist)
 				{
+					minDist = dist;
 					targetedRock = rayInfo.collider.gameObject;
 				}
 			}
@@ -314,7 +319,7 @@ public class PlayerScript : MonoBehaviour {
 		}
 
 		// Check for shoot input:	// Input.GetKeyDown("joystick button 0") / KeyCode.LeftControl
-		if (state == StateTypes.InControl && Input.GetKeyDown(KeyCode.LeftControl) && shootCounter == 0) //  && targetedRock != null
+		if (state == StateTypes.InControl && Input.GetKeyDown("joystick button 0") && shootCounter == 0) //  && targetedRock != null
 		{
 			GameObject projectile = Instantiate (lazerProjectile);
 			projectile.transform.position = laserSpot1.transform.position;
@@ -353,7 +358,7 @@ public class PlayerScript : MonoBehaviour {
 			if (laserParticles2 != null)
 				laserParticles2.Play();
 		}	// Input.GetKeyDown("joystick button 0") / KeyCode.LeftControl
-		else if (state == StateTypes.BeforeStart && Input.GetKeyDown(KeyCode.LeftControl))
+		else if (state == StateTypes.BeforeStart && Input.GetKeyDown("joystick button 0"))
 		{
 			state = StateTypes.OnStart;
 
@@ -384,7 +389,7 @@ public class PlayerScript : MonoBehaviour {
 		tooFar = levelGenerator.GetComponent<LevelGeneratorScript> ().OffRoad(transform.position);
 
 		//  && transform.forward.x < shipMaxRotationH
-		if ( false || (tooFar.x == -1 && transform.forward.x < 0.4f))
+		if ( tooFar.x == -1 && transform.forward.x < 0.4f)
 		{
 			rotationHSpeed += rotationHAcceleration * Time.deltaTime;
 			if (rotationHSpeed > rotationHMaxSpeed)
@@ -393,7 +398,7 @@ public class PlayerScript : MonoBehaviour {
 			movementHPressed = true;
 		}
 		//  && transform.forward.x > -shipMaxRotationH
-		else if ( false || (tooFar.x == 1 && transform.forward.x > -0.4f))
+		else if ( tooFar.x == 1 && transform.forward.x > -0.4f)
 		{
 			rotationHSpeed -= rotationHAcceleration * Time.deltaTime;
 			if (rotationHSpeed < -rotationHMaxSpeed)
@@ -402,20 +407,26 @@ public class PlayerScript : MonoBehaviour {
 			movementHPressed = true;
 		}
 
+		float tmp;
+
 		if ( Mathf.Abs(Input.GetAxis("Horizontal")) > inputZero && tooFar.x != 1 && state == StateTypes.InControl && movementHPressed == false)
 		{
 			rotationHSpeed += rotationHAcceleration * Mathf.Sign(Input.GetAxis("Horizontal")) * Time.deltaTime;
 
-			if (rotationHSpeed < -rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal")))
-				rotationHSpeed = -rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal"));
-			if (rotationHSpeed > rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal")))
-				rotationHSpeed = rotationHMaxSpeed * Mathf.Abs(Input.GetAxis("Horizontal"));
+			tmp = rotationHMaxSpeed * (Mathf.Abs(Input.GetAxis("Horizontal")) - inputZero) * inputSensitivity;
+
+			if (rotationHSpeed < -tmp) {
+				rotationHSpeed = -tmp;
+			}
+			else if (rotationHSpeed > tmp) {
+				rotationHSpeed = tmp;
+			}
 			
 			movementHPressed = true;
 		}
 
 		//  && transform.forward.y > -shipMaxRotationV
-		if ( false || (tooFar.y == 1 && transform.forward.y > -0.4f))
+		if ( tooFar.y == 1 && transform.forward.y > -0.4f)
 		{
 			rotationVSpeed += rotationVAcceleration * Time.deltaTime;
 			if (rotationVSpeed > rotationVMaxSpeed)
@@ -424,7 +435,7 @@ public class PlayerScript : MonoBehaviour {
 			movementVPressed = true;
 		}
 		//  && transform.forward.y < shipMaxRotationV
-		else if ( false || (tooFar.y == -1 && transform.forward.y < 0.4f))
+		else if ( tooFar.y == -1 && transform.forward.y < 0.4f)
 		{
 			rotationVSpeed -= rotationVAcceleration * Time.deltaTime;
 			if (rotationVSpeed < -rotationVMaxSpeed)
@@ -436,11 +447,15 @@ public class PlayerScript : MonoBehaviour {
 		if (Mathf.Abs(Input.GetAxis("Vertical")) > inputZero && tooFar.y != 1 && state == StateTypes.InControl && movementVPressed == false)
 		{
 			rotationVSpeed -= rotationVAcceleration * Mathf.Sign(Input.GetAxis("Vertical")) * Time.deltaTime;
-			
-			if (rotationVSpeed < -rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical")))
-				rotationVSpeed = -rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical"));
-			if (rotationVSpeed > rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical")))
-				rotationVSpeed = rotationVMaxSpeed * Mathf.Abs(Input.GetAxis("Vertical"));
+
+			tmp = rotationVMaxSpeed * (Mathf.Abs(Input.GetAxis("Vertical")) - inputZero) * inputSensitivity;
+
+			if (rotationVSpeed < -tmp) {
+				rotationVSpeed = -tmp;
+			}
+			else if (rotationVSpeed > tmp) {
+				rotationVSpeed = tmp;
+			}
 			
 			movementVPressed = true;
 		}

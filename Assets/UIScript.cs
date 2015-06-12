@@ -10,7 +10,9 @@ public class UIScript : MonoBehaviour {
 	public Light emergencyLight;
 	public Light autopilotLight;
 	public GameObject camera;
-	public PlayerScript playerScript;
+	private PlayerScript playerScript;
+	public GameObject levelGenerator;
+	private LevelGeneratorScript levelScript;
 	public float emergencyTimeout = 0.8f;
 	public float autopilotTimeout = 0.8f;
 
@@ -27,6 +29,8 @@ public class UIScript : MonoBehaviour {
 	private float closingCaptionsTimer = 0f;
 
 	private bool targetChanged = true;
+
+	public Text warning;
 	
 	private Color[] colors = {
 		new Color(0.9f, 0.2f, 0.185f),
@@ -38,12 +42,13 @@ public class UIScript : MonoBehaviour {
 		new Color(0.9f, 0.1f, 0.085f, 0.6f),
 		//new Color(0.5f, 0.9f, 0.485f, 0.33f),
 		//new Color(1f, 1f, 1f, 0.33f),
-		new Color(1f, 0.82f, 0f)
+		new Color(0.3f, 1f, 0.4f)
 	};
 	
 	// Use this for initialization
 	void Start () {
 		playerScript = GetComponent<PlayerScript>();
+		levelScript = levelGenerator.GetComponent<LevelGeneratorScript> ();
 
 		crosshairNormalSprite = crosshairImage.sprite;
 		//crosshairAimedSprite = Resources.Load<Sprite>("crosshair2");
@@ -53,28 +58,35 @@ public class UIScript : MonoBehaviour {
 	void Update () {
 		string uiText = "...";
 		Color color = colors[1];
+
+		
+		warning.text = " ";
 		
 		switch (playerScript.state) {
 		case PlayerScript.StateTypes.BeforeStart:
 			uiText = "WCIŚNIJ PRZYCISK JOYSTICKA";
 			autopilotLight.enabled = true;
-			autopilotText.color = colors[7];
+			autopilotText.text = "AUTOPILOT";
 			break;
 		case PlayerScript.StateTypes.OnStart:
 			uiText = "STARTUJĘ";
 			autopilotLight.enabled = true;
-			autopilotText.color = colors[7];
+			autopilotText.text = "AUTOPILOT";
 			break;
 		case PlayerScript.StateTypes.OnLaunch:
 			uiText = "PRZYGOTUJ SIĘ NA POWRÓT DO WAHADŁOWCA";
 			autopilotLight.enabled = true;
-			autopilotText.color = colors[7];
+			autopilotText.text = "AUTOPILOT";
 			color = colors[3];
 			break;
 		case PlayerScript.StateTypes.InControl:
-			uiText = "OMIJAJ ASTEROIDY LUB STRZELAJ W NIE";
+			if (levelScript.generatedSecondPart == 3) {
+				uiText = "LEĆ W STRONĘ MIGAJĄCEGO ŚWIATŁA";
+			} else {
+				uiText = "OMIJAJ ASTEROIDY LUB STRZELAJ W NIE";
+			}
 			autopilotLight.enabled = false;
-			autopilotText.color = Color.black;
+			autopilotText.text = " ";
 			color = colors[3];
 			break;
 		case PlayerScript.StateTypes.LightSpeed:
@@ -84,11 +96,12 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.BeforeLightSpeed:
 			uiText = "WŁĄCZAM NAPĘD WARP";
 			autopilotLight.enabled = true;
-			autopilotText.color = colors[7];
+			autopilotText.text = "AUTOPILOT";
 			color = colors[3];
 			break;	
 		case PlayerScript.StateTypes.Bounced:
 			uiText = "UWAGA!";
+			warning.text = "UWAGA!";
 			//autopilotLight.enabled = true;
 			//autopilotText.color = Color.blue;
 			color = colors[0];
@@ -104,12 +117,12 @@ public class UIScript : MonoBehaviour {
 		case PlayerScript.StateTypes.Landing:
 			uiText = "PROCEDURA DOKOWANIA";
 			autopilotLight.enabled = true;
-			autopilotText.color = colors[7];
+			autopilotText.text = "AUTOPILOT";
 			break;
 		case PlayerScript.StateTypes.Landed:
 			uiText = "STATEK ZADOKOWANY!";
 			autopilotLight.enabled = true;
-			autopilotText.color = colors[7];
+			autopilotText.text = "AUTOPILOT";
 			autopilotLight.color = colors[1];
 
 			startClosingCaptions = true;
@@ -125,14 +138,15 @@ public class UIScript : MonoBehaviour {
 		//		}
 
 		if (playerScript.tooFar != Vector3.zero) {
+			warning.text = "UWAGA!";
 			autopilotLight.enabled = true;
-			autopilotText.color = colors[7];
+			autopilotText.text = "AUTOPILOT";
 		}
 		
 		if (startClosingCaptions) {
 			closingCaptionsTimer += Time.deltaTime;
 			
-			autopilotText.color = Color.black;
+			autopilotText.text = " ";
 			autopilotLight.enabled = false;
 
 			if (closingCaptionsTimer > 18f) {
@@ -153,8 +167,8 @@ public class UIScript : MonoBehaviour {
 		}
 		
 		if (autopilotLight.enabled) {
-			if (Mathf.Repeat(Time.time, 0.5f) > 0.25f) autopilotText.color = colors[7];
-			else autopilotText.color = Color.black;
+			if (Mathf.Repeat(Time.time, 0.5f) > 0.25f) autopilotText.text = "AUTOPILOT";
+			else autopilotText.text = " ";
 			//if (autopilotLight.intensity <= 0f) autopilotLight.intensity = 8f;
 		}
 		
